@@ -1,20 +1,27 @@
-package com.example.recycle;
+package com.example.recycle.activity;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.recycle.R;
+import com.example.recycle.visual.Tab1;
+import com.example.recycle.visual.Tab2;
+import com.example.recycle.visual.Tab3;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -22,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
     // Nombres de las pestañas
     private String[] nombres = new String[]{"Mapa","Inicio","Opciones"};
     private int[] iconos = new int[]{R.drawable.ic_baseline_map_24 , R.drawable.ic_baseline_home_24 , R.drawable.ic_baseline_settings_24};
+
+    // Location
+    private FusedLocationProviderClient fusedLocationClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,30 +54,6 @@ public class MainActivity extends AppCompatActivity {
         ).attach();
 
         viewPager.setCurrentItem(1,false);
-    }
-    public class MiPagerAdapter extends FragmentStateAdapter {
-        public MiPagerAdapter(FragmentActivity activity) {
-            super(activity);
-        }
-
-        @Override
-        public int getItemCount() {
-            return 3;
-        }
-
-        @Override
-        @NonNull
-        public Fragment createFragment(int position) {
-            switch (position) {
-                case 0:
-                    return new Tab1();
-                case 1:
-                    return new Tab2();
-                case 2:
-                    return new Tab3();
-            }
-            return null;
-        }
     }
 
     public void onClickPerfil(View view){
