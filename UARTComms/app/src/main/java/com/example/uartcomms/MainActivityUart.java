@@ -66,9 +66,14 @@ public class MainActivityUart extends Activity
                 s = uart.leer();
                 Log.d(TAG, "Recibido de Arduino: " + s);
 
+                String[] datosLectura = s.split(",");
+
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 Map<String, Object> datos = new HashMap<>();
-                datos.put("Lectura Arduino", s);
+                datos.put("Lectura Arduino 1", datosLectura[0]);
+                datos.put("Lectura Arduino 2", datosLectura[1]);
+                datos.put("Lectura Arduino 3", datosLectura[2]);
+                datos.put("Lectura Arduino 4", datosLectura[3]);
                 db.collection("Sensor").document("Distancia").set(datos);
 
 

@@ -18,7 +18,8 @@ void loop() {
             break;
          case 'D':
             //Serial.print("Distancia: "); 
-            Serial.println(distancia(TriggerPin, EchoPin)); 
+            
+            Serial.println(String(distancia(TriggerPin, EchoPin)) + ",0" + ",0"+ ",0"); 
             delay(1000);
       } 
    }
