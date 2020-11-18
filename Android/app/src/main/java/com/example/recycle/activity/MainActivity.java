@@ -1,6 +1,7 @@
 package com.example.recycle.activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.viewpager2.widget.ViewPager2;
@@ -13,7 +14,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.recycle.R;
@@ -26,11 +29,17 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -189,4 +198,64 @@ public class MainActivity extends AppCompatActivity implements
         db.collection("usuarios").document(usuario.getEmail()).set(datos);
     }
 
+    public void agregarCubo(View view) {
+        new IntentIntegrator(this).initiateScan();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, final int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        final IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+
+        final TextView textView = findViewById(R.id.textView3);
+
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("cubos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    QuerySnapshot document = task.getResult();
+                    int length = document.getDocuments().size();
+                    int i;
+
+                    for (i = 0; i < length; i++) {
+                        if (document.getDocuments().get(i).getId().equals(result.getContents())) {
+                            textView.setText(document.getDocuments().get(i).get("nombre").toString());
+                            break;
+                        }
+                    }
+                    if (i == length) {
+                        Log.d("QR", "No hay cubo");
+                    }
+                }
+            }
+        });
+        db.collection("usuarios").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    QuerySnapshot document = task.getResult();
+                    int length = document.getDocuments().size();
+                    final String mail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                    int i;
+
+                    for (i = 0; i < length; i++) {
+                        if (document.getDocuments().get(i).getId().equals(mail)) {
+                            final Map<String, Object> data = new HashMap<>();
+
+                            data.put("cubos", FieldValue.arrayUnion(result.getContents()));
+                            db.collection("usuarios").document(mail).update(data);
+
+                            break;
+                        }
+                    }
+                    if (i == length) {
+                        Log.d("QR", "No hay usuario");
+                    }
+                }
+            }
+        });
+    }
 }
