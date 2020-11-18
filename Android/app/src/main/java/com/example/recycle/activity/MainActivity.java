@@ -1,6 +1,7 @@
 package com.example.recycle.activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.viewpager2.widget.ViewPager2;
@@ -9,16 +10,16 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.recycle.R;
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -26,30 +27,36 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
-import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements
-        OnMapReadyCallback, GoogleMap.OnMapClickListener {
+        OnMapReadyCallback {
     // Nombres de las pestañas
     private String[] nombres = new String[]{"Mapa", "Inicio", "Opciones"};
     private int[] iconos = new int[]{R.drawable.ic_baseline_map_24, R.drawable.ic_baseline_home_24, R.drawable.ic_baseline_settings_24};
 
     // MAPA
     private int locationRequestCode = 1000;
-    private double wayLatitude = 0.0, wayLongitude = 0.0;
     private SupportMapFragment mapFragment;
     private GoogleMap map;
     private LatLng currentPosition;
 
+    // Localizacion
+    private LocationManager manejador;
+    private String proveedor;
+
+    // Firestore
     private FirebaseFirestore db = null;
     private FirebaseUser usuario = null;
 
@@ -123,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements
 
         } else {
             // already permission granted
-            // TODO: recoje la posición del usuario guardada en Firebase y la muestra por defecto
             onConfirmPermissions();
         }
     }
@@ -137,9 +143,6 @@ public class MainActivity extends AppCompatActivity implements
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Se pone la posicion actual por defecto como inicial la primera vez
-                    // TODO: Si el usuario ya tiene una posición, no sobreescribirla! Se mete en currentPosition
-
                     onConfirmPermissions();
                 } else {
                     Toast.makeText(this, R.string.no_permission, Toast.LENGTH_SHORT).show();
@@ -159,34 +162,76 @@ public class MainActivity extends AppCompatActivity implements
         map = googleMap;
         map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         map.getUiSettings().setZoomControlsEnabled(false);
-
         if (ActivityCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // Map options
-            map.setMyLocationEnabled(true);
             map.getUiSettings().setCompassEnabled(true);
-            map.setOnMapClickListener(this);
-            // Marcar posicion actual
-            if(currentPosition != null) {
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 17));
-            } else {
-                // Cuando el gps no detecta posicion
-                Toast.makeText(this, R.string.gps_off, Toast.LENGTH_SHORT).show();
-            }
+
+            // Si el usuario ya existe, cojemos sus datos y metemos su location en currentLocation
+            // para añadir el marcador
+            db.collection("usuarios").document(usuario.getEmail()).addSnapshotListener(
+                    new EventListener<DocumentSnapshot>() {
+                        @SuppressLint("MissingPermission")
+                        @Override
+                        public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                            @Nullable FirebaseFirestoreException e){
+                            if (e != null) {
+                                Log.e("Firebase", "Error al leer", e);
+                            } else if (snapshot == null || !snapshot.exists()) {
+                                Log.e("Firebase", "Error: documento no encontrado ");
+                                // Si el usuario no existe, tomamos su posicion actual y la guardamos como default
+                                manejador = (LocationManager) getSystemService(LOCATION_SERVICE);
+                                Criteria criterio = new Criteria();
+                                criterio.setCostAllowed(false);
+                                criterio.setAltitudeRequired(false);
+                                criterio.setAccuracy(Criteria.ACCURACY_FINE);
+                                proveedor = manejador.getBestProvider(criterio, true);
+                                @SuppressLint("MissingPermission")
+                                Location posicion = manejador.getLastKnownLocation(proveedor);
+
+                                if(posicion != null) {
+                                    Map<String, Object> datos = new HashMap<>();
+                                    datos.put("mail", usuario.getEmail());
+                                    datos.put("posicion", posicion);
+                                    db.collection("usuarios").document(usuario.getEmail()).set(datos);
+                                } else {
+                                    Toast.makeText(getBaseContext(), R.string.gps_off, Toast.LENGTH_LONG).show();
+                                }
+
+                            } else {
+                                // Fetch the data received
+                                Map<String, Object> data = (Map<String, Object>) snapshot.get("posicion");
+                                Object latitude = data.get("latitude");
+                                Object longitude = data.get("longitude");
+                                Log.d("Firestore", "datos:" + data);
+                                currentPosition = new LatLng(Double.parseDouble(latitude.toString()), Double.parseDouble(longitude.toString()));
+
+                                // Marcar posicion actual
+                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 17));
+                                map.addMarker(new MarkerOptions().position(currentPosition)
+                                        .icon(BitmapDescriptorFactory
+                                                .defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                            }
+                        }
+                    });
         }
     }
-
-
+/*
     @Override
     public void onMapClick(LatLng puntoPulsado) {
         // TODO: Solo si el usuario no existe
-        map.addMarker(new MarkerOptions().position(puntoPulsado)
-                .icon(BitmapDescriptorFactory
-                        .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
-        Map<String, Object> datos = new HashMap<>();
-        datos.put("mail", usuario.getEmail());
-        datos.put("posicion", puntoPulsado);
-        db.collection("usuarios").document(usuario.getEmail()).set(datos);
+        // Si el usuario no existe, lo añade
+        if(db.collection("usuarios").document(usuario.getEmail()).get() == null){
+            map.addMarker(new MarkerOptions().position(puntoPulsado)
+                    .icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            Map<String, Object> datos = new HashMap<>();
+            datos.put("mail", usuario.getEmail());
+            datos.put("posicion", puntoPulsado);
+            db.collection("usuarios").document(usuario.getEmail()).set(datos);
+        }
     }
+
+ */
 
 }
