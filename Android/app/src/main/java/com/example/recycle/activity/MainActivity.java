@@ -249,17 +249,10 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 */
-    public void agregarCubo(View view) {
-        new IntentIntegrator(this).initiateScan();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, final int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
     public void agregarCubo(View view) {
-        new IntentIntegrator(this).initiateScan();
-    }
+            new IntentIntegrator(this).initiateScan();
+        }
 
     @Override
     protected void onActivityResult(int requestCode, final int resultCode, @Nullable Intent data) {
