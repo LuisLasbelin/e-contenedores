@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
@@ -17,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.recycle.R;
@@ -27,6 +30,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -34,8 +38,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,6 +67,9 @@ public class MainActivity extends AppCompatActivity implements
     // Firestore
     private FirebaseFirestore db = null;
     private FirebaseUser usuario = null;
+
+    // RecycleView
+    private View vista;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,6 +227,7 @@ public class MainActivity extends AppCompatActivity implements
                     });
         }
     }
+
 /*
     @Override
     public void onMapClick(LatLng puntoPulsado) {
@@ -234,4 +246,77 @@ public class MainActivity extends AppCompatActivity implements
 
  */
 
+    public void agregarCubo(View view) {
+        new IntentIntegrator(this).initiateScan();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, final int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        final IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("cubos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    QuerySnapshot document = task.getResult();
+                    int length = document.getDocuments().size();
+                    int i;
+
+                    for (i = 0; i < length; i++) {
+                        if (document.getDocuments().get(i).getId().equals(result.getContents())) {
+
+                            break;
+                        }
+                    }
+                    if (i == length) {
+                        Log.d("QR", "No hay cubo");
+                    }
+                }
+            }
+        });
+
+        db.collection("usuarios").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    QuerySnapshot document = task.getResult();
+                    int length = document.getDocuments().size();
+                    final String mail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                    int i;
+
+                    for (i = 0; i < length; i++) {
+                        if (document.getDocuments().get(i).getId().equals(mail)) {
+                            final Map<String, Object> data = new HashMap<>();
+
+                            data.put("cubos", FieldValue.arrayUnion(result.getContents()));
+                            db.collection("usuarios").document(mail).update(data);
+                            actualizaCubos(vista);
+                            break;
+                        }
+                    }
+                    if (i == length) {
+                        Log.d("QR", "No hay usuario");
+                    }
+                }
+            }
+        });
+    }
+
+    // RecyclerView
+
+    // Se activa el recyclerView
+    public void actualizaCubos(View view){
+
+        vista = view;
+
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setAdapter(new AdaptadorCubos());
+
+    }
 }

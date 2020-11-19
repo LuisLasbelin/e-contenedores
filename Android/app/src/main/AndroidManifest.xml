@@ -30,5 +30,6 @@
             android:value="@string/google_maps_key" />
 
     </application>
-
+    <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES" android:value="barcode" />
+    <uses-permission android:name="android.permission.CAMERA" />
 </manifest>
