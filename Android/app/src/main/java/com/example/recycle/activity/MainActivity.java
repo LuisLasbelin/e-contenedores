@@ -172,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements
                 android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // Map options
             map.getUiSettings().setCompassEnabled(true);
+            map.setMyLocationEnabled(true);
 
             // Si el usuario ya existe, cojemos sus datos y metemos su location en currentLocation
             // para añadir el marcador
