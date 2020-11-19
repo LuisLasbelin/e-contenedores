@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements
             db.collection("usuarios").document(usuario.getEmail()).set(datos);
         }
     }
-
+*/
     public void agregarCubo(View view) {
         new IntentIntegrator(this).initiateScan();
     }
