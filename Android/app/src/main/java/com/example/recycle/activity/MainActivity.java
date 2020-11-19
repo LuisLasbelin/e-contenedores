@@ -36,10 +36,14 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -177,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements
                 android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // Map options
             map.getUiSettings().setCompassEnabled(true);
+            map.setMyLocationEnabled(true);
 
             // Si el usuario ya existe, cojemos sus datos y metemos su location en currentLocation
             // para añadir el marcador
@@ -243,8 +248,14 @@ public class MainActivity extends AppCompatActivity implements
             db.collection("usuarios").document(usuario.getEmail()).set(datos);
         }
     }
+*/
+    public void agregarCubo(View view) {
+        new IntentIntegrator(this).initiateScan();
+    }
 
- */
+    @Override
+    protected void onActivityResult(int requestCode, final int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
     public void agregarCubo(View view) {
         new IntentIntegrator(this).initiateScan();
