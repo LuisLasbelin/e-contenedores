@@ -1,31 +1,20 @@
 package com.example.recycle.activity;
 
 import android.annotation.SuppressLint;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recycle.R;
-import com.example.recycle.activity.RecyclerViewHolder;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -73,10 +62,9 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                         }  else if (snapshot == null || !snapshot.exists()) {
                             Log.e("Firebase", "Error: documento no encontrado ");
                         }else{
-                        ArrayList<String> data = (ArrayList<String>) snapshot.get("cubos");
-
+                            ArrayList<String> data = (ArrayList<String>) snapshot.get("cubos");
                             for (int i = 0; i < data.size(); i++){
-                            cubos.add(data.get(i));
+                                cubos.add(data.get(i));
                             }
                         }
                     }
@@ -107,12 +95,8 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
 
                                     }
                                 }
-
                             }
-
-
                             items = nombres.size();
-
                         }
                     }
                 });
@@ -135,22 +119,22 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
         return new RecyclerViewHolder(view);
     }
 
-    // Se añade el cubo en a la vista principal
+    // Se llama cuando se añade un cubo al recyclerView
     @Override
     public void onBindViewHolder(@NonNull final RecyclerViewHolder holder, int position) {
 
         db = FirebaseFirestore.getInstance();
-        db.collection("cubos")
-                .get()
+        db.collection("cubos").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                                //Log.d(TAG , nombres.get(1));
-
-                                holder.getView().setText(nombres.get(itemList));
+                            // Si el usuario tiene cubos, tomamos nombres como referencia
+                            if(nombres.size() > 0 && nombres != null) {
+                                // Asignamos las variables a la vista del cubo
+                                holder.getNombreCubo().setText(nombres.get(itemList));
                                 itemList++;
-
+                            }
                         }
                     }
                 });

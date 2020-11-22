@@ -49,6 +49,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -209,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements
                                     Map<String, Object> datos = new HashMap<>();
                                     datos.put("mail", usuario.getEmail());
                                     datos.put("posicion", posicion);
-                                    db.collection("usuarios").document(usuario.getEmail()).set(datos);
+                                    db.collection("usuarios").document(usuario.getEmail()).update(datos);
                                 } else {
                                     Toast.makeText(getBaseContext(), R.string.gps_off, Toast.LENGTH_LONG).show();
                                 }
@@ -233,23 +234,7 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-/*
-    @Override
-    public void onMapClick(LatLng puntoPulsado) {
-        // TODO: Solo si el usuario no existe
-        // Si el usuario no existe, lo añade
-        if(db.collection("usuarios").document(usuario.getEmail()).get() == null){
-            map.addMarker(new MarkerOptions().position(puntoPulsado)
-                    .icon(BitmapDescriptorFactory
-                            .defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-            Map<String, Object> datos = new HashMap<>();
-            datos.put("mail", usuario.getEmail());
-            datos.put("posicion", puntoPulsado);
-            db.collection("usuarios").document(usuario.getEmail()).set(datos);
-        }
-    }
-*/
-
+    // Abre el escáner de QR
     public void agregarCubo(View view) {
             new IntentIntegrator(this).initiateScan();
         }
@@ -296,8 +281,10 @@ public class MainActivity extends AppCompatActivity implements
                         if (document.getDocuments().get(i).getId().equals(mail)) {
                             final Map<String, Object> data = new HashMap<>();
 
+                            // Se añade el ID del cubo al usuario
                             data.put("cubos", FieldValue.arrayUnion(result.getContents()));
                             db.collection("usuarios").document(mail).update(data);
+                            // Actualiza los cubos y termina
                             actualizaCubos(vista);
                             break;
                         }
@@ -317,10 +304,26 @@ public class MainActivity extends AppCompatActivity implements
 
         vista = view;
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerView.setAdapter(new AdaptadorCubos());
-
+        db.collection("usuarios").document(usuario.getEmail()).addSnapshotListener(
+                new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                        @Nullable FirebaseFirestoreException e){
+                        if (e != null) {
+                            Log.e("Firebase", "Error al leer", e);
+                        } else if (snapshot == null || !snapshot.exists()) {
+                            Log.e("Firebase", "Error: documento no encontrado ");
+                        } else {
+                            Log.d("Firestore", "datos:" + snapshot.getData());
+                            ArrayList<String> data = (ArrayList<String>) snapshot.get("cubos");
+                            if(data.size() > 0 && data != null) {
+                                RecyclerView recyclerView = vista.findViewById(R.id.recyclerview);
+                                recyclerView.setHasFixedSize(true);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(vista.getContext()));
+                                recyclerView.setAdapter(new AdaptadorCubos());
+                            }
+                        }
+                    }
+                });
     }
 }
