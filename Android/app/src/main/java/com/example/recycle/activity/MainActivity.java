@@ -81,6 +81,32 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Firestore initialization
+        db = FirebaseFirestore.getInstance();
+        usuario = FirebaseAuth.getInstance().getCurrentUser();
+
+        // Nuevo usuario se le crea la lista de cubos vacía
+        db.collection("usuarios").document(usuario.getEmail()).addSnapshotListener(
+                new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                        @Nullable FirebaseFirestoreException e){
+                        if (e != null) {
+                            Log.e("Firebase", "Error al leer", e);
+                        } else if (snapshot == null || !snapshot.exists()) {
+                            Log.e("Firebase", "Error: documento no encontrado ");
+                            Map<String, Object> datos = new HashMap<>();
+                            // Añadimos una lista de cubos vacía y el mail del usuario
+                            ArrayList<String> cubos = new ArrayList<>();
+                            datos.put("cubos", cubos);
+                            datos.put("mail", usuario.getEmail());
+                            db.collection("usuarios").document(usuario.getEmail()).set(datos);
+                        } else {
+                            Log.d("Firestore", "datos:" + snapshot.getData());
+                            }
+                        }
+                    });
+
         //Tabs
         //Pestañas
         ViewPager2 viewPager = findViewById(R.id.viewpager);
@@ -98,9 +124,6 @@ public class MainActivity extends AppCompatActivity implements
 
         viewPager.setCurrentItem(1, false);
 
-        // Firestore initialization
-        db = FirebaseFirestore.getInstance();
-        usuario = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     public void onClickPerfil(View view) {
