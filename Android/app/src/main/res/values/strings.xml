@@ -8,5 +8,6 @@
     <string name="gps_off">El GPS está apagado, actívalo para poder usar sus servicios.</string>
     <string name="no_cube"> El cubo que intenta vincular no existe, por favor vuelva a intentarlo o contacte con el soporte técnico</string>
     <string name="no_user">El usuario no se encuentra en nuestra base de datos. Inténtelo más tarde o contacte con el soporte técnico</string>
+    <string name="fondo">Fondo</string>
 
 </resources>
