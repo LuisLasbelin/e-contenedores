@@ -10,14 +10,14 @@ import com.example.recycle.R;
 
 public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-    private TextView view;
+    private TextView nombreCubo;
     public RecyclerViewHolder(@NonNull View itemView) {
         super(itemView);
-        view = itemView.findViewById(R.id.nombreCubo);
+        nombreCubo = itemView.findViewById(R.id.nombreCubo);
     }
 
     // Devuelve la vista
-    public TextView getView(){
-        return view;
+    public TextView getNombreCubo(){
+        return nombreCubo;
     }
 }

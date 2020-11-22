@@ -30,7 +30,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_weight="5"
                 android:gravity="center_vertical"
-                android:text="Cubo 1"
+                android:text="Cubo vacío"
                 android:textSize="24sp" />
 
             <androidx.appcompat.widget.Toolbar
