@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/container"
+        android:background="@color/white_semi"
         android:minWidth="300dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -55,14 +55,14 @@
                 android:layout_height="match_parent"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/transparentbox1">
+                android:background="@color/colorBox1Transparent">
 
                 <ImageView
                     android:id="@+id/box1"
                     android:layout_width="match_parent"
                     android:layout_height="108dp"
                     android:layout_gravity="bottom"
-                    app:srcCompat="@drawable/box1" />
+                    app:srcCompat="@color/colorBox1" />
             </FrameLayout>
 
             <FrameLayout
@@ -70,14 +70,13 @@
                 android:layout_height="match_parent"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/transparentbox2">
+                android:background="@color/colorBox2Transparent">
 
                 <ImageView
                     android:id="@+id/box2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/box2"
-                    app:srcCompat="@drawable/box2" />
+                    app:srcCompat="@color/colorBox2" />
             </FrameLayout>
 
             <FrameLayout
@@ -85,13 +84,13 @@
                 android:layout_height="match_parent"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/transparentbox3">
+                android:background="@color/colorBox3Transparent">
 
                 <ImageView
                     android:id="@+id/box3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/box3" />
+                    app:srcCompat="@color/colorBox3" />
             </FrameLayout>
 
             <FrameLayout
@@ -105,7 +104,7 @@
                     android:id="@+id/box4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/box4" />
+                    app:srcCompat="@color/colorBox4" />
             </FrameLayout>
         </LinearLayout>
 
