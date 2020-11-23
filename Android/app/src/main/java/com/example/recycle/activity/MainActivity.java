@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements
         ).attach();
 
         viewPager.setCurrentItem(1, false);
-
     }
 
     public void onClickPerfil(View view) {
@@ -269,27 +268,6 @@ public class MainActivity extends AppCompatActivity implements
         final IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection("cubos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    QuerySnapshot document = task.getResult();
-                    int length = document.getDocuments().size();
-                    int i;
-
-                    for (i = 0; i < length; i++) {
-                        if (document.getDocuments().get(i).getId().equals(result.getContents())) {
-
-                            break;
-                        }
-                    }
-                    if (i == length) {
-                        Log.d("QR", "No hay cubo");
-                    }
-                }
-            }
-        });
 
         db.collection("usuarios").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
