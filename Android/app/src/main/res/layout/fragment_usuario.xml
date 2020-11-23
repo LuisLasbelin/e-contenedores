@@ -116,6 +116,7 @@
             android:background="#fff"
             android:drawableLeft="@drawable/ic_baseline_close_24"
             android:drawablePadding="7dp"
+            android:padding="10dp"
             android:text="Cerrar sesión"
             android:textAlignment="viewStart"
             android:textAllCaps="false"
