@@ -19,5 +19,9 @@
 
     <color name="colorBox4Transparent">#80d46600</color>
 
-    <color name="white_semi">#CCFFFFFF</color>
+    <color name="white_semi">#E6FFFFFF</color>
+
+    <color name="grey_light">#CBdedede</color>
+
+    <color name="grey">#a2a2a2</color>
 </resources>
