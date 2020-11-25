@@ -307,26 +307,9 @@ public class MainActivity extends AppCompatActivity implements
 
         vista = view;
 
-        db.collection("usuarios").document(usuario.getEmail()).addSnapshotListener(
-                new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                        @Nullable FirebaseFirestoreException e){
-                        if (e != null) {
-                            Log.e("Firebase", "Error al leer", e);
-                        } else if (snapshot == null || !snapshot.exists()) {
-                            Log.e("Firebase", "Error: documento no encontrado ");
-                        } else {
-                            Log.d("Firestore", "datos:" + snapshot.getData());
-                            ArrayList<String> data = (ArrayList<String>) snapshot.get("cubos");
-                            if(data.size() > 0 && data != null) {
-                                RecyclerView recyclerView = vista.findViewById(R.id.recyclerview);
-                                recyclerView.setHasFixedSize(true);
-                                recyclerView.setLayoutManager(new LinearLayoutManager(vista.getContext()));
-                                recyclerView.setAdapter(new AdaptadorCubos());
-                            }
-                        }
-                    }
-                });
+        RecyclerView recyclerView = vista.findViewById(R.id.recyclerview);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(vista.getContext()));
+        recyclerView.setAdapter(new AdaptadorCubos());
     }
 }

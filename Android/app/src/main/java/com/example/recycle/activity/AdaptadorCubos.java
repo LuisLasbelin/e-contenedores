@@ -33,17 +33,16 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
     private ArrayList<String> organico = new ArrayList<String>();
     private ArrayList<String> cubos = new ArrayList<String>();
     private String TAG = "cubos";
-    private int items = 1;
+    private int items = 0;
     private int itemList = 0;
 
     // Firestore
     private FirebaseFirestore db = null;
     private FirebaseUser usuario = null;
 
-    public AdaptadorCubos() {
+    public AdaptadorCubos(ArrayList<String> data) {
 
         inicializarUsuario();
-        inicializacion();
     }
 
     // Se revisa si el usuario tiene cubos añadadidos
@@ -96,26 +95,34 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                                     }
                                 }
                             }
-                            items = nombres.size();
+                            if(nombres.size() != 0) {
+                                items = nombres.size();
+                            } else{
+                                Log.e(TAG, "Todos los cubos puestos");
+                                // El recycler view añade un nuevo item cuando
+                                // items > la cantidad de items actuales
+                                items = 1;
+                                itemList++;
+                            }
                         }
                     }
                 });
     }
 
-    // Se imprime el layout
-    @Override
-    public int getItemViewType(final int position) {
-
-        return R.layout.cubos_lista;
-
-    }
-
-    // Se crea el holder
+    // Se crea el holder "items" veces
     @NonNull
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = null;
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
+        // Si no se ha completado la lista, se añade otro cubo
+        if((itemList != items)) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cubos_lista, parent, false);
+        } else {
+            // Si se ha completado la lista de cubos, se añade el añadir
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.boton_anyadir, parent, false);
+        }
+
         return new RecyclerViewHolder(view);
     }
 
@@ -130,10 +137,20 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             // Si el usuario tiene cubos, tomamos nombres como referencia
-                            if(nombres.size() > 0 && nombres != null) {
+                            if(nombres.size() > 0) {
                                 // Asignamos las variables a la vista del cubo
-                                holder.getNombreCubo().setText(nombres.get(itemList));
+                                if(holder.getHolderType().equals("cubo")) {
+                                    holder.getNombreCubo().setText(nombres.get(itemList));
+                                }
                                 itemList++;
+                                // Se añade el boton de anyadir al final de la lista
+                                if(itemList == items) {
+                                    Log.e(TAG, "Todos los cubos puestos");
+                                    // El recycler view añade un nuevo item cuando
+                                    // items > la cantidad de items actuales
+                                    items++;
+                                    itemList++;
+                                }
                             }
                         }
                     }
@@ -143,7 +160,6 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
     // Se determinan cuantos cubos se imprimen
     @Override
     public int getItemCount() {
-
         return items;
     }
 }
