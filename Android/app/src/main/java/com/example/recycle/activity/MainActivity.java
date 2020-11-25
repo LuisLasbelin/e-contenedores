@@ -123,6 +123,8 @@ public class MainActivity extends AppCompatActivity implements
         ).attach();
 
         viewPager.setCurrentItem(1, false);
+
+        viewPager.setUserInputEnabled(false);
     }
 
     public void onClickPerfil(View view) {
