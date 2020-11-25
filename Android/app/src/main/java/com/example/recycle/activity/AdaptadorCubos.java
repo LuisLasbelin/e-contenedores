@@ -40,73 +40,15 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
     private FirebaseFirestore db = null;
     private FirebaseUser usuario = null;
 
-    public AdaptadorCubos(ArrayList<String> data) {
-
-        inicializarUsuario();
-    }
-
-    // Se revisa si el usuario tiene cubos añadadidos
-    public void inicializarUsuario(){
-        db = FirebaseFirestore.getInstance();
-        usuario = FirebaseAuth.getInstance().getCurrentUser();
-
-        db.collection("usuarios").document(usuario.getEmail()).addSnapshotListener(
-                new EventListener<DocumentSnapshot>() {
-                    @SuppressLint("MissingPermission")
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                        @Nullable FirebaseFirestoreException e){
-                        if (e != null){
-                            Log.e("Firebase", "Error al leer", e);
-                        }  else if (snapshot == null || !snapshot.exists()) {
-                            Log.e("Firebase", "Error: documento no encontrado ");
-                        }else{
-                            ArrayList<String> data = (ArrayList<String>) snapshot.get("cubos");
-                            for (int i = 0; i < data.size(); i++){
-                                cubos.add(data.get(i));
-                            }
-                        }
-                    }
-                });
-    }
-
-    // Se añade el cubo en los datos internos
-    public void inicializacion(){
-
-        db = FirebaseFirestore.getInstance();
-        usuario = FirebaseAuth.getInstance().getCurrentUser();
-
-        db.collection("cubos")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                for (int i = 0; i < cubos.size(); i++ ){
-                                    if (document.getId().equals(cubos.get(i))){
-
-                                        nombres.add(document.getData().get("nombre").toString());
-                                        carton.add(document.getData().get("carton").toString());
-                                        vidrio.add(document.getData().get("vidrio").toString());
-                                        plastico.add(document.getData().get("plastico").toString());
-                                        organico.add(document.getData().get("organico").toString());
-
-                                    }
-                                }
-                            }
-                            if(nombres.size() != 0) {
-                                items = nombres.size();
-                            } else{
-                                Log.e(TAG, "Todos los cubos puestos");
-                                // El recycler view añade un nuevo item cuando
-                                // items > la cantidad de items actuales
-                                items = 1;
-                                itemList++;
-                            }
-                        }
-                    }
-                });
+    public AdaptadorCubos(ArrayList<String> nombres, ArrayList<String> carton, ArrayList<String> vidrio, ArrayList<String> plastico, ArrayList<String> organico, ArrayList<String> cubos, int items, int itemList) {
+        this.nombres = nombres;
+        this.carton = carton;
+        this.vidrio = vidrio;
+        this.plastico = plastico;
+        this.organico = organico;
+        this.cubos = cubos;
+        this.items = items;
+        this.itemList = itemList;
     }
 
     // Se crea el holder "items" veces
