@@ -33,89 +33,38 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
     private ArrayList<String> organico = new ArrayList<String>();
     private ArrayList<String> cubos = new ArrayList<String>();
     private String TAG = "cubos";
-    private int items = 1;
+    private int items = 0;
     private int itemList = 0;
 
     // Firestore
     private FirebaseFirestore db = null;
     private FirebaseUser usuario = null;
 
-    public AdaptadorCubos() {
-
-        inicializarUsuario();
-        inicializacion();
+    public AdaptadorCubos(ArrayList<String> nombres, ArrayList<String> carton, ArrayList<String> vidrio, ArrayList<String> plastico, ArrayList<String> organico, ArrayList<String> cubos, int items, int itemList) {
+        this.nombres = nombres;
+        this.carton = carton;
+        this.vidrio = vidrio;
+        this.plastico = plastico;
+        this.organico = organico;
+        this.cubos = cubos;
+        this.items = items;
+        this.itemList = itemList;
     }
 
-    // Se revisa si el usuario tiene cubos añadadidos
-    public void inicializarUsuario(){
-        db = FirebaseFirestore.getInstance();
-        usuario = FirebaseAuth.getInstance().getCurrentUser();
-
-        db.collection("usuarios").document(usuario.getEmail()).addSnapshotListener(
-                new EventListener<DocumentSnapshot>() {
-                    @SuppressLint("MissingPermission")
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                        @Nullable FirebaseFirestoreException e){
-                        if (e != null){
-                            Log.e("Firebase", "Error al leer", e);
-                        }  else if (snapshot == null || !snapshot.exists()) {
-                            Log.e("Firebase", "Error: documento no encontrado ");
-                        }else{
-                            ArrayList<String> data = (ArrayList<String>) snapshot.get("cubos");
-                            for (int i = 0; i < data.size(); i++){
-                                cubos.add(data.get(i));
-                            }
-                        }
-                    }
-                });
-    }
-
-    // Se añade el cubo en los datos internos
-    public void inicializacion(){
-
-        db = FirebaseFirestore.getInstance();
-        usuario = FirebaseAuth.getInstance().getCurrentUser();
-
-        db.collection("cubos")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                for (int i = 0; i < cubos.size(); i++ ){
-                                    if (document.getId().equals(cubos.get(i))){
-
-                                        nombres.add(document.getData().get("nombre").toString());
-                                        carton.add(document.getData().get("carton").toString());
-                                        vidrio.add(document.getData().get("vidrio").toString());
-                                        plastico.add(document.getData().get("plastico").toString());
-                                        organico.add(document.getData().get("organico").toString());
-
-                                    }
-                                }
-                            }
-                            items = nombres.size();
-                        }
-                    }
-                });
-    }
-
-    // Se imprime el layout
-    @Override
-    public int getItemViewType(final int position) {
-
-        return R.layout.cubos_lista;
-
-    }
-
-    // Se crea el holder
+    // Se crea el holder "items" veces
     @NonNull
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = null;
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
+        // Si no se ha completado la lista, se añade otro cubo
+        if((itemList != items)) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cubos_lista, parent, false);
+        } else {
+            // Si se ha completado la lista de cubos, se añade el añadir
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.boton_anyadir, parent, false);
+        }
+
         return new RecyclerViewHolder(view);
     }
 
@@ -130,10 +79,20 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             // Si el usuario tiene cubos, tomamos nombres como referencia
-                            if(nombres.size() > 0 && nombres != null) {
+                            if(nombres.size() > 0) {
                                 // Asignamos las variables a la vista del cubo
-                                holder.getNombreCubo().setText(nombres.get(itemList));
+                                if(holder.getHolderType().equals("cubo")) {
+                                    holder.getNombreCubo().setText(nombres.get(itemList));
+                                }
                                 itemList++;
+                                // Se añade el boton de anyadir al final de la lista
+                                if(itemList == items) {
+                                    Log.e(TAG, "Todos los cubos puestos");
+                                    // El recycler view añade un nuevo item cuando
+                                    // items > la cantidad de items actuales
+                                    items++;
+                                    itemList++;
+                                }
                             }
                         }
                     }
@@ -143,7 +102,6 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
     // Se determinan cuantos cubos se imprimen
     @Override
     public int getItemCount() {
-
         return items;
     }
 }

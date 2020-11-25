@@ -16,6 +16,15 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         nombreCubo = itemView.findViewById(R.id.nombreCubo);
     }
 
+    // Devuelve si es un cubo o un boton en base a si tiene nombreCubo o no
+    public String getHolderType() {
+        if(getNombreCubo() != null) {
+            return "cubo";
+        } else {
+            return "boton";
+        }
+    }
+
     // Devuelve la vista
     public TextView getNombreCubo(){
         return nombreCubo;

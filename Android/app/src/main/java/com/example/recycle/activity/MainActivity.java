@@ -41,6 +41,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -123,6 +124,8 @@ public class MainActivity extends AppCompatActivity implements
         ).attach();
 
         viewPager.setCurrentItem(1, false);
+
+        viewPager.setUserInputEnabled(false);
     }
 
     public void onClickPerfil(View view) {
@@ -300,31 +303,79 @@ public class MainActivity extends AppCompatActivity implements
 
     // RecyclerView
 
+    private ArrayList<String> nombresCubos = new ArrayList<String>();
+    private ArrayList<String> carton = new ArrayList<String>();
+    private ArrayList<String> vidrio = new ArrayList<String>();
+    private ArrayList<String> plastico = new ArrayList<String>();
+    private ArrayList<String> organico = new ArrayList<String>();
+    private ArrayList<String> cubos = new ArrayList<String>();
+    private String TAG = "cubos";
+    private int items = 0;
+    private int itemList = 0;
     // Se activa el recyclerView
     public void actualizaCubos(View view){
 
         vista = view;
 
+        db = FirebaseFirestore.getInstance();
+        usuario = FirebaseAuth.getInstance().getCurrentUser();
+
         db.collection("usuarios").document(usuario.getEmail()).addSnapshotListener(
                 new EventListener<DocumentSnapshot>() {
+                    @SuppressLint("MissingPermission")
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot snapshot,
                                         @Nullable FirebaseFirestoreException e){
-                        if (e != null) {
+                        if (e != null){
                             Log.e("Firebase", "Error al leer", e);
-                        } else if (snapshot == null || !snapshot.exists()) {
+                        }  else if (snapshot == null || !snapshot.exists()) {
                             Log.e("Firebase", "Error: documento no encontrado ");
-                        } else {
-                            Log.d("Firestore", "datos:" + snapshot.getData());
+                        }else{
                             ArrayList<String> data = (ArrayList<String>) snapshot.get("cubos");
-                            if(data.size() > 0 && data != null) {
-                                RecyclerView recyclerView = vista.findViewById(R.id.recyclerview);
-                                recyclerView.setHasFixedSize(true);
-                                recyclerView.setLayoutManager(new LinearLayoutManager(vista.getContext()));
-                                recyclerView.setAdapter(new AdaptadorCubos());
+                            for (int i = 0; i < data.size(); i++){
+                                cubos.add(data.get(i));
                             }
+
+                            db.collection("cubos")
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    for (int i = 0; i < cubos.size(); i++ ){
+                                                        if (document.getId().equals(cubos.get(i))){
+
+                                                            nombresCubos.add(document.getData().get("nombre").toString());
+                                                            carton.add(document.getData().get("carton").toString());
+                                                            vidrio.add(document.getData().get("vidrio").toString());
+                                                            plastico.add(document.getData().get("plastico").toString());
+                                                            organico.add(document.getData().get("organico").toString());
+
+                                                        }
+                                                    }
+                                                }
+                                                if(nombresCubos.size() != 0) {
+                                                    items = nombresCubos.size();
+                                                } else{
+                                                    Log.e(TAG, "Todos los cubos puestos");
+                                                    // El recycler view añade un nuevo item cuando
+                                                    // items > la cantidad de items actuales
+                                                    items = 1;
+                                                    itemList++;
+                                                }
+                                            }
+                                            RecyclerView recyclerView = vista.findViewById(R.id.recyclerview);
+                                            recyclerView.setHasFixedSize(true);
+                                            recyclerView.setLayoutManager(new LinearLayoutManager(vista.getContext()));
+                                            recyclerView.setAdapter(new AdaptadorCubos(nombresCubos, carton, vidrio, plastico, organico, cubos, items, itemList));
+                                        }
+                                    });
+
                         }
                     }
                 });
+
+
     }
 }
