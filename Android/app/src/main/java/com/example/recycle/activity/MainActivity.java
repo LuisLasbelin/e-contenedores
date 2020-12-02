@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,6 +78,8 @@ public class MainActivity extends AppCompatActivity implements
 
     // RecycleView
     private View vista;
+    // FrameLoyout tarjeta borrar eliminar cubo
+    FrameLayout opciones;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -395,6 +398,22 @@ public class MainActivity extends AppCompatActivity implements
                     }
                 });
 
+
+    }
+
+    public void lanzarOcultarMostrar(View view){
+
+        opciones = (FrameLayout) findViewById(R.id.tarjetaMore);
+
+        if(opciones.getVisibility() == View.GONE){
+
+            opciones.setVisibility(View.VISIBLE);
+
+        }else{
+
+            opciones.setVisibility(View.GONE);
+
+        }
 
     }
 }
