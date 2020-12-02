@@ -17,6 +17,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -309,6 +310,7 @@ public class MainActivity extends AppCompatActivity implements
     private ArrayList<String> plastico = new ArrayList<String>();
     private ArrayList<String> organico = new ArrayList<String>();
     private ArrayList<String> cubos = new ArrayList<String>();
+    private ArrayList<String> timestamp = new ArrayList<String>();
     private String TAG = "cubos";
     private int items = 0;
     private int itemList = 0;
@@ -345,12 +347,29 @@ public class MainActivity extends AppCompatActivity implements
                                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                                     for (int i = 0; i < cubos.size(); i++ ){
                                                         if (document.getId().equals(cubos.get(i))){
+                                                            Map<String, Object> medidas = new ArrayMap<>();
+                                                            medidas = document.getData();
 
-                                                            nombresCubos.add(document.getData().get("nombre").toString());
-                                                            carton.add(document.getData().get("carton").toString());
-                                                            vidrio.add(document.getData().get("vidrio").toString());
-                                                            plastico.add(document.getData().get("plastico").toString());
-                                                            organico.add(document.getData().get("organico").toString());
+                                                            // Ponemos el nombre del cubo
+                                                            nombresCubos.add(medidas.get("nombre").toString());
+
+                                                            for (String object: medidas.keySet()) {
+
+                                                                // Comprobamos que no sea un nombre de cubo
+                                                                if(!medidas.get(object).getClass().getSimpleName().equals("String")) {
+                                                                    // Ponemos la medida de tiempo
+                                                                    timestamp.add(object);
+                                                                    // Asignamos la medida actual para sacar datos a un Map
+                                                                    Map<String, Object> medida = (Map<String, Object>) medidas.get(object);
+                                                                    // Sacamos los datos
+                                                                    carton.add(medida.get("carton").toString());
+                                                                    vidrio.add(medida.get("vidrio").toString());
+                                                                    plastico.add(medida.get("plastico").toString());
+                                                                    organico.add(medida.get("organico").toString());
+                                                                }
+
+                                                            }
+
 
                                                         }
                                                     }
@@ -368,7 +387,7 @@ public class MainActivity extends AppCompatActivity implements
                                             RecyclerView recyclerView = vista.findViewById(R.id.recyclerview);
                                             recyclerView.setHasFixedSize(true);
                                             recyclerView.setLayoutManager(new LinearLayoutManager(vista.getContext()));
-                                            recyclerView.setAdapter(new AdaptadorCubos(nombresCubos, carton, vidrio, plastico, organico, cubos, items, itemList));
+                                            recyclerView.setAdapter(new AdaptadorCubos(nombresCubos, timestamp, carton, vidrio, plastico, organico, cubos, items, itemList, getBaseContext()));
                                         }
                                     });
 
