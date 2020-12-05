@@ -9,5 +9,11 @@
     <string name="no_cube"> El cubo que intenta vincular no existe, por favor vuelva a intentarlo o contacte con el soporte técnico</string>
     <string name="no_user">El usuario no se encuentra en nuestra base de datos. Inténtelo más tarde o contacte con el soporte técnico</string>
     <string name="fondo">Fondo</string>
+    <string name="introduce_un_nuevo_nombre">Introduce un nuevo nombre</string>
+    <string name="borrar_registros">Borrar registros</string>
+    <string name="editar_el_cubo">Editar el cubo</string>
+    <string name="asignar_la_ubicaci_n_actual_al_cubo">Asignar la ubicación actual al cubo</string>
+    <string name="asignar_ubicaci_n">Asignar ubicación</string>
+    <string name="guardar">Guardar</string>
 
 </resources>

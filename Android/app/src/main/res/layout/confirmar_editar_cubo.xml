@@ -19,7 +19,7 @@
         android:drawablePadding="7dp"
         android:padding="10dp"
         android:textColor="#28A525"
-        android:text="Asignar ubicación "
+        android:text="@string/asignar_ubicaci_n"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -35,7 +35,7 @@
         android:drawableLeft="@drawable/ic_baseline_delete_24"
         android:drawablePadding="7dp"
         android:padding="10dp"
-        android:text="Borrar registros"
+        android:text="@string/borrar_registros"
         android:textAlignment="viewStart"
         android:textAllCaps="false"
         android:textColor="#28A525"
@@ -45,7 +45,7 @@
         app:layout_constraintTop_toBottomOf="@+id/button" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/editTextNombre"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
@@ -53,7 +53,7 @@
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Introduce un nuevo nombre"
+        android:hint="@string/introduce_un_nuevo_nombre"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +66,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Editar el cubo"
+        android:text="@string/editar_el_cubo"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,10 +79,28 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text=" Asignar la ubicación actual al cubo"
+        android:text="@string/asignar_la_ubicaci_n_actual_al_cubo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
-
+        app:layout_constraintTop_toBottomOf="@+id/editTextNombre" />
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="#FFFFFF"
+        android:drawableLeft="@drawable/ic_baseline_save_24"
+        android:drawablePadding="7dp"
+        android:padding="10dp"
+        android:text="@string/guardar"
+        android:textAlignment="viewStart"
+        android:textAllCaps="false"
+        android:textColor="#28A525"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.example.recycle.activity;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,8 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
     private TextView nombreCubo;
     private BarChart plasticChart;
     private LineChart lineChart;
+    private Button eliminarBoton;
+    private Button editarBoton;
     private String cuboID;
 
     public RecyclerViewHolder(@NonNull View itemView) {
@@ -22,6 +25,8 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         nombreCubo = itemView.findViewById(R.id.nombreCubo);
         plasticChart = itemView.findViewById(R.id.bar_chart);
         lineChart = itemView.findViewById(R.id.line_chart);
+        eliminarBoton = itemView.findViewById(R.id.btn_eliminarCubo);
+        editarBoton = itemView.findViewById(R.id.btn_editarCubo);
     }
 
     // Devuelve si es un cubo o un boton en base a si tiene nombreCubo o no
@@ -51,5 +56,13 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
     public void setCuboID(String cuboID) {
         this.cuboID = cuboID;
+    }
+
+    public Button getEliminarBoton() {
+        return eliminarBoton;
+    }
+
+    public Button getEditarBoton() {
+        return editarBoton;
     }
 }
