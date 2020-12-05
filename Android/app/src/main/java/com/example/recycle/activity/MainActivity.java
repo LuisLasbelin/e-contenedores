@@ -431,4 +431,12 @@ public class MainActivity extends AppCompatActivity implements
         }
 
     }
+    public void lanzarConfirmarBorrar(View view){
+        Intent i = new Intent(this, ActividadConfirmarBorrar.class);
+        startActivity(i);
+    }
+    public void lanzarConfirmarEditar(View view){
+        Intent i = new Intent(this, ActividadConfirmarEditar.class);
+        startActivity(i);
+    }
 }

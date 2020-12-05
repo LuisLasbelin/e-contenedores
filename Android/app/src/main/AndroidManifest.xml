@@ -28,7 +28,10 @@
         </activity>
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
+        <activity android:name=".activity.ActividadConfirmarBorrar"
+            android:label="Esta segurgo de borrar..."
+            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
+        <activity android:name=".activity.ActividadConfirmarEditar"/>
     </application>
     <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES" android:value="barcode" />
     <uses-permission android:name="android.permission.CAMERA" />
