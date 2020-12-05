@@ -15,6 +15,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
     private TextView nombreCubo;
     private BarChart plasticChart;
     private LineChart lineChart;
+    private String cuboID;
 
     public RecyclerViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -42,5 +43,13 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
     }
     public LineChart getLineChart() {
         return lineChart;
+    }
+
+    public String getCuboID() {
+        return cuboID;
+    }
+
+    public void setCuboID(String cuboID) {
+        this.cuboID = cuboID;
     }
 }

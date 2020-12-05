@@ -181,6 +181,10 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                                     holder.getLineChart().setScaleEnabled(false);
                                     holder.getLineChart().getXAxis().setDrawLabels(false);
                                     holder.getLineChart().invalidate(); // refresh
+
+                                    // Assign ID var
+                                    holder.setCuboID(cubos.get(itemList));
+                                    Log.e("CUBOS", holder.getCuboID());
                                 }
                                 itemList++;
                                 // Se añade el boton de anyadir al final de la lista
@@ -202,4 +206,5 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
     public int getItemCount() {
         return items;
     }
+
 }

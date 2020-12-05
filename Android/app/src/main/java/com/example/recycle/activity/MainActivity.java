@@ -401,6 +401,21 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
+    // Eliminar un cubo
+    public void eliminarCubo(View view) {
+        // Recogemos el check para ver si eliminamos también los registros
+        boolean registrosEliminar = false;
+        String cuboID = null;
+        if(registrosEliminar) {
+            db = FirebaseFirestore.getInstance();
+            usuario = FirebaseAuth.getInstance().getCurrentUser();
+
+            db.collection("cubos").document(cuboID).delete();
+
+            actualizaCubos(vista);
+        }
+    }
+
     public void lanzarOcultarMostrar(View view){
 
         opciones = (FrameLayout) findViewById(R.id.tarjetaMore);
