@@ -1,6 +1,7 @@
 package com.example.recycle.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -185,6 +186,16 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                                     // Assign ID var
                                     holder.setCuboID(cubos.get(itemList));
                                     Log.e("CUBOS", holder.getCuboID());
+
+                                    // Asignamos el listener al eliminar cubo
+                                    holder.getEditarBoton().setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent i = new Intent(context, ActividadConfirmarEditar.class);
+                                            i.putExtra("cuboID", holder.getCuboID());
+                                            context.startActivity(i);
+                                        }
+                                    });
                                 }
                                 itemList++;
                                 // Se añade el boton de anyadir al final de la lista
