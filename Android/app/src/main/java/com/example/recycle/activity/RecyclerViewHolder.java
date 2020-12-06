@@ -2,6 +2,8 @@ package com.example.recycle.activity;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,7 +20,9 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
     private LineChart lineChart;
     private Button eliminarBoton;
     private Button editarBoton;
+    private ImageView moreButton;
     private String cuboID;
+    private FrameLayout opciones;
 
     public RecyclerViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -27,6 +31,8 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         lineChart = itemView.findViewById(R.id.line_chart);
         editarBoton = itemView.findViewById(R.id.btn_editarCubo);
         eliminarBoton = itemView.findViewById(R.id.btn_eliminarCubo);
+        moreButton = itemView.findViewById(R.id.btn_more);
+        opciones = itemView.findViewById(R.id.tarjetaMore);
     }
 
     // Devuelve si es un cubo o un boton en base a si tiene nombreCubo o no
@@ -64,5 +70,13 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
     public Button getEditarBoton() {
         return editarBoton;
+    }
+
+    public ImageView getMoreButton() {
+        return moreButton;
+    }
+
+    public FrameLayout getOpciones() {
+        return opciones;
     }
 }

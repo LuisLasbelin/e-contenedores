@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.recycle.R;
+import com.example.recycle.model.Cubo;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -55,10 +56,14 @@ import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements
         OnMapReadyCallback {
+
+    private String TAG = "cubos";
+
     // Nombres de las pestañas
     private String[] nombres = new String[]{"Mapa", "Inicio", "Opciones"};
     private int[] iconos = new int[]{R.drawable.ic_baseline_map_24, R.drawable.ic_baseline_home_24, R.drawable.ic_baseline_settings_24};
@@ -312,14 +317,8 @@ public class MainActivity extends AppCompatActivity implements
 
     // RecyclerView
 
-    private ArrayList<String> nombresCubos = new ArrayList<String>();
-    private ArrayList<String> carton = new ArrayList<String>();
-    private ArrayList<String> vidrio = new ArrayList<String>();
-    private ArrayList<String> plastico = new ArrayList<String>();
-    private ArrayList<String> organico = new ArrayList<String>();
-    private ArrayList<String> cubos = new ArrayList<String>();
-    private ArrayList<String> timestamp = new ArrayList<String>();
-    private String TAG = "cubos";
+    private List<Cubo> cubos = new ArrayList<>();
+    private ArrayList<String> idCubos = new ArrayList<String>();
     private int items = 0;
     private int itemList = 0;
     // Se activa el recyclerView
@@ -343,7 +342,7 @@ public class MainActivity extends AppCompatActivity implements
                         }else{
                             ArrayList<String> data = (ArrayList<String>) snapshot.get("cubos");
                             for (int i = 0; i < data.size(); i++){
-                                cubos.add(data.get(i));
+                                idCubos.add(data.get(i));
                             }
 
                             db.collection("cubos")
@@ -353,37 +352,29 @@ public class MainActivity extends AppCompatActivity implements
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
                                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                                    for (int i = 0; i < cubos.size(); i++ ){
-                                                        if (document.getId().equals(cubos.get(i))){
+                                                    for (int i = 0; i < idCubos.size(); i++ ){
+                                                        if (document.getId().equals(idCubos.get(i))){
                                                             Map<String, Object> medidas = new ArrayMap<>();
                                                             medidas = document.getData();
 
-                                                            // Ponemos el nombre del cubo
-                                                            nombresCubos.add(medidas.get("nombre").toString());
+                                                            List<Map<String, Object>> listaMedidas = new ArrayList<>();
 
                                                             for (String object: medidas.keySet()) {
 
                                                                 // Comprobamos que no sea un nombre de cubo
                                                                 if(!medidas.get(object).getClass().getSimpleName().equals("String")) {
-                                                                    // Ponemos la medida de tiempo
-                                                                    timestamp.add(object);
-                                                                    // Asignamos la medida actual para sacar datos a un Map
-                                                                    Map<String, Object> medida = (Map<String, Object>) medidas.get(object);
-                                                                    // Sacamos los datos
-                                                                    carton.add(medida.get("carton").toString());
-                                                                    vidrio.add(medida.get("vidrio").toString());
-                                                                    plastico.add(medida.get("plastico").toString());
-                                                                    organico.add(medida.get("organico").toString());
+                                                                    listaMedidas.add((Map<String, Object>) medidas.get(object));
                                                                 }
-
                                                             }
 
-
+                                                            Cubo cubo = new Cubo(listaMedidas, medidas.get("nombre").toString());
+                                                            Log.e(TAG, cubo.getMedidas().toString());
+                                                            cubos.add(cubo);
                                                         }
                                                     }
                                                 }
-                                                if(nombresCubos.size() != 0) {
-                                                    items = nombresCubos.size();
+                                                if(idCubos.size() != 0) {
+                                                    items = idCubos.size();
                                                 } else{
                                                     Log.e(TAG, "Todos los cubos puestos");
                                                     // El recycler view añade un nuevo item cuando
@@ -391,12 +382,13 @@ public class MainActivity extends AppCompatActivity implements
                                                     items = 1;
                                                     itemList++;
                                                 }
+                                                RecyclerView recyclerView = vista.findViewById(R.id.recyclerview);
+                                                recyclerView.removeAllViews();
+                                                recyclerView.setHasFixedSize(true);
+                                                recyclerView.setLayoutManager(new LinearLayoutManager(vista.getContext()));
+                                                recyclerView.setAdapter(new AdaptadorCubos(cubos, idCubos, items, itemList, activity));
                                             }
-                                            RecyclerView recyclerView = vista.findViewById(R.id.recyclerview);
-                                            recyclerView.removeAllViews();
-                                            recyclerView.setHasFixedSize(true);
-                                            recyclerView.setLayoutManager(new LinearLayoutManager(vista.getContext()));
-                                            recyclerView.setAdapter(new AdaptadorCubos(nombresCubos, timestamp, carton, vidrio, plastico, organico, cubos, items, itemList, activity));
+
                                         }
                                     });
 
@@ -421,21 +413,6 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    public void lanzarOcultarMostrar(View view){
-
-        opciones = (FrameLayout) findViewById(R.id.tarjetaMore);
-
-        if(opciones.getVisibility() == View.GONE){
-
-            opciones.setVisibility(View.VISIBLE);
-
-        }else{
-
-            opciones.setVisibility(View.GONE);
-
-        }
-
-    }
     public void lanzarConfirmarBorrar(View view){
         Intent i = new Intent(this, ActividadConfirmarBorrar.class);
         startActivity(i);
