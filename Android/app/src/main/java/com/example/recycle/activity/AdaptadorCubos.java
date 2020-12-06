@@ -200,6 +200,17 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                                             activity.finish();
                                         }
                                     });
+
+                                    // Asignamos el listener al eliminar cubo
+                                    holder.getEliminarBoton().setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent i = new Intent(context, ActividadConfirmarBorrar.class);
+                                            i.putExtra("cuboID", holder.getCuboID());
+                                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            context.startActivity(i);
+                                        }
+                                    });
                                 }
                                 itemList++;
                                 // Se añade el boton de anyadir al final de la lista
