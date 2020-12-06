@@ -32,6 +32,7 @@ public class ActividadConfirmarEditar extends Activity {
     String nombreCubo;
 
     String cuboID = null;
+    Activity activity = null;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +41,8 @@ public class ActividadConfirmarEditar extends Activity {
         Bundle bundle = intent.getExtras();
         assert bundle != null;
         cuboID = bundle.getString("cuboID");
+
+        activity = this;
 
         db = FirebaseFirestore.getInstance();
         usuario = FirebaseAuth.getInstance().getCurrentUser();
@@ -71,6 +74,9 @@ public class ActividadConfirmarEditar extends Activity {
                     "Se han guardado los cambios", Toast.LENGTH_SHORT);
                     toast1.show();
                 //actualizaCubos(vista);
+                Intent i = new Intent(activity, MainActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                activity.startActivity(i);
                 finish();
             }
         });
