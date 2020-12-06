@@ -25,8 +25,8 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         nombreCubo = itemView.findViewById(R.id.nombreCubo);
         plasticChart = itemView.findViewById(R.id.bar_chart);
         lineChart = itemView.findViewById(R.id.line_chart);
-        eliminarBoton = itemView.findViewById(R.id.btn_eliminarCubo);
         editarBoton = itemView.findViewById(R.id.btn_editarCubo);
+        eliminarBoton = itemView.findViewById(R.id.btn_eliminarCubo);
     }
 
     // Devuelve si es un cubo o un boton en base a si tiene nombreCubo o no
