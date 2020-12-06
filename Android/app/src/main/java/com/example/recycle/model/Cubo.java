@@ -7,10 +7,12 @@ import java.util.Map;
 public class Cubo {
     private List<Map<String, Object>> medidas = new ArrayList<>();
     private String nombre;
+    private String ID;
 
-    public Cubo(List<Map<String, Object>> medidas, String nombre) {
+    public Cubo(List<Map<String, Object>> medidas, String nombre, String ID) {
         this.medidas = medidas;
         this.nombre = nombre;
+        this.ID = ID;
     }
 
     public List<Map<String, Object>> getMedidas() {
@@ -27,5 +29,9 @@ public class Cubo {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getID() {
+        return ID;
     }
 }

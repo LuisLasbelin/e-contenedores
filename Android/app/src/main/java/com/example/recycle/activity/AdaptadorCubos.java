@@ -38,7 +38,6 @@ import static java.lang.Integer.parseInt;
 public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
 
     private List<Cubo> cubos = new ArrayList<>();
-    private ArrayList<String> idCubos = new ArrayList<String>();
     private String TAG = "cubos";
     private int items = 0;
     private int itemList = 0;
@@ -50,9 +49,8 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
     Activity activity = null;
     Context context = null;
 
-    public AdaptadorCubos(List<Cubo> cubos, ArrayList<String> idCubos, int items, int itemList, Activity activity) {
+    public AdaptadorCubos(List<Cubo> cubos, int items, int itemList, Activity activity) {
         this.cubos = cubos;
-        this.idCubos = idCubos;
         this.items = items;
         this.itemList = itemList;
         this.activity = activity;
@@ -81,10 +79,14 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
     public void onBindViewHolder(@NonNull final RecyclerViewHolder holder, int position) {
 
         // Si el usuario tiene cubos, tomamos nombres como referencia
-        if(idCubos.size() > 0) {
+        if(cubos.size() > 0) {
             // Asignamos las variables a la vista del cubo
             if(holder.getHolderType() == 1) {
+
                 Cubo currCubo = cubos.get(itemList);
+                // Assign ID var
+                holder.setCuboID(currCubo.getID());
+                Log.e("CUBOS", holder.getCuboID());
 
                 List<Map<String, Object>> medidas = currCubo.getMedidas();
 
@@ -112,7 +114,6 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                     long fecha = Long.parseLong((String) medida.get("fecha"));
                     if(fecha == reciente) {
                         for (String item: medida.keySet()) {
-                            Log.e(TAG, item + ": " + medida.get(item));
 
                             switch (item) {
                                 case "organico":
@@ -223,10 +224,6 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                 holder.getLineChart().setScaleEnabled(false);
                 holder.getLineChart().getXAxis().setDrawLabels(false);
                 holder.getLineChart().invalidate(); // refresh
-
-                // Assign ID var
-                holder.setCuboID(idCubos.get(itemList));
-                Log.e("CUBOS", holder.getCuboID());
 
                 // Asignamos el listener al eliminar cubo
                 holder.getEditarBoton().setOnClickListener(new View.OnClickListener() {

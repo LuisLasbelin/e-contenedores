@@ -367,7 +367,7 @@ public class MainActivity extends AppCompatActivity implements
                                                                 }
                                                             }
 
-                                                            Cubo cubo = new Cubo(listaMedidas, medidas.get("nombre").toString());
+                                                            Cubo cubo = new Cubo(listaMedidas, medidas.get("nombre").toString(), idCubos.get(i));
                                                             Log.e(TAG, cubo.getMedidas().toString());
                                                             cubos.add(cubo);
                                                         }
@@ -386,7 +386,7 @@ public class MainActivity extends AppCompatActivity implements
                                                 recyclerView.removeAllViews();
                                                 recyclerView.setHasFixedSize(true);
                                                 recyclerView.setLayoutManager(new LinearLayoutManager(vista.getContext()));
-                                                recyclerView.setAdapter(new AdaptadorCubos(cubos, idCubos, items, itemList, activity));
+                                                recyclerView.setAdapter(new AdaptadorCubos(cubos, items, itemList, activity));
                                             }
 
                                         }
