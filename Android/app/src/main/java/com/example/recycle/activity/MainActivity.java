@@ -10,6 +10,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
@@ -80,11 +81,16 @@ public class MainActivity extends AppCompatActivity implements
     private View vista;
     // FrameLoyout tarjeta borrar eliminar cubo
     FrameLayout opciones;
+    Activity activity = null;
+
+    final static int RESULTADO_EDITAR = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        activity = this;
 
         // Firestore initialization
         db = FirebaseFirestore.getInstance();
@@ -271,7 +277,6 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onActivityResult(int requestCode, final int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         final IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -388,18 +393,18 @@ public class MainActivity extends AppCompatActivity implements
                                                 }
                                             }
                                             RecyclerView recyclerView = vista.findViewById(R.id.recyclerview);
+                                            recyclerView.removeAllViews();
                                             recyclerView.setHasFixedSize(true);
                                             recyclerView.setLayoutManager(new LinearLayoutManager(vista.getContext()));
-                                            recyclerView.setAdapter(new AdaptadorCubos(nombresCubos, timestamp, carton, vidrio, plastico, organico, cubos, items, itemList, getBaseContext()));
+                                            recyclerView.setAdapter(new AdaptadorCubos(nombresCubos, timestamp, carton, vidrio, plastico, organico, cubos, items, itemList, activity));
                                         }
                                     });
 
                         }
                     }
                 });
-
-
     }
+
 
     // Eliminar un cubo
     public void eliminarCubo(View view) {
@@ -438,5 +443,10 @@ public class MainActivity extends AppCompatActivity implements
     public void lanzarConfirmarEditar(View view){
         Intent i = new Intent(this, ActividadConfirmarEditar.class);
         startActivity(i);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

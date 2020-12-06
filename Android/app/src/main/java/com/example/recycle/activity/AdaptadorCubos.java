@@ -1,5 +1,6 @@
 package com.example.recycle.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -20,7 +21,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
@@ -53,9 +53,10 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
     private FirebaseFirestore db = null;
     private FirebaseUser usuario = null;
 
+    Activity activity = null;
     Context context = null;
 
-    public AdaptadorCubos(ArrayList<String> nombres,ArrayList<String> timestamp, ArrayList<String> carton, ArrayList<String> vidrio, ArrayList<String> plastico, ArrayList<String> organico, ArrayList<String> cubos, int items, int itemList, Context context) {
+    public AdaptadorCubos(ArrayList<String> nombres,ArrayList<String> timestamp, ArrayList<String> carton, ArrayList<String> vidrio, ArrayList<String> plastico, ArrayList<String> organico, ArrayList<String> cubos, int items, int itemList, Activity activity) {
         this.nombres = nombres;
         this.carton = carton;
         this.vidrio = vidrio;
@@ -65,7 +66,8 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
         this.items = items;
         this.itemList = itemList;
         this.timestamp = timestamp;
-        this.context = context;
+        this.activity = activity;
+        this.context = activity.getBaseContext();
     }
 
     // Se crea el holder "items" veces
@@ -191,9 +193,11 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                                     holder.getEditarBoton().setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            Intent i = new Intent(context, ActividadConfirmarEditar.class);
+                                            Intent i = new Intent(activity, ActividadConfirmarEditar.class);
                                             i.putExtra("cuboID", holder.getCuboID());
-                                            context.startActivity(i);
+                                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            activity.startActivity(i);
+                                            activity.finish();
                                         }
                                     });
                                 }
@@ -210,6 +214,8 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                         }
                     }
                 });
+
+
     }
 
     // Se determinan cuantos cubos se imprimen
