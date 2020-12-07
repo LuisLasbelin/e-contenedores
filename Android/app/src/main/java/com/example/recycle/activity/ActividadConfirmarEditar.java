@@ -108,15 +108,13 @@ public class ActividadConfirmarEditar extends Activity {
                     Toast.makeText(getApplicationContext(),
                     "Se han guardado los cambios", Toast.LENGTH_SHORT);
                     toast1.show();
-                //actualizaCubos(vista);
+                // reinicia main activity
                 Intent i = new Intent(activity, MainActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 activity.startActivity(i);
                 finish();
             }
         });
-
-
     }
 
     @Override

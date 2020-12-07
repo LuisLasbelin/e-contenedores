@@ -51,7 +51,7 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
 
     public AdaptadorCubos(List<Cubo> cubos, int items, int itemList, Activity activity) {
         this.cubos = cubos;
-        this.items = items;
+        this.items = items+1;
         this.itemList = itemList;
         this.activity = activity;
         this.context = activity.getBaseContext();
@@ -64,7 +64,7 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
         View view = null;
 
         // Si no se ha completado la lista, se añade otro cubo
-        if((itemList != items)) {
+        if((itemList < items-1)) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cubos_lista, parent, false);
         } else {
             // Si se ha completado la lista de cubos, se añade el añadir
@@ -265,10 +265,6 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
             // Se añade el boton de anyadir al final de la lista
             if(itemList == items) {
                 Log.e(TAG, "Todos los cubos puestos");
-                // El recycler view añade un nuevo item cuando
-                // items > la cantidad de items actuales
-                items++;
-                itemList++;
             }
         }
     }

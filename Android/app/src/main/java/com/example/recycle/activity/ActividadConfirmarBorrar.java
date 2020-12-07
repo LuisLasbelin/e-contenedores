@@ -108,6 +108,12 @@ public class ActividadConfirmarBorrar extends Activity {
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()) {
                     Toast.makeText(activity, R.string.cubo_eliminado, Toast.LENGTH_LONG).show();
+                    // Se reinicia Main Activity
+                    activity.finish();
+                    Intent i = new Intent(activity, MainActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    activity.startActivity(i);
+                    finish();
                 }
             }
         });
