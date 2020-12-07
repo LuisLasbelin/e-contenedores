@@ -361,30 +361,37 @@ public class MainActivity extends AppCompatActivity implements
                                                             Map<String, Object> medidas = new ArrayMap<>();
                                                             medidas = document.getData();
 
-                                                            List<Map<String, Object>> listaMedidas = new ArrayList<>();
+                                                            final String currID = idCubos.get(i);
+                                                            final String currNombre = medidas.get("nombre").toString();
+                                                            db.collection("cubos").document(idCubos.get(i)).collection("medidas").get()
+                                                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                            if (task.isSuccessful()) {
+                                                                                List<Map<String, Object>> listaMedidas = new ArrayList<>();
+                                                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                                                    listaMedidas.add((Map<String, Object>) document.getData());
+                                                                                }
+                                                                                Cubo cubo = new Cubo(listaMedidas, currNombre, currID);
+                                                                                Log.e(TAG, cubo.getMedidas().toString());
+                                                                                cubos.add(cubo);
 
-                                                            for (String object: medidas.keySet()) {
+                                                                                if(cubos.size() != 0) {
+                                                                                    items = cubos.size();
+                                                                                }
+                                                                                RecyclerView recyclerView = MainActivity.this.recyclerView.findViewById(R.id.recyclerview);
+                                                                                recyclerView.removeAllViews();
+                                                                                recyclerView.setHasFixedSize(true);
+                                                                                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this.recyclerView.getContext()));
+                                                                                recyclerView.setAdapter(new AdaptadorCubos(cubos, items, itemList, activity));
+                                                                            }
+                                                                        }
+                                                                    });
 
-                                                                // Comprobamos que no sea un nombre de cubo
-                                                                if(!medidas.get(object).getClass().getSimpleName().equals("String")) {
-                                                                    listaMedidas.add((Map<String, Object>) medidas.get(object));
-                                                                }
-                                                            }
-
-                                                            Cubo cubo = new Cubo(listaMedidas, medidas.get("nombre").toString(), idCubos.get(i));
-                                                            Log.e(TAG, cubo.getMedidas().toString());
-                                                            cubos.add(cubo);
                                                         }
                                                     }
+
                                                 }
-                                                if(idCubos.size() != 0) {
-                                                    items = idCubos.size();
-                                                }
-                                                RecyclerView recyclerView = MainActivity.this.recyclerView.findViewById(R.id.recyclerview);
-                                                recyclerView.removeAllViews();
-                                                recyclerView.setHasFixedSize(true);
-                                                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this.recyclerView.getContext()));
-                                                recyclerView.setAdapter(new AdaptadorCubos(cubos, items, itemList, activity));
                                             }
 
                                         }
