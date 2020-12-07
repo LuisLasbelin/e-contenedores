@@ -1,0 +1,3 @@
+include ':comun'
+include ':app'
+rootProject.name = "MQTT Comms"
