@@ -119,4 +119,12 @@ public class ActividadConfirmarEditar extends Activity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(activity, MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivity(i);
+        finish();
+    }
+
 }

@@ -7,6 +7,7 @@ import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -61,45 +62,52 @@ public class ActividadConfirmarBorrar extends Activity {
         db = FirebaseFirestore.getInstance();
         usuario = FirebaseAuth.getInstance().getCurrentUser();
 
+        /*
         if(registrosEliminar) {
 
-            db.collection("cubos")
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            final DocumentReference docRef = db.collection("cubos").document(cuboID);
+
+            // Remove the fields from the document
+            final Map<String,Object> fields = new HashMap<>();
+
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    Map<String, Object> doc = task.getResult().getData();
+
+                    for (String item:doc.keySet()) {
+                        if(!item.equals("nombre")) {
+                            fields.put(item, FieldValue.delete());
+                        }
+                    }
+
+                    docRef.update(fields).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    if(document.getId().equals(cuboID)) {
-                                        Map<String, Object> medidas = new ArrayMap<>();
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()) {
 
-                                        medidas = document.getData();
-
-                                        // Ponemos el nombre del cubo
-                                        String nombre = medidas.get("nombre").toString();
-
-                                        medidas.clear();
-
-                                        medidas.put("nombre", nombre);
-                                        db.collection("cubos").document(cuboID).set(medidas);
-                                    }
-                                }
                             }
                         }
                     });
-        }
+                }
+            });
 
-        DocumentReference docRef = db.collection("usuarios").document(usuario.getEmail());
+
+        }
+        
+         */
+
+        DocumentReference userRef = db.collection("usuarios").document(usuario.getEmail());
 
         // Remove the 'capital' field from the document
         Map<String,Object> updates = new HashMap<>();
         updates.put("cubos", FieldValue.arrayRemove(cuboID));
 
-        docRef.update(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+        userRef.update(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()) {
-
+                    Toast.makeText(activity, R.string.cubo_eliminado, Toast.LENGTH_LONG).show();
                 }
             }
         });
