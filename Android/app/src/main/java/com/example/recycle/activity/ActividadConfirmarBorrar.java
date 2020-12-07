@@ -14,10 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recycle.R;
+import com.example.recycle.model.Cubo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -62,44 +64,10 @@ public class ActividadConfirmarBorrar extends Activity {
         db = FirebaseFirestore.getInstance();
         usuario = FirebaseAuth.getInstance().getCurrentUser();
 
-        /*
-        if(registrosEliminar) {
-
-            final DocumentReference docRef = db.collection("cubos").document(cuboID);
-
-            // Remove the fields from the document
-            final Map<String,Object> fields = new HashMap<>();
-
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    Map<String, Object> doc = task.getResult().getData();
-
-                    for (String item:doc.keySet()) {
-                        if(!item.equals("nombre")) {
-                            fields.put(item, FieldValue.delete());
-                        }
-                    }
-
-                    docRef.update(fields).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()) {
-
-                            }
-                        }
-                    });
-                }
-            });
-
-
-        }
-        
-         */
-
         DocumentReference userRef = db.collection("usuarios").document(usuario.getEmail());
+        final CollectionReference medidasRef = db.collection("cubos").document(cuboID).collection("medidas");
 
-        // Remove the 'capital' field from the document
+        // Remove the 'medidas' field from the document
         Map<String,Object> updates = new HashMap<>();
         updates.put("cubos", FieldValue.arrayRemove(cuboID));
 
