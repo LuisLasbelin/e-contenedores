@@ -101,33 +101,35 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                 // Se busca cada dato dentro de cada medida
                 for (Map<String, Object> medida: medidas) {
                     for (String item : medida.keySet()) {
-                        if(item.equals("fecha")) {
-                            if(Long.parseLong((String) medida.get(item)) > reciente) {
-                                reciente = Long.parseLong((String) medida.get(item));
-                            }
+                        // item es el nombre de la medida, es decir la fecha
+                        if(Long.parseLong((String) item) > reciente) {
+                            reciente = Long.parseLong((String) item);
                         }
+
                     }
                 }
 
                 // Se busca cada dato dentro de cada medida
                 for (Map<String, Object> medida: medidas) {
-                    long fecha = Long.parseLong((String) medida.get("fecha"));
-                    if(fecha == reciente) {
-                        for (String item: medida.keySet()) {
-
-                            switch (item) {
-                                case "organico":
-                                    barMeasures.add(new BarEntry(0f, parseInt((String) medida.get(item))));
-                                    break;
-                                case "carton":
-                                    barMeasures.add(new BarEntry(1f, parseInt((String) medida.get(item))));
-                                    break;
-                                case "vidrio":
-                                    barMeasures.add(new BarEntry(2f, parseInt((String) medida.get(item))));
-                                    break;
-                                case "plastico":
-                                    barMeasures.add(new BarEntry(3f, parseInt((String) medida.get(item))));
-                                    break;
+                    for (String item: medida.keySet()) {
+                        Map<String, Object> values = (Map<String, Object>) medida.get(item);
+                        long fecha = Long.parseLong((String) item);
+                        if(fecha == reciente) {
+                            for (String medidaInterna : values.keySet()) {
+                                switch (medidaInterna) {
+                                    case "organico":
+                                        barMeasures.add(new BarEntry(0f, parseInt((String) values.get(medidaInterna))));
+                                        break;
+                                    case "carton":
+                                        barMeasures.add(new BarEntry(1f, parseInt((String) values.get(medidaInterna))));
+                                        break;
+                                    case "vidrio":
+                                        barMeasures.add(new BarEntry(2f, parseInt((String) values.get(medidaInterna))));
+                                        break;
+                                    case "plastico":
+                                        barMeasures.add(new BarEntry(3f, parseInt((String) values.get(medidaInterna))));
+                                        break;
+                                }
                             }
                         }
                     }
@@ -161,6 +163,7 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                 holder.getPlasticChart().setData(data);
                 holder.getPlasticChart().invalidate(); // refresh
 
+
                 // Grafica temporal
                 List<Entry> plasticoList = new ArrayList<>();
                 List<Entry> vidrioList = new ArrayList<>();
@@ -169,22 +172,26 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                 // Se busca cada dato dentro de cada medida
                 for (Map<String, Object> medida: medidas) {
                     for (String item: medida.keySet()) {
-                        switch (item) {
-                            case "organico":
-                                organicoList.add(new Entry(Float.parseFloat((String) medida.get("fecha")), Float.parseFloat((String) medida.get(item))));
-                                break;
-                            case "carton":
-                                cartonList.add(new Entry(Float.parseFloat((String) medida.get("fecha")), Float.parseFloat((String) medida.get(item))));
-                                break;
-                            case "vidrio":
-                                vidrioList.add(new Entry(Float.parseFloat((String) medida.get("fecha")), Float.parseFloat((String) medida.get(item))));
-                                break;
-                            case "plastico":
-                                plasticoList.add(new Entry(Float.parseFloat((String) medida.get("fecha")), Float.parseFloat((String) medida.get(item))));
-                                break;
+                        Map<String, Object> values = (Map<String, Object>) medida.get(item);
+                        for (String medidaInterna : values.keySet()) {
+                            switch (medidaInterna) {
+                                case "organico":
+                                    organicoList.add(new Entry(Float.parseFloat((String) item), Float.parseFloat((String) values.get(medidaInterna))));
+                                    break;
+                                case "carton":
+                                    cartonList.add(new Entry(Float.parseFloat((String) item), Float.parseFloat((String) values.get(medidaInterna))));
+                                    break;
+                                case "vidrio":
+                                    vidrioList.add(new Entry(Float.parseFloat((String) item), Float.parseFloat((String) values.get(medidaInterna))));
+                                    break;
+                                case "plastico":
+                                    plasticoList.add(new Entry(Float.parseFloat((String) item), Float.parseFloat((String) values.get(medidaInterna))));
+                                    break;
+                            }
                         }
                     }
                 }
+
                 LineDataSet setPlastico = new LineDataSet(plasticoList, "Plastico");
                 LineDataSet setVidrio = new LineDataSet(vidrioList, "Vidrio");
                 LineDataSet setOrganico = new LineDataSet(organicoList, "Organico");
@@ -218,7 +225,6 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                 holder.getLineChart().getLegend().setEnabled(false);
                 holder.getLineChart().setDescription(null);
                 holder.getLineChart().setDrawGridBackground(false);
-                holder.getLineChart().getXAxis().setDrawLabels(true);
                 holder.getLineChart().setDoubleTapToZoomEnabled(false);
                 holder.getLineChart().setPinchZoom(false);
                 holder.getLineChart().setScaleEnabled(false);
