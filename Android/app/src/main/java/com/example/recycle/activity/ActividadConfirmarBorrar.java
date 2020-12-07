@@ -39,7 +39,6 @@ public class ActividadConfirmarBorrar extends Activity {
     private FirebaseUser usuario = null;
 
     String cuboID = null;
-    Switch registrosSwitch = null;
 
     Activity activity = null;
 
@@ -52,14 +51,11 @@ public class ActividadConfirmarBorrar extends Activity {
         cuboID = bundle.getString("cuboID");
 
         activity = this;
-
-        registrosSwitch = findViewById(R.id.switch1);
     }
 
     // Eliminar un cubo
     public void eliminarCubo(View view) {
         // Recogemos el check para ver si eliminamos también los registros
-        boolean registrosEliminar = registrosSwitch.isChecked();
 
         db = FirebaseFirestore.getInstance();
         usuario = FirebaseAuth.getInstance().getCurrentUser();
