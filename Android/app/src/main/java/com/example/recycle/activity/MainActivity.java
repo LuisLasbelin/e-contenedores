@@ -22,7 +22,6 @@ import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.recycle.R;
@@ -43,21 +42,19 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.net.ssl.SSLSession;
 
 public class MainActivity extends AppCompatActivity implements
         OnMapReadyCallback {
@@ -83,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements
     private FirebaseUser usuario = null;
 
     // RecycleView
-    private View vista;
+    private View recyclerView;
     // FrameLoyout tarjeta borrar eliminar cubo
     FrameLayout opciones;
     Activity activity = null;
@@ -302,14 +299,16 @@ public class MainActivity extends AppCompatActivity implements
                             // Se añade el ID del cubo al usuario
                             data.put("cubos", FieldValue.arrayUnion(result.getContents()));
                             db.collection("usuarios").document(mail).update(data);
-                            // Actualiza los cubos y termina
-                            actualizaCubos(vista);
                             break;
                         }
                     }
                     if (i == length) {
                         Log.d("QR", "No hay usuario");
                     }
+
+                    // Actualiza los cubos y termina
+                    finish();
+                    startActivity(getIntent());
                 }
             }
         });
@@ -322,9 +321,10 @@ public class MainActivity extends AppCompatActivity implements
     private int items = 0;
     private int itemList = 0;
     // Se activa el recyclerView
-    public void actualizaCubos(View view){
+    public void actualizaCubos(View view) {
 
-        vista = view;
+        // Recyclerview que viene de Tab2
+        recyclerView = view;
 
         db = FirebaseFirestore.getInstance();
         usuario = FirebaseAuth.getInstance().getCurrentUser();
@@ -340,6 +340,10 @@ public class MainActivity extends AppCompatActivity implements
                         }  else if (snapshot == null || !snapshot.exists()) {
                             Log.e("Firebase", "Error: documento no encontrado ");
                         }else{
+
+                            idCubos.clear();
+                            cubos.clear();
+
                             ArrayList<String> data = (ArrayList<String>) snapshot.get("cubos");
                             for (int i = 0; i < data.size(); i++){
                                 idCubos.add(data.get(i));
@@ -375,17 +379,11 @@ public class MainActivity extends AppCompatActivity implements
                                                 }
                                                 if(idCubos.size() != 0) {
                                                     items = idCubos.size();
-                                                } else{
-                                                    Log.e(TAG, "Todos los cubos puestos");
-                                                    // El recycler view añade un nuevo item cuando
-                                                    // items > la cantidad de items actuales
-                                                    items = 1;
-                                                    itemList++;
                                                 }
-                                                RecyclerView recyclerView = vista.findViewById(R.id.recyclerview);
+                                                RecyclerView recyclerView = MainActivity.this.recyclerView.findViewById(R.id.recyclerview);
                                                 recyclerView.removeAllViews();
                                                 recyclerView.setHasFixedSize(true);
-                                                recyclerView.setLayoutManager(new LinearLayoutManager(vista.getContext()));
+                                                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this.recyclerView.getContext()));
                                                 recyclerView.setAdapter(new AdaptadorCubos(cubos, items, itemList, activity));
                                             }
 
@@ -397,22 +395,6 @@ public class MainActivity extends AppCompatActivity implements
                 });
     }
 
-
-    // Eliminar un cubo
-    public void eliminarCubo(View view) {
-        // Recogemos el check para ver si eliminamos también los registros
-        boolean registrosEliminar = false;
-        String cuboID = null;
-        if(registrosEliminar) {
-            db = FirebaseFirestore.getInstance();
-            usuario = FirebaseAuth.getInstance().getCurrentUser();
-
-            db.collection("cubos").document(cuboID).delete();
-
-            actualizaCubos(vista);
-        }
-    }
-
     public void lanzarConfirmarBorrar(View view){
         Intent i = new Intent(this, ActividadConfirmarBorrar.class);
         startActivity(i);
@@ -420,10 +402,5 @@ public class MainActivity extends AppCompatActivity implements
     public void lanzarConfirmarEditar(View view){
         Intent i = new Intent(this, ActividadConfirmarEditar.class);
         startActivity(i);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 }

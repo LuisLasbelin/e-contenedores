@@ -27,8 +27,9 @@ public class Tab2 extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab2, container, false);
 
+        recyclerView = view.findViewById(R.id.recyclerview);
 
-        ((MainActivity)getActivity()).actualizaCubos(view);
+        ((MainActivity)getActivity()).actualizaCubos(recyclerView);
 
         return view;
     }
