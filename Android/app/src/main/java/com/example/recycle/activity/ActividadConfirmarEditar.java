@@ -1,8 +1,12 @@
 package com.example.recycle.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.view.View;
@@ -21,6 +25,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ActividadConfirmarEditar extends Activity {
@@ -29,6 +34,10 @@ public class ActividadConfirmarEditar extends Activity {
     private FirebaseUser usuario = null;
 
     private Button guardar;
+    private Button ubicacion;
+    // Localizacion
+    private LocationManager manejador;
+    private String proveedor;
     String nombreCubo;
 
     String cuboID = null;
@@ -55,6 +64,32 @@ public class ActividadConfirmarEditar extends Activity {
                 if(task.isSuccessful()) {
                     EditText editTextNombre = findViewById(R.id.editTextNombre);
                     editTextNombre.setText(task.getResult().get("nombre").toString());
+                }
+            }
+        });
+
+        //Asignamos un listener al boton guardar ubicacion
+        ubicacion = findViewById(R.id.btn_ubicacion);
+        ubicacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Si el usuario no existe, tomamos su posicion actual y la guardamos como default
+                manejador = (LocationManager) getSystemService(LOCATION_SERVICE);
+                Criteria criterio = new Criteria();
+                criterio.setCostAllowed(false);
+                criterio.setAltitudeRequired(false);
+                criterio.setAccuracy(Criteria.ACCURACY_FINE);
+                proveedor = manejador.getBestProvider(criterio, true);
+                @SuppressLint("MissingPermission")
+                Location posicion = manejador.getLastKnownLocation(proveedor);
+
+                if(posicion != null) {
+                    Map<String, Object> datos = new HashMap<>();
+                    datos.put("longud", posicion.getLongitude());
+                    datos.put("latitud", posicion.getLatitude());
+                    db.collection("cubos").document(cuboID).update(datos);
+                } else {
+                    Toast.makeText(getBaseContext(), R.string.gps_off, Toast.LENGTH_LONG).show();
                 }
             }
         });
