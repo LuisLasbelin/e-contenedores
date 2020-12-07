@@ -45,7 +45,7 @@ import java.util.UUID;
  * You can find additional examples on GitHub: https://github.com/androidthings
  */
 public class MainActivity extends Activity implements MqttCallback {
-
+    String uniqueID;
     /*
        private static final String TAG = MainActivityUart.class.getSimpleName();
        ArduinoUart uart;
@@ -165,6 +165,7 @@ public class MainActivity extends Activity implements MqttCallback {
         try {
             Log.i(Mqtt.TAG, "Suscrito a " + Mqtt.topicRoot+"distancia");
             client.subscribe(Mqtt.topicRoot+"distancia", Mqtt.qos);
+            client.subscribe(Mqtt.topicRoot+"POWER", Mqtt.qos);
             client.setCallback(this);
         } catch (MqttException e) {
             Log.e(Mqtt.TAG, "Error al suscribir.", e);
@@ -192,44 +193,63 @@ public class MainActivity extends Activity implements MqttCallback {
         String payload = new String(message.getPayload());
         Log.d(Mqtt.TAG, "Recibiendo: " + topic + "->" + payload);
 
-
         // Firestore initialization
         db = FirebaseFirestore.getInstance();
-        String datoCortado[];
-        datoCortado = payload.split("-");
 
-        Map<String, Object> datosGurdu = new HashMap<>();
+        if(topic.equals("recycle/practica/POWER") && payload.equals("ON")){
 
-        if(datoCortado[1].equals("CuboVidrio")){
-            datos.setVidrio(datoCortado[2]);
+            uniqueID = UUID.randomUUID().toString();
+            db.collection("cubos").document(id).collection("medidas").document(uniqueID)
+                    .set(null)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d("Firestore", "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w("Firestore", "Error writing document", e);
+                        }
+                    });
         }
-        else if(datoCortado[1].equals("CuboOrganico")){
-            datos.setOrganico(datoCortado[2]);
-        }
-        else if(datoCortado[1].equals("CuboPlastico")){
-            datos.setPlastico(datoCortado[2]);
-        }
-        else if(datoCortado[1].equals("CuboCarton")){
-            datos.setCarton(datoCortado[2]);
-        }
-        datos.setFecha(date.getTime());
-        datosGurdu.put(Long.toString(date.getTime()), datos);
+        else{
+            String datoCortado[];
+            datoCortado = payload.split("-");
 
-        String uniqueID = UUID.randomUUID().toString();
-        db.collection("cubos").document(id).collection("medidas").document(uniqueID)
-                .set(datosGurdu)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("Firestore", "DocumentSnapshot successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("Firestore", "Error writing document", e);
-                    }
-                });
+            Map<String, Object> datosGurdu = new HashMap<>();
+
+            if(datoCortado[1].equals("CuboVidrio")){
+                datos.setVidrio(datoCortado[2]);
+            }
+            else if(datoCortado[1].equals("CuboOrganico")){
+                datos.setOrganico(datoCortado[2]);
+            }
+            else if(datoCortado[1].equals("CuboPlastico")){
+                datos.setPlastico(datoCortado[2]);
+            }
+            else if(datoCortado[1].equals("CuboCarton")){
+                datos.setCarton(datoCortado[2]);
+            }
+            datos.setFecha(date.getTime());
+            datosGurdu.put(Long.toString(date.getTime()), datos);
+
+            db.collection("cubos").document(id).collection("medidas").document(uniqueID)
+                    .update(datosGurdu)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d("Firestore", "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w("Firestore", "Error writing document", e);
+                        }
+                    });
+        }
     }
 
     @Override
