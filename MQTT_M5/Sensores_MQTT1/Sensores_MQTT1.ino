@@ -11,8 +11,8 @@
 #include <WiFi.h>
 
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
-char ssid[] = "DESKTOP-PCG8QG8 6144";        // your network SSID (name)
-char pass[] = "12345678";    // your network password (use for WPA, or use as key for WEP)
+char ssid[] = "vodafoneD812";        // your network SSID (name)
+char pass[] = "V2e9rT4y5jL";    // your network password (use for WPA, or use as key for WEP)
 
 // To connect with SSL/TLS:
 // 1) Change WiFiClient to WiFiSSLClient.
@@ -53,7 +53,7 @@ void setup() {
   Serial.println(ssid);
   while (WiFi.begin(ssid, pass) != WL_CONNECTED) {
     // failed, retry
-    Serial.print(".");
+    Serial.print("Connection failed, retrying...");
     delay(5000);
   }
 
@@ -146,13 +146,13 @@ void contar(){
     // send message, the Print interface can be used to set the message contents
     if(distancia(TriggerPin, EchoPin) < 52) {
     mqttClient.beginMessage(topic);
-    mqttClient.print("M51-CuboPlastico-" + String(map(distancia(TriggerPin, EchoPin),0,42,100,0)) + "%");
+    mqttClient.print("M51-CuboPlastico-: " + String(map(distancia(TriggerPin, EchoPin),5,37,100,0)) + "%");
     mqttClient.endMessage();
     }
     delay(1000);
     if(distancia(TriggerPin2, EchoPin2) < 52) {
     mqttClient.beginMessage(topic);
-    mqttClient.print("M51-CuboCarton-" + String(map(distancia(TriggerPin2, EchoPin2),0,42,100,0)) + "%");
+    mqttClient.print("M51-CuboCarton-: " + String(map(distancia(TriggerPin2, EchoPin2),5,37,100,0)) + "%");
     mqttClient.endMessage();
     }
     Serial.println();
