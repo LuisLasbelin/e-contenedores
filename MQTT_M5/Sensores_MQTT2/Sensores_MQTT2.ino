@@ -147,13 +147,13 @@ void contar(){
     // send message, the Print interface can be used to set the message contents
     if (distancia(TriggerPin, EchoPin) < 52){
     mqttClient.beginMessage(topic);
-    mqttClient.print("M52-CuboVidrio-" + String(map(distancia(TriggerPin, EchoPin),0,44,100,0)) + "%");
+    mqttClient.print("M52-CuboVidrio-" + String(map(distancia(TriggerPin, EchoPin),0,44,100,0)));
     mqttClient.endMessage();
     }
      delay(1000);
      if(distancia(TriggerPin2, EchoPin2) < 52) {
     mqttClient.beginMessage(topic);
-    mqttClient.print("M52-CuboOrganico-" + String(map(distancia(TriggerPin2, EchoPin2),0,44,100,0)) + "%");
+    mqttClient.print("M52-CuboOrganico-" + String(map(distancia(TriggerPin2, EchoPin2),0,44,100,0)));
     mqttClient.endMessage();
     }
     Serial.println();
