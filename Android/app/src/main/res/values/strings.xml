@@ -15,5 +15,6 @@
     <string name="asignar_la_ubicaci_n_actual_al_cubo">Asignar la ubicación actual al cubo</string>
     <string name="asignar_ubicaci_n">Asignar ubicación</string>
     <string name="guardar">Guardar</string>
+    <string name="cubo_eliminado">Cubo eliminado del usuario</string>
 
 </resources>
