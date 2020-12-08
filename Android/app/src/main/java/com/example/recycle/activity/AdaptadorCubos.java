@@ -1,8 +1,12 @@
 package com.example.recycle.activity;
 
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static android.content.Context.NOTIFICATION_SERVICE;
 import static java.lang.Integer.parseInt;
 
 public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
@@ -49,12 +55,18 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
     Activity activity = null;
     Context context = null;
 
+    // Notificaciones
+    static final String CANAL_ID = "mi_canal";
+    static final int NOTIFICACION_ID = 1;
+    private boolean notificacionEnviada = false;
+
     public AdaptadorCubos(List<Cubo> cubos, int items, int itemList, Activity activity) {
         this.cubos = cubos;
         this.items = items+1;
         this.itemList = itemList;
         this.activity = activity;
         this.context = activity.getBaseContext();
+        notificacionEnviada = false;
     }
 
     // Se crea el holder "items" veces
@@ -119,21 +131,26 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                                 switch (medidaInterna) {
                                     case "organico":
                                         barMeasures.add(new BarEntry(0f, parseInt((String) values.get(medidaInterna))));
+                                        avisoVolumen(parseInt((String) values.get(medidaInterna)));
                                         break;
                                     case "carton":
                                         barMeasures.add(new BarEntry(1f, parseInt((String) values.get(medidaInterna))));
+                                        avisoVolumen(parseInt((String) values.get(medidaInterna)));
                                         break;
                                     case "vidrio":
                                         barMeasures.add(new BarEntry(2f, parseInt((String) values.get(medidaInterna))));
+                                        avisoVolumen(parseInt((String) values.get(medidaInterna)));
                                         break;
                                     case "plastico":
                                         barMeasures.add(new BarEntry(3f, parseInt((String) values.get(medidaInterna))));
+                                        avisoVolumen(parseInt((String) values.get(medidaInterna)));
                                         break;
                                 }
                             }
                         }
                     }
                 }
+
                 // Set the data
                 BarDataSet set = new BarDataSet(barMeasures, "Medidas");
                 // Propiedades de las barras
@@ -163,6 +180,42 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                 holder.getPlasticChart().setData(data);
                 holder.getPlasticChart().invalidate(); // refresh
 
+                // Gráfica de fondo de barras
+                // Gráfica plástico
+                List<BarEntry> backBarMeasures = new ArrayList<>();
+                backBarMeasures.add(new BarEntry(0f, 100));
+                backBarMeasures.add(new BarEntry(1f, 100));
+                backBarMeasures.add(new BarEntry(2f, 100));
+                backBarMeasures.add(new BarEntry(3f, 100));
+
+                // Set the data
+                BarDataSet backSet = new BarDataSet(backBarMeasures, "Medidas");
+                // Propiedades de las barras
+                backSet.setValueTextSize(0f);
+                backSet.setHighlightEnabled(false);
+                // Ponemos los colores del set de datos
+                backSet.setColors(ContextCompat.getColor(context, R.color.colorBox4Transparent),
+                        ContextCompat.getColor(context, R.color.colorBox2Transparent),
+                        ContextCompat.getColor(context, R.color.colorBox3Transparent),
+                        ContextCompat.getColor(context, R.color.colorBox1Transparent));
+                // asignamos el set a los datos
+                BarData backData = new BarData(backSet);
+                // Ajustes de estilo
+                holder.getBackChart().setDescription(null);
+                holder.getBackChart().setDrawGridBackground(false);
+                holder.getBackChart().getXAxis().setEnabled(false);
+                holder.getBackChart().getXAxis().setDrawLabels(false);
+                holder.getBackChart().getAxisLeft().setEnabled(false);
+                holder.getBackChart().getAxisLeft().setAxisMaximum(100);
+                holder.getBackChart().getAxisLeft().setAxisMinimum(0);
+                holder.getBackChart().getAxisRight().setEnabled(false);
+                holder.getBackChart().getLegend().setEnabled(false);
+                holder.getBackChart().setDoubleTapToZoomEnabled(false);
+                holder.getBackChart().setPinchZoom(false);
+                holder.getBackChart().setScaleEnabled(false);
+                // Poner datos
+                holder.getBackChart().setData(backData);
+                holder.getBackChart().invalidate(); // refresh
 
                 // Grafica temporal
                 List<Entry> plasticoList = new ArrayList<>();
@@ -176,16 +229,16 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                         for (String medidaInterna : values.keySet()) {
                             switch (medidaInterna) {
                                 case "organico":
-                                    organicoList.add(new Entry(Float.parseFloat((String) item), Float.parseFloat((String) values.get(medidaInterna))));
+                                    organicoList.add(new Entry(Float.parseFloat((String) item)/1000000, Float.parseFloat((String) values.get(medidaInterna))));
                                     break;
                                 case "carton":
-                                    cartonList.add(new Entry(Float.parseFloat((String) item), Float.parseFloat((String) values.get(medidaInterna))));
+                                    cartonList.add(new Entry(Float.parseFloat((String) item)/1000000, Float.parseFloat((String) values.get(medidaInterna))));
                                     break;
                                 case "vidrio":
-                                    vidrioList.add(new Entry(Float.parseFloat((String) item), Float.parseFloat((String) values.get(medidaInterna))));
+                                    vidrioList.add(new Entry(Float.parseFloat((String) item)/1000000, Float.parseFloat((String) values.get(medidaInterna))));
                                     break;
                                 case "plastico":
-                                    plasticoList.add(new Entry(Float.parseFloat((String) item), Float.parseFloat((String) values.get(medidaInterna))));
+                                    plasticoList.add(new Entry(Float.parseFloat((String) item)/1000000, Float.parseFloat((String) values.get(medidaInterna))));
                                     break;
                             }
                         }
@@ -282,4 +335,29 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
         return items;
     }
 
+    public void avisoVolumen(Integer value) {
+        // Cuando el valor es 100 y no se ha enviado una notificacion antes de esta para evitar repetir
+        if(value >= 100 && !notificacionEnviada) {
+            NotificationManager notificationManager = (NotificationManager) activity.getSystemService(NOTIFICATION_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel notificationChannel = new NotificationChannel(
+                        CANAL_ID, "Mis Notificaciones",
+                        NotificationManager.IMPORTANCE_DEFAULT);
+                notificationChannel.setDescription("Descripcion del canal");
+                notificationManager.createNotificationChannel(notificationChannel);
+            }
+            NotificationCompat.Builder notificacion =
+                    new NotificationCompat.Builder(context, CANAL_ID)
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setContentTitle("Cubo lleno")
+                            .setContentText("Un cubo está a " + value + "%");
+
+            PendingIntent intencionPendiente = PendingIntent.getActivity(
+                    activity, 0, new Intent(activity, MainActivity.class), 0);
+            notificacion.setContentIntent(intencionPendiente);
+
+            notificationManager.notify(NOTIFICACION_ID, notificacion.build());
+            notificacionEnviada = true;
+        }
+    }
 }
