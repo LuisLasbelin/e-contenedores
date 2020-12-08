@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        lanzarCargar();
         activity = this;
 
         // Firestore initialization
@@ -408,6 +408,10 @@ public class MainActivity extends AppCompatActivity implements
     }
     public void lanzarConfirmarEditar(View view){
         Intent i = new Intent(this, ActividadConfirmarEditar.class);
+        startActivity(i);
+    }
+    public void lanzarCargar(){
+        Intent i = new Intent(this, ActividadCarga.class);
         startActivity(i);
     }
 }

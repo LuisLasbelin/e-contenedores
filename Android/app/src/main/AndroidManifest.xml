@@ -32,6 +32,8 @@
             android:label="Esta segurgo de borrar..."
             android:theme="@style/Theme.AppCompat.Light.Dialog"/>
         <activity android:name=".activity.ActividadConfirmarEditar"/>
+        <activity android:name=".activity.ActividadCarga"
+            android:label="Cargando..." />
     </application>
     <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES" android:value="barcode" />
     <uses-permission android:name="android.permission.CAMERA" />
