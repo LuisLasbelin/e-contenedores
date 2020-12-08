@@ -17,6 +17,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
     private TextView nombreCubo;
     private BarChart plasticChart;
+    private BarChart backChart;
     private LineChart lineChart;
     private Button eliminarBoton;
     private Button editarBoton;
@@ -28,6 +29,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         nombreCubo = itemView.findViewById(R.id.nombreCubo);
         plasticChart = itemView.findViewById(R.id.bar_chart);
+        backChart = itemView.findViewById(R.id.bar_back);
         lineChart = itemView.findViewById(R.id.line_chart);
         editarBoton = itemView.findViewById(R.id.btn_editarCubo);
         eliminarBoton = itemView.findViewById(R.id.btn_eliminarCubo);
@@ -78,5 +80,9 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
     public FrameLayout getOpciones() {
         return opciones;
+    }
+
+    public BarChart getBackChart() {
+        return backChart;
     }
 }

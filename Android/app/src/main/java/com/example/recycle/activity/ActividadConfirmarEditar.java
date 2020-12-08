@@ -63,24 +63,7 @@ public class ActividadConfirmarEditar extends Activity implements LocationListen
         activity = this;
         db = FirebaseFirestore.getInstance();
         usuario = FirebaseAuth.getInstance().getCurrentUser();
-        //Localizacion
-        manejador = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Criteria criterio = new Criteria();
-        criterio.setCostAllowed(false);
-        criterio.setAltitudeRequired(false);
-        criterio.setAccuracy(Criteria.ACCURACY_FINE);
-        proveedor = manejador.getBestProvider(criterio, true);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        posicion = manejador.getLastKnownLocation(proveedor);
+
         // Cogemos los datos del cubo y rellenamos las casillas
         db.collection("cubos").document(cuboID).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -140,6 +123,24 @@ public class ActividadConfirmarEditar extends Activity implements LocationListen
     @SuppressLint("MissingPermission")
     @Override protected void onResume() {
         super.onResume();
+        //Localizacion
+        manejador = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Criteria criterio = new Criteria();
+        criterio.setCostAllowed(false);
+        criterio.setAltitudeRequired(false);
+        criterio.setAccuracy(Criteria.ACCURACY_FINE);
+        proveedor = manejador.getBestProvider(criterio, true);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        posicion = manejador.getLastKnownLocation(proveedor);
         manejador.requestLocationUpdates(proveedor, TIEMPO_MIN, DISTANCIA_MIN,
                 this);
     }
