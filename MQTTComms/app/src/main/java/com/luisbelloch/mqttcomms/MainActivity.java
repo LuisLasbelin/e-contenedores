@@ -195,12 +195,13 @@ public class MainActivity extends Activity implements MqttCallback {
 
         // Firestore initialization
         db = FirebaseFirestore.getInstance();
+        Map<String, Object> datosGurdu = new HashMap<>();
 
         if(topic.equals("recycle/practica/POWER") && payload.equals("ON")){
 
             uniqueID = UUID.randomUUID().toString();
             db.collection("cubos").document(id).collection("medidas").document(uniqueID)
-                    .set(null)
+                    .set(datosGurdu)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -218,7 +219,6 @@ public class MainActivity extends Activity implements MqttCallback {
             String datoCortado[];
             datoCortado = payload.split("-");
 
-            Map<String, Object> datosGurdu = new HashMap<>();
 
             if(datoCortado[1].equals("CuboVidrio")){
                 datos.setVidrio(datoCortado[2]);
@@ -232,7 +232,6 @@ public class MainActivity extends Activity implements MqttCallback {
             else if(datoCortado[1].equals("CuboCarton")){
                 datos.setCarton(datoCortado[2]);
             }
-            datos.setFecha(date.getTime());
             datosGurdu.put(Long.toString(date.getTime()), datos);
 
             db.collection("cubos").document(id).collection("medidas").document(uniqueID)

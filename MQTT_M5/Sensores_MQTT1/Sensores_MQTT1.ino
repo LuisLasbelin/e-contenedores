@@ -23,7 +23,7 @@ char pass[] = "V2e9rT4y5jL";              //"12345678";    // your network passw
 WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
 
-const char broker[] = "mqtt.eclipse.org";
+const char broker[] = "mqtt.eclipseprojects.io";
 int        port     = 1883;
 const char topic[]  = "recycle/practica/distancia";
 const char topic2[] = "recycle/practica/POWER";

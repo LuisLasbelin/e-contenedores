@@ -6,16 +6,7 @@ public class DatosLeidos {
     private String plastico;
     private String vidrio;
     private String carton;
-    private Long fecha;
 
-
-    public Long getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Long fecha) {
-        this.fecha = fecha;
-    }
     public String getOrganico() {
         return organico;
     }
@@ -53,14 +44,12 @@ public class DatosLeidos {
         this.plastico = "0";
         this.vidrio = "0";
         this.carton = "0";
-        this.fecha = Long.valueOf(0);
     }
 
-    public DatosLeidos(String organico, String plastico, String vidrio, String carton, Long fecha) {
+    public DatosLeidos(String organico, String plastico, String vidrio, String carton) {
         this.organico = organico;
         this.plastico = plastico;
         this.vidrio = vidrio;
         this.carton = carton;
-        this.fecha = fecha;
     }
 }
