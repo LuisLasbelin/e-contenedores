@@ -86,6 +86,7 @@ public class ActividadConfirmarEditar extends Activity implements LocationListen
                     datos.put("longud", posicion.getLongitude());
                     datos.put("latitud", posicion.getLatitude());
                     db.collection("cubos").document(cuboID).update(datos);
+                    Toast.makeText(getBaseContext(),"Se ha guardado la ubicacion con éxito", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getBaseContext(), R.string.gps_off, Toast.LENGTH_LONG).show();
                 }
