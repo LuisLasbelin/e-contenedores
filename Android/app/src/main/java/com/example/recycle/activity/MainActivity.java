@@ -62,8 +62,8 @@ public class MainActivity extends AppCompatActivity implements
     private String TAG = "cubos";
 
     // Nombres de las pestañas
-    private String[] nombres = new String[]{"Mapa", "Inicio", "Opciones"};
-    private int[] iconos = new int[]{R.drawable.ic_baseline_map_24, R.drawable.ic_baseline_home_24, R.drawable.ic_baseline_settings_24};
+    private String[] nombres = new String[]{"Mapa", "Inicio", "Menú"};
+    private int[] iconos = new int[]{R.drawable.ic_baseline_map_24, R.drawable.ic_baseline_home_24, R.drawable.ic_baseline_menu_24};
 
     // MAPA
     private int locationRequestCode = 1000;
