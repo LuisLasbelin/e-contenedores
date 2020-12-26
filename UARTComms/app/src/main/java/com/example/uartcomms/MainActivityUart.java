@@ -27,82 +27,7 @@ import java.util.Map;
 
 public class MainActivityUart extends Activity implements MqttCallback
 {
-/*
-    private static final String TAG = MainActivityUart.class.getSimpleName();
-    ArduinoUart uart;
-    Handler handler = new Handler();
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.i(TAG, "Lista de UART disponibles: " + ArduinoUart.disponibles());
-        uart = new ArduinoUart("UART0", 115200);
-
-        Log.d(TAG, "Mandado a Arduino: H");
-        uart.escribir("H");
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            Log.w(TAG, "Error en sleep()", e);
-        }
-
-
-
-        String s = uart.leer();
-        Log.d(TAG, "Recibido de Arduino: " + s);
-
-        Log.d(TAG, "Mandado a Arduino: D");
-        uart.escribir("D");
-
-        try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Log.w(TAG, "Error en sleep()", e);
-        }
-        s = uart.leer();
-        Log.d(TAG, "Recibido de Arduino: " + s);
-
-
-        Runnable r=new Runnable() {
-    /*        public void run() {
-                String s;
-                uart.escribir("D");
-
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    Log.w(TAG, "Error en sleep()", e);
-                }
-                s = uart.leer();
-                Log.d(TAG, "Recibido de Arduino: " + s);
-
-                String[] datosLectura = s.split(",");
-
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                Map<String, Object> datos = new HashMap<>();
-                datos.put("Lectura Arduino 1", datosLectura[0]);
-                datos.put("Lectura Arduino 2", datosLectura[1]);
-                datos.put("Lectura Arduino 3", datosLectura[2]);
-                datos.put("Lectura Arduino 4", datosLectura[3]);
-                db.collection("Sensor").document("Distancia").set(datos);
-
-
-                handler.postDelayed(this, 500);
-            }
-        };
-
-        handler.postDelayed(r, 500);
-    }
-
-
-    @Override protected void onDestroy() {
-        super.onDestroy();
-    }
-
-
-     */
-    public String id = "BMWkJhGML689IJwudXXU";
+    public String id = "yyZSlXEC8fBTKlSpRCti";
     public static MqttClient client = null;
 
     private ArrayList<Integer> distancias = new ArrayList<>();
@@ -115,18 +40,6 @@ public class MainActivityUart extends Activity implements MqttCallback
         super.onCreate(savedInstanceState);
 
         connectMqtt();
-/*
-        try {
-            String text = "ON";
-            byte[] bytes = text.getBytes("UTF-8");
-            text = new String(bytes, "UTF-8");
-            client.publish(Mqtt.topicRoot + "cmnd/POWER", new MqttMessage(bytes));
-        } catch (MqttException e) {
-            Log.e(Mqtt.TAG, "Error al suscribir.", e);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
- */
     }
 
     public void connectMqtt() {
@@ -178,6 +91,7 @@ public class MainActivityUart extends Activity implements MqttCallback
         datoCortado = payload.split("-");
         Map<String, Object> datos = new HashMap<>();
 
+        // Coloca los datos recibidos en el objeto datos
         if(datoCortado[2].equals("CuboVidrio")){
             datos.put("vidrio", payload);
         }
@@ -191,6 +105,7 @@ public class MainActivityUart extends Activity implements MqttCallback
             datos.put("carton", payload);
         }
 
+        // Sube los datos al Firebase
         db.collection("cubos").document()
                 .update(datos)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

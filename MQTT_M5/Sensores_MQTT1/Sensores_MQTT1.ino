@@ -40,7 +40,7 @@ const int TriggerPin2 = 17;
 void setup() {
   pinMode(TriggerPin, OUTPUT); 
   pinMode(EchoPin, INPUT);
-   pinMode(TriggerPin2, OUTPUT); 
+  pinMode(TriggerPin2, OUTPUT); 
   pinMode(EchoPin2, INPUT);
   //Initialize serial and wait for port to open:
   Serial.begin(9600);
@@ -107,8 +107,6 @@ void loop() {
 
   // avoid having delays in loop, we'll use the strategy from BlinkWithoutDelay
   // see: File -> Examples -> 02.Digital -> BlinkWithoutDelay for more info
-  
-
   
 }
 
