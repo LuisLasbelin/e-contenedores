@@ -16,7 +16,7 @@ public class ActividadCarga extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new CountDownTimer(3000, 1000) {
+        new CountDownTimer(1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 setContentView(R.layout.carga_main);
@@ -26,6 +26,5 @@ public class ActividadCarga extends Activity {
                 finish();
             }
         }.start();
-
     }
 }
