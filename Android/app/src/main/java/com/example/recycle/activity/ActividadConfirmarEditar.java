@@ -99,11 +99,13 @@ public class ActividadConfirmarEditar extends Activity implements LocationListen
                 if(task.isSuccessful()) {
                     EditText editTextNombre = findViewById(R.id.editTextNombre);
                     editTextNombre.setText(task.getResult().get("nombre").toString());
-                    fotoCubo.setImageURI(Uri.parse(task.getResult().get("foto").toString()));
+                    if (!task.getResult().get("foto").toString().equals("")) {
+                        fotoCubo.setImageURI(Uri.parse(task.getResult().get("foto").toString()));
 
-                    uriUltimaFoto = Uri.parse(task.getResult().get("foto").toString());
-                    direccionFoto = uriUltimaFoto.getLastPathSegment();
-                    Log.d("Fotos", direccionFoto);
+                        uriUltimaFoto = Uri.parse(task.getResult().get("foto").toString());
+                        direccionFoto = uriUltimaFoto.getLastPathSegment();
+                        Log.d("Fotos", direccionFoto);
+                    }
                 }
             }
         });
