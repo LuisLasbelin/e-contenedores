@@ -83,7 +83,7 @@ public class ActividadConfirmarEditar extends Activity implements LocationListen
                 // Si el usuario no existe, tomamos su posicion actual y la guardamos como default
                 if(posicion != null) {
                     Map<String, Object> datos = new HashMap<>();
-                    datos.put("longud", posicion.getLongitude());
+                    datos.put("longitud", posicion.getLongitude());
                     datos.put("latitud", posicion.getLatitude());
                     db.collection("cubos").document(cuboID).update(datos);
                     Toast.makeText(getBaseContext(),"Se ha guardado la ubicacion con éxito", Toast.LENGTH_LONG).show();
@@ -117,9 +117,7 @@ public class ActividadConfirmarEditar extends Activity implements LocationListen
     @Override
     public void onBackPressed() {
         Intent i = new Intent(activity, MainActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(i);
-        finish();
     }
     @SuppressLint("MissingPermission")
     @Override protected void onResume() {

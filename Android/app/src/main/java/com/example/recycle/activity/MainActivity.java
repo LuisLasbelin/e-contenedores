@@ -32,6 +32,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -81,9 +82,15 @@ public class MainActivity extends AppCompatActivity implements
 
     // RecycleView
     private View recyclerView;
-    // FrameLoyout tarjeta borrar eliminar cubo
+    // FrameLayout tarjeta borrar eliminar cubo
     FrameLayout opciones;
     Activity activity = null;
+
+    // RecyclerView
+    private List<Cubo> cubos = new ArrayList<>();
+    private ArrayList<String> idCubos = new ArrayList<String>();
+    private int items = 0;
+    private int itemList = 0;
 
     final static int RESULTADO_EDITAR = 3;
 
@@ -221,53 +228,14 @@ public class MainActivity extends AppCompatActivity implements
             map.getUiSettings().setCompassEnabled(true);
             map.setMyLocationEnabled(true);
 
-            // Si el usuario ya existe, cojemos sus datos y metemos su location en currentLocation
-            // para añadir el marcador
-            db.collection("usuarios").document(usuario.getEmail()).addSnapshotListener(
-                    new EventListener<DocumentSnapshot>() {
-                        @SuppressLint("MissingPermission")
-                        @Override
-                        public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                            @Nullable FirebaseFirestoreException e){
-                            if (e != null) {
-                                Log.e("Firebase", "Error al leer", e);
-                            } else if (snapshot == null || !snapshot.exists()) {
-                                Log.e("Firebase", "Error: documento no encontrado ");
-                                // Si el usuario no existe, tomamos su posicion actual y la guardamos como default
-                                manejador = (LocationManager) getSystemService(LOCATION_SERVICE);
-                                Criteria criterio = new Criteria();
-                                criterio.setCostAllowed(false);
-                                criterio.setAltitudeRequired(false);
-                                criterio.setAccuracy(Criteria.ACCURACY_FINE);
-                                proveedor = manejador.getBestProvider(criterio, true);
-                                @SuppressLint("MissingPermission")
-                                Location posicion = manejador.getLastKnownLocation(proveedor);
+            for (Cubo cubo : cubos) {
+                currentPosition = new LatLng(cubo.getLatitude(), cubo.getLongitude());
+                map.addMarker(new MarkerOptions().position(currentPosition)
+                        .icon(BitmapDescriptorFactory
+                                .defaultMarker(BitmapDescriptorFactory.HUE_RED)))
+                        .setTitle(cubo.getNombre());
+            }
 
-                                if(posicion != null) {
-                                    Map<String, Object> datos = new HashMap<>();
-                                    datos.put("mail", usuario.getEmail());
-                                    datos.put("posicion", posicion);
-                                    db.collection("usuarios").document(usuario.getEmail()).update(datos);
-                                } else {
-                                    Toast.makeText(getBaseContext(), R.string.gps_off, Toast.LENGTH_LONG).show();
-                                }
-
-                            } else {
-                                // Fetch the data received
-                                Map<String, Object> data = (Map<String, Object>) snapshot.get("posicion");
-                                Object latitude = data.get("latitude");
-                                Object longitude = data.get("longitude");
-                                Log.d("Firestore", "datos:" + data);
-                                currentPosition = new LatLng(Double.parseDouble(latitude.toString()), Double.parseDouble(longitude.toString()));
-
-                                // Marcar posicion actual
-                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 17));
-                                map.addMarker(new MarkerOptions().position(currentPosition)
-                                        .icon(BitmapDescriptorFactory
-                                                .defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-                            }
-                        }
-                    });
         }
     }
 
@@ -314,12 +282,7 @@ public class MainActivity extends AppCompatActivity implements
         });
     }
 
-    // RecyclerView
 
-    private List<Cubo> cubos = new ArrayList<>();
-    private ArrayList<String> idCubos = new ArrayList<String>();
-    private int items = 0;
-    private int itemList = 0;
     // Se activa el recyclerView
     public void actualizaCubos(View view) {
 
@@ -358,11 +321,13 @@ public class MainActivity extends AppCompatActivity implements
                                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                                     for (int i = 0; i < idCubos.size(); i++ ){
                                                         if (document.getId().equals(idCubos.get(i))){
-                                                            Map<String, Object> medidas = new ArrayMap<>();
-                                                            medidas = document.getData();
+                                                            Map<String, Object> datos = new ArrayMap<>();
+                                                            datos = document.getData();
 
                                                             final String currID = idCubos.get(i);
-                                                            final String currNombre = medidas.get("nombre").toString();
+                                                            final String currNombre = datos.get("nombre").toString();
+                                                            final double currLat = (double) datos.get("latitud");
+                                                            final double currLong = (double) datos.get("longitud");
                                                             db.collection("cubos").document(idCubos.get(i)).collection("medidas").get()
                                                                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                                         @Override
@@ -372,7 +337,7 @@ public class MainActivity extends AppCompatActivity implements
                                                                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                                                                     listaMedidas.add((Map<String, Object>) document.getData());
                                                                                 }
-                                                                                Cubo cubo = new Cubo(listaMedidas, currNombre, currID);
+                                                                                Cubo cubo = new Cubo(listaMedidas, currNombre, currID, currLat, currLong);
                                                                                 Log.e(TAG, cubo.getMedidas().toString());
                                                                                 cubos.add(cubo);
 
