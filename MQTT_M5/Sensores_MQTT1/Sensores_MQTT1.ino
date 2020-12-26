@@ -98,6 +98,8 @@ void setup() {
   Serial.print("Waiting for messages on topic: ");
   Serial.println(topic);
   Serial.println(topic2);
+
+
 }
 
 void loop() {
