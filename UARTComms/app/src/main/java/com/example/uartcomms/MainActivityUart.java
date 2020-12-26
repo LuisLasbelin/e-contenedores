@@ -10,6 +10,9 @@ import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.things.pio.Gpio;
+import com.google.android.things.pio.GpioCallback;
+import com.google.android.things.pio.PeripheralManager;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -20,10 +23,12 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivityUart extends Activity implements MqttCallback
 {
@@ -35,12 +40,52 @@ public class MainActivityUart extends Activity implements MqttCallback
     // Firestore
     private FirebaseFirestore db = null;
 
+    private static final String BOTON_PIN = "BCM21"; //Puerto GPIO
+    private Gpio botonGpio;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         connectMqtt();
+
+        PeripheralManager manager = PeripheralManager.getInstance();
+        try {
+            botonGpio = manager.openGpio(BOTON_PIN); //crea conexión
+            botonGpio.setDirection(Gpio.DIRECTION_IN);//es entrada
+            botonGpio.setEdgeTriggerType(Gpio.EDGE_RISING);
+            // 3. Habilita eventos de disparo por ambos flancos
+            botonGpio.registerGpioCallback(null, callback); //registra callback
+        } catch (IOException e) {
+            Log.e("GPIO", "Error en PeripheralIO API", e);
+        }
     }
+
+    private GpioCallback callback = new GpioCallback() {
+        @Override public boolean onGpioEdge(Gpio gpio) {
+
+            try {
+                Log.e("GPIO","cambio botón "+Boolean.toString(gpio.getValue()));
+                try {
+                    MqttMessage message = new MqttMessage("ON".getBytes());
+                    message.setQos(Mqtt.qos);
+                    message.setRetained(false);
+                    client.publish(Mqtt.topicRoot + "POWER", message);
+                } catch (MqttException e) {
+                    Log.e(Mqtt.TAG, "Error al publicar.", e);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                // Tiempo hasta la siguiente posible interrupcion
+                TimeUnit.MINUTES.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return true; // 5. devolvemos true para mantener callback activo
+        }
+    };
 
     public void connectMqtt() {
         try {
@@ -84,7 +129,6 @@ public class MainActivityUart extends Activity implements MqttCallback
         String payload = new String(message.getPayload());
         Log.d(Mqtt.TAG, "Recibiendo: " + topic + "->" + payload);
 
-
         // Firestore initialization
         db = FirebaseFirestore.getInstance();
         String datoCortado[];
@@ -126,5 +170,4 @@ public class MainActivityUart extends Activity implements MqttCallback
     public void deliveryComplete(IMqttDeliveryToken token) {
         Log.d(Mqtt.TAG, "Entrega completa");
     }
-
 }
