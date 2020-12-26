@@ -282,7 +282,6 @@ public class MainActivity extends AppCompatActivity implements
         });
     }
 
-
     // Se activa el recyclerView
     public void actualizaCubos(View view) {
 

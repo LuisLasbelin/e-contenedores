@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -34,7 +36,17 @@
         <activity android:name=".activity.ActividadConfirmarEditar"/>
         <activity android:name=".activity.ActividadCarga"
             android:label="Cargando..." />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="team1.1.recycle.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
     <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES" android:value="barcode" />
-    <uses-permission android:name="android.permission.CAMERA" />
+
 </manifest>

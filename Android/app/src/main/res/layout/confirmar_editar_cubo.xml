@@ -83,4 +83,42 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/fotoCubo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_guardar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_ubicacion"
+        app:layout_constraintVertical_bias="1.0"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/btn_anyadirFoto"
+        android:layout_width="25dp"
+        android:layout_height="29dp"
+        android:layout_marginEnd="16dp"
+        android:background="#00FFFFFF"
+        android:drawableLeft="@drawable/ic_baseline_add_24"
+        android:drawableTint="@color/colorAccent"
+        android:onClick="anyadirFoto"
+        app:layout_constraintEnd_toStartOf="@+id/btn_borrarFoto"
+        app:layout_constraintTop_toTopOf="@+id/fotoCubo" />
+
+    <Button
+        android:id="@+id/btn_borrarFoto"
+        android:layout_width="24dp"
+        android:layout_height="29dp"
+        android:background="#00FFFFFF"
+        android:drawableLeft="@drawable/ic_baseline_delete_24"
+        app:layout_constraintEnd_toEndOf="@+id/fotoCubo"
+        app:layout_constraintTop_toTopOf="@+id/fotoCubo" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
