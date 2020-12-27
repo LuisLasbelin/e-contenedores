@@ -154,6 +154,13 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
+    public void onClickForos(View view) {
+
+        Intent intent = new Intent(this, ForosActivity.class);
+        startActivity(intent);
+
+    }
+
     public void lanzarWeb(View view) {
         Intent intent = new Intent(Intent.ACTION_VIEW,
                 Uri.parse("https://donhierro.com/es/"));
