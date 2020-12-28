@@ -26,6 +26,7 @@
         android:background="#fff"
         android:drawableStart="@drawable/ic_baseline_add_24"
         android:drawablePadding="7dp"
+        android:onClick="hacerFoto"
         android:padding="10dp"
         android:textAlignment="viewStart"
         android:textAllCaps="false"
