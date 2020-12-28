@@ -40,6 +40,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -120,7 +121,19 @@ public class MainActivity extends AppCompatActivity implements
                             ArrayList<String> cubos = new ArrayList<>();
                             datos.put("cubos", cubos);
                             datos.put("mail", usuario.getEmail());
+                            datos.put("nombre", usuario.getDisplayName());
                             db.collection("usuarios").document(usuario.getEmail()).set(datos);
+
+                            Map<String, Object> progresoInicial = new HashMap<>();
+                            progresoInicial.put("progreso", 0);
+                            db.collection("logros").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    for (DocumentSnapshot logro : task.getResult()) {
+                                        db.collection("usuarios").document(usuario.getEmail()).collection("logros").document(logro.getId()).set(progresoInicial);
+                                    }
+                                }
+                            });
                         } else {
                             Log.d("Firestore", "datos:" + snapshot.getData());
                             }
@@ -184,6 +197,11 @@ public class MainActivity extends AppCompatActivity implements
 
     public void lanzarLogros(View view) {
         Intent intent = new Intent(this, ActividadLogros.class);
+        startActivity(intent);
+    }
+
+    public void lanzarClasificacion(View view) {
+        Intent intent = new Intent(this, ActividadClasificacion.class);
         startActivity(intent);
     }
 
