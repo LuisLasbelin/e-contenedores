@@ -170,7 +170,7 @@
         android:background="#fff"
         android:drawableLeft="@drawable/ic_baseline_ranking_24"
         android:drawablePadding="7dp"
-        android:onClick="mandarCorreo"
+        android:onClick="lanzarClasificacion"
         android:padding="10dp"
         android:text="Clasificación"
         android:textAlignment="viewStart"

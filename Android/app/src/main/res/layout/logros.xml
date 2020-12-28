@@ -19,7 +19,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/tituloLogros"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -43,7 +43,7 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView3"
         app:layout_constraintHorizontal_bias="0.636"
         app:layout_constraintStart_toStartOf="@id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/tituloLogros"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
