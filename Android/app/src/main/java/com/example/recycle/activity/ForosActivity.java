@@ -44,9 +44,10 @@ import java.io.IOException;
 import static com.example.recycle.activity.ActividadConfirmarEditar.RESULTADO_FOTO;
 
 public class ForosActivity extends FragmentActivity implements
-        OnMapReadyCallback, GoogleMap.OnMapClickListener {
+        OnMapReadyCallback {
 
     private GoogleMap mapa;
+
     private final LatLng UPV = new LatLng(39.481106, -0.340987);
     //Foto
     public Button añadirFoto;
@@ -57,6 +58,8 @@ public class ForosActivity extends FragmentActivity implements
     public String lat;
     public String lon;
     private File file;
+    public double latitudeIni;
+    public double longitudeIni;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,19 +79,34 @@ public class ForosActivity extends FragmentActivity implements
     }
 
     @Override public void onMapReady(GoogleMap googleMap) {
+        //==========================================================================================
+        //Tomamos la ubicacion
+        //==========================================================================================
+        try {
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 101);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        gpsTracker = new GpsTracker(ForosActivity.this);
+        if(gpsTracker.canGetLocation()){
+            latitudeIni = gpsTracker.getLatitude();
+            longitudeIni = gpsTracker.getLongitude();
+        }else{
+            gpsTracker.showSettingsAlert();
+        }
+
+        LatLng ACTU = new LatLng(latitudeIni,longitudeIni);
+
+
         //Cuando el mapa este listo
         mapa = googleMap;
         mapa.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         mapa.getUiSettings().setZoomControlsEnabled(false);
-        mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(UPV, 15));
-        mapa.addMarker(new MarkerOptions()
-                .position(UPV)
-                .title("UPV")
-                .snippet("Universidad Politécnica de Valencia")
-                .icon(BitmapDescriptorFactory
-                        .fromResource(android.R.drawable.ic_menu_compass))
-                .anchor(0.5f, 0.5f));
-        mapa.setOnMapClickListener(this);
+        mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(ACTU, 15));
+        //mapa.setOnMapClickListener(this);
         if (ActivityCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED) {
@@ -100,7 +118,7 @@ public class ForosActivity extends FragmentActivity implements
     //==============================================================================================
     //Utilidades
     //==============================================================================================
-
+    /*
     public void moveCamera(View view) {
         mapa.moveCamera(CameraUpdateFactory.newLatLng(UPV));
     }
@@ -115,6 +133,8 @@ public class ForosActivity extends FragmentActivity implements
                 .icon(BitmapDescriptorFactory
                         .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
     }
+
+     */
 
     //==============================================================================================
     //Foto con ubicacion adjunta
@@ -180,7 +200,14 @@ public class ForosActivity extends FragmentActivity implements
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         //Log.d("Almacenamiento", "Fichero subido");
-
+                        LatLng ACTU = new LatLng(latitudeIni,longitudeIni);
+                        String la = String.valueOf(latitudeIni);
+                        String lo = String.valueOf(longitudeIni);
+                        mapa.addMarker(new MarkerOptions().position(ACTU)
+                                .icon(BitmapDescriptorFactory
+                                        .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
+                                .title(la + " , " + lo)
+                                .snippet("Residuo"));
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
