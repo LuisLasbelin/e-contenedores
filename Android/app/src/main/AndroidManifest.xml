@@ -37,8 +37,9 @@
         <activity android:name=".activity.ActividadConfirmarEditar"/>
         <activity android:name=".activity.ActividadCarga"
             android:label="Cargando..." />
-        <activity android:name=".activity.ForosActivity">
-        </activity>
+        <activity android:name=".activity.ForosActivity" />
+
+        <activity android:name=".activity.ActividadLogros" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="team1.1.recycle.fileProvider"

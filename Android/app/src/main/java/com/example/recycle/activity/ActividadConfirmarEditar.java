@@ -69,7 +69,6 @@ public class ActividadConfirmarEditar extends Activity implements LocationListen
     //Foto
     private Button añadirFoto;
     private Button borrarFoto;
-    final static int RESULTADO_BORRAR = 2;
     final static int RESULTADO_FOTO = 4;
     private Uri uriUltimaFoto;
     private ImageView fotoCubo;
@@ -91,6 +90,10 @@ public class ActividadConfirmarEditar extends Activity implements LocationListen
         fotoCubo = findViewById(R.id.fotoCubo);
         storageRef = FirebaseStorage.getInstance().getReference();
 
+        uriUltimaFoto = Uri.parse("");
+        direccionFoto = "";
+
+
         // Cogemos los datos del cubo y rellenamos las casillas
         db.collection("cubos").document(cuboID).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -106,6 +109,7 @@ public class ActividadConfirmarEditar extends Activity implements LocationListen
                         direccionFoto = uriUltimaFoto.getLastPathSegment();
                         Log.d("Fotos", direccionFoto);
                     }
+
                 }
             }
         });
@@ -117,7 +121,7 @@ public class ActividadConfirmarEditar extends Activity implements LocationListen
                 // Si el usuario no existe, tomamos su posicion actual y la guardamos como default
                 if(posicion != null) {
                     Map<String, Object> datos = new HashMap<>();
-                    datos.put("longud", posicion.getLongitude());
+                    datos.put("longitud", posicion.getLongitude());
                     datos.put("latitud", posicion.getLatitude());
                     db.collection("cubos").document(cuboID).update(datos);
                     Toast.makeText(getBaseContext(),"Se ha guardado la ubicacion con éxito", Toast.LENGTH_LONG).show();
@@ -298,3 +302,4 @@ public class ActividadConfirmarEditar extends Activity implements LocationListen
     }
 
 }
+
