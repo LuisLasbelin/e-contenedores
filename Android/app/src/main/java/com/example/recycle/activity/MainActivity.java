@@ -182,6 +182,11 @@ public class MainActivity extends AppCompatActivity implements
         startActivity(intent);
     }
 
+    public void lanzarLogros(View view) {
+        Intent intent = new Intent(this, ActividadLogros.class);
+        startActivity(intent);
+    }
+
     // MAPA
     public void mapTabLoaded(SupportMapFragment supportMapFragment) {
         // MAPA
