@@ -58,6 +58,8 @@ public class ForosActivity extends FragmentActivity implements
     public String lat;
     public String lon;
     private File file;
+    double latitude;
+    double longitude;
     public double latitudeIni;
     public double longitudeIni;
 
@@ -156,8 +158,8 @@ public class ForosActivity extends FragmentActivity implements
 
         gpsTracker = new GpsTracker(ForosActivity.this);
         if(gpsTracker.canGetLocation()){
-            double latitude = gpsTracker.getLatitude();
-            double longitude = gpsTracker.getLongitude();
+            latitude = gpsTracker.getLatitude();
+            longitude = gpsTracker.getLongitude();
             lat = String.valueOf(latitude);
             lon = String.valueOf(longitude);
 
@@ -200,9 +202,9 @@ public class ForosActivity extends FragmentActivity implements
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         //Log.d("Almacenamiento", "Fichero subido");
-                        LatLng ACTU = new LatLng(latitudeIni,longitudeIni);
-                        String la = String.valueOf(latitudeIni);
-                        String lo = String.valueOf(longitudeIni);
+                        LatLng ACTU = new LatLng(latitude,longitude);
+                        String la = String.valueOf(latitude);
+                        String lo = String.valueOf(longitude);
                         mapa.addMarker(new MarkerOptions().position(ACTU)
                                 .icon(BitmapDescriptorFactory
                                         .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
