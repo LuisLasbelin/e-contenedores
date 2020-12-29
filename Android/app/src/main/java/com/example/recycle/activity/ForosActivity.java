@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -13,12 +14,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -31,9 +36,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -44,10 +51,9 @@ import java.io.IOException;
 import static com.example.recycle.activity.ActividadConfirmarEditar.RESULTADO_FOTO;
 
 public class ForosActivity extends FragmentActivity implements
-        OnMapReadyCallback {
+        OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
     private GoogleMap mapa;
-
     private final LatLng UPV = new LatLng(39.481106, -0.340987);
     //Foto
     public Button añadirFoto;
@@ -62,6 +68,8 @@ public class ForosActivity extends FragmentActivity implements
     double longitude;
     public double latitudeIni;
     public double longitudeIni;
+    //Tarjeta de info
+    TextView markertxt;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +86,11 @@ public class ForosActivity extends FragmentActivity implements
         añadirFoto = findViewById(R.id.btn_tomarFoto);
         storageRef = FirebaseStorage.getInstance().getReference();
         //==========================================================================================
+        //Establecemos el layout y el boton por defecto
+        Button btnM = (Button) findViewById(R.id.btn_tomarFoto);
+        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.tarjetainfo);
+        layout.setVisibility(View.GONE);
+        btnM.setVisibility(View.VISIBLE);
     }
 
     @Override public void onMapReady(GoogleMap googleMap) {
@@ -101,14 +114,12 @@ public class ForosActivity extends FragmentActivity implements
         }
 
         LatLng ACTU = new LatLng(latitudeIni,longitudeIni);
-
-
         //Cuando el mapa este listo
         mapa = googleMap;
         mapa.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         mapa.getUiSettings().setZoomControlsEnabled(false);
         mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(ACTU, 15));
-        //mapa.setOnMapClickListener(this);
+        mapa.setOnMapClickListener(this);
         if (ActivityCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED) {
@@ -116,27 +127,6 @@ public class ForosActivity extends FragmentActivity implements
             mapa.getUiSettings().setCompassEnabled(true);
         }
     }
-
-    //==============================================================================================
-    //Utilidades
-    //==============================================================================================
-    /*
-    public void moveCamera(View view) {
-        mapa.moveCamera(CameraUpdateFactory.newLatLng(UPV));
-    }
-    public void animateCamera(View view) {
-        mapa.animateCamera(CameraUpdateFactory.newLatLng(UPV));
-    }
-    public void addMarker(View view) {
-        mapa.addMarker(new MarkerOptions().position(mapa.getCameraPosition().target));
-    }
-    @Override public void onMapClick(LatLng puntoPulsado) {
-        mapa.addMarker(new MarkerOptions().position(puntoPulsado)
-                .icon(BitmapDescriptorFactory
-                        .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
-    }
-
-     */
 
     //==============================================================================================
     //Foto con ubicacion adjunta
@@ -210,6 +200,28 @@ public class ForosActivity extends FragmentActivity implements
                                         .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
                                 .title(la + " , " + lo)
                                 .snippet("Residuo"));
+                        //==========================================================================================
+                        //OnClick en el marcador
+                        //==========================================================================================
+                        mapa.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                            @Override
+                            public boolean onMarkerClick(Marker marker) {
+
+                                //Al pulsar el boton mostramos la tarjeta y eliminamos el boton para hacer fotos
+                                Button btnM = (Button) findViewById(R.id.btn_tomarFoto);
+                                ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.tarjetainfo);
+                                layout.setVisibility(View.VISIBLE);
+                                btnM.setVisibility(View.GONE);
+                                
+                                //Luego tomamos el nombre del marcador para mostrarlo en la tarjeta
+
+                                markertxt = findViewById(R.id.marker);
+                                String markertitle = marker.getTitle();
+                                String title = markertitle ;
+                                markertxt.setText(title);
+                                return false;
+                            }
+                        });
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -219,4 +231,43 @@ public class ForosActivity extends FragmentActivity implements
                     }
                 });
     }
+    //==========================================================================================
+    //Funcion bajar foto para la tarjeta
+    //==========================================================================================
+    private void bajarFichero() {
+        File localFile = null;
+        try {
+            localFile = File.createTempFile("image", "jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        final String path = localFile.getAbsolutePath();
+        Log.d("Almacenamiento", "creando fichero: " + path);
+        StorageReference ficheroRef = storageRef.child("foro/"+ file.getName());
+        ficheroRef.getFile(localFile)
+                .addOnSuccessListener(new
+                                              OnSuccessListener<FileDownloadTask.TaskSnapshot>(){
+                                                  @Override
+                                                  public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot){
+                                                      Log.d("Almacenamiento", "Fichero bajado");
+                                                      ImageView imageView = findViewById(R.id.imageView);
+                                                      imageView.setImageBitmap(BitmapFactory.decodeFile(path));
+                                                  }
+                                              }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.e("Almacenamiento", "ERROR: bajando fichero");
+            }
+        });
+    }
+    //==========================================================================================
+    //Funcion onClick en el map
+    //==========================================================================================
+    @Override public void onMapClick(LatLng puntoPulsado) {
+        Button btnM = (Button) findViewById(R.id.btn_tomarFoto);
+        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.tarjetainfo);
+        layout.setVisibility(View.GONE);
+        btnM.setVisibility(View.VISIBLE);
+    }
+
 }
