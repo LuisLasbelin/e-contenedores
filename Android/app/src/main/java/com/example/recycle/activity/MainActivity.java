@@ -373,17 +373,23 @@ public class MainActivity extends AppCompatActivity implements
                                                                                 if(cubos.size() != 0) {
                                                                                     items = cubos.size();
                                                                                 }
+
                                                                                 RecyclerView recyclerView = MainActivity.this.recyclerView.findViewById(R.id.recyclerview);
                                                                                 recyclerView.removeAllViews();
                                                                                 recyclerView.setHasFixedSize(true);
                                                                                 recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this.recyclerView.getContext()));
                                                                                 recyclerView.setAdapter(new AdaptadorCubos(cubos, items, itemList, activity));
+
                                                                             }
                                                                         }
                                                                     });
-
                                                         }
                                                     }
+                                                    RecyclerView recyclerView = MainActivity.this.recyclerView.findViewById(R.id.recyclerview);
+                                                    recyclerView.removeAllViews();
+                                                    recyclerView.setHasFixedSize(true);
+                                                    recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this.recyclerView.getContext()));
+                                                    recyclerView.setAdapter(new AdaptadorCubos(cubos, items, itemList, activity));
 
                                                 }
                                             }
