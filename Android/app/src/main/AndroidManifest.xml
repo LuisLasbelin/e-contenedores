@@ -40,6 +40,7 @@
         <activity android:name=".activity.ForosActivity" />
         <activity android:name=".activity.ActividadLogros" />
         <activity android:name=".activity.ActividadClasificacion" />
+        <service android:name=".activity.ServicioLogros" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="team1.1.recycle.fileProvider"
