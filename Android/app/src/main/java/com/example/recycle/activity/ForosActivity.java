@@ -56,6 +56,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.recycle.activity.ActividadConfirmarEditar.RESULTADO_FOTO;
+import static com.example.recycle.activity.ServicioLogros.mandarNotificacion;
 
 public class ForosActivity extends FragmentActivity implements
         OnMapReadyCallback, GoogleMap.OnMapClickListener {
@@ -237,6 +238,7 @@ public class ForosActivity extends FragmentActivity implements
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 Map<String, Object> datos = new HashMap<>();
                                 datos.put("progreso", Integer.parseInt(task.getResult().get("progreso").toString()) + 1);
+                                mandarNotificacion(activity, getApplicationContext(),Integer.parseInt(task.getResult().get("progreso").toString()) + 1, 5, "Ciudadano ejemplar");
                                 db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("Ciudadano ejemplar")
                                         .update(datos);
                             }

@@ -46,6 +46,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.recycle.activity.ServicioLogros.mandarNotificacion;
+
 public class ActividadConfirmarEditar extends Activity implements LocationListener {
     // Firestore
     private FirebaseFirestore db = null;
@@ -128,6 +130,7 @@ public class ActividadConfirmarEditar extends Activity implements LocationListen
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             Map<String, Object> datos = new HashMap<>();
                             datos.put("progreso", Integer.parseInt(task.getResult().get("progreso").toString()) + 1);
+                            mandarNotificacion(activity, getApplicationContext(),Integer.parseInt(task.getResult().get("progreso").toString()) + 1, 1, "Usted está aquí");
                             db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("Usted está aquí")
                                     .update(datos);
                             Toast.makeText(getBaseContext(),"Se ha guardado la ubicacion con éxito", Toast.LENGTH_LONG).show();
@@ -155,6 +158,7 @@ public class ActividadConfirmarEditar extends Activity implements LocationListen
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         Map<String, Object> datos = new HashMap<>();
                         datos.put("progreso", Integer.parseInt(task.getResult().get("progreso").toString()) + 1);
+                        mandarNotificacion(activity, getApplicationContext(),Integer.parseInt(task.getResult().get("progreso").toString()) + 1, 1, "Esto es algo personal");
                         db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("Esto es algo personal")
                                 .update(datos);
 
@@ -165,6 +169,7 @@ public class ActividadConfirmarEditar extends Activity implements LocationListen
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                     Map<String, Object> datos = new HashMap<>();
                                     datos.put("progreso", Integer.parseInt(task.getResult().get("progreso").toString()) + 1);
+                                    mandarNotificacion(activity, getApplicationContext(),Integer.parseInt(task.getResult().get("progreso").toString()) + 1, 1, "Aquí, ReCycleando");
                                     db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("Aquí, ReCycleando")
                                             .update(datos);
                                 }

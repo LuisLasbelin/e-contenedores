@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -11,6 +12,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
@@ -58,6 +61,11 @@ import java.util.Map;
 
 import javax.net.ssl.SSLSession;
 
+import static com.example.recycle.activity.ServicioLogros.CANAL_ID;
+import static com.example.recycle.activity.ServicioLogros.NOTIFICACION_ID;
+import static com.example.recycle.activity.ServicioLogros.mandarNotificacion;
+import static com.example.recycle.activity.ServicioLogros.notificationManager;
+
 public class MainActivity extends AppCompatActivity implements
         OnMapReadyCallback {
 
@@ -92,8 +100,6 @@ public class MainActivity extends AppCompatActivity implements
     private ArrayList<String> idCubos = new ArrayList<String>();
     private int items = 0;
     private int itemList = 0;
-
-    final static int RESULTADO_EDITAR = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,6 +163,10 @@ public class MainActivity extends AppCompatActivity implements
         viewPager.setCurrentItem(1, false);
 
         viewPager.setUserInputEnabled(false);
+
+        startService(new Intent(MainActivity.this,
+                ServicioLogros.class));
+
     }
 
     public void onClickPerfil(View view) {
@@ -270,6 +280,7 @@ public class MainActivity extends AppCompatActivity implements
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     Map<String, Object> datos = new HashMap<>();
                     datos.put("progreso", Integer.parseInt(task.getResult().get("progreso").toString()) + 1);
+                    mandarNotificacion(activity, getApplicationContext(),Integer.parseInt(task.getResult().get("progreso").toString()) + 1, 1, "¿Dónde puedo reciclar?");
                     db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("¿Dónde puedo reciclar?")
                             .update(datos);
                 }
@@ -312,11 +323,12 @@ public class MainActivity extends AppCompatActivity implements
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                     Map<String, Object> datos = new HashMap<>();
                                     datos.put("progreso", Integer.parseInt(task.getResult().get("progreso").toString()) + 1);
+                                    mandarNotificacion(activity, getApplicationContext(),Integer.parseInt(task.getResult().get("progreso").toString()) + 1, 1, "Primera vez");
                                     db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("Primera vez")
                                             .update(datos);
                                 }
                             });
-                            break; 
+                            break;
                         }
                     }
                     if (i == length) {

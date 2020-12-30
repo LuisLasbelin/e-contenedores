@@ -1,5 +1,6 @@
 package com.example.recycle.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -23,6 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.recycle.activity.ServicioLogros.mandarNotificacion;
+
 public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 123;
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         if (usuario != null && usuario.isEmailVerified()) {
+            Activity activity = this;
 
             db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("Bienvenido")
                     .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -40,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     Map<String, Object> datos = new HashMap<>();
                     datos.put("progreso", Integer.parseInt(task.getResult().get("progreso").toString()) + 1);
+                    mandarNotificacion(activity, getApplicationContext(),Integer.parseInt(task.getResult().get("progreso").toString()) + 1, 1, "Bienvenido");
                     db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("Bienvenido")
                             .update(datos);
 
