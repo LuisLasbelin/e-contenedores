@@ -4,17 +4,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.recycle.R;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 123;
@@ -24,15 +31,27 @@ public class LoginActivity extends AppCompatActivity {
     }
     private void login() {
         FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
-
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         if (usuario != null && usuario.isEmailVerified()) {
-            Toast.makeText(this, "Has iniciado sesión: "+usuario.getDisplayName()+
-                    " - "+ usuario.getEmail(),Toast.LENGTH_LONG).show();
-            Intent i = new Intent(this, MainActivity.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    | Intent.FLAG_ACTIVITY_NEW_TASK
-                    | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(i);
+
+            db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("Bienvenido")
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    Map<String, Object> datos = new HashMap<>();
+                    datos.put("progreso", Integer.parseInt(task.getResult().get("progreso").toString()) + 1);
+                    db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("Bienvenido")
+                            .update(datos);
+
+                    Toast.makeText(getApplicationContext(), "Has iniciado sesión: "+usuario.getDisplayName()+
+                            " - "+ usuario.getEmail(),Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            | Intent.FLAG_ACTIVITY_NEW_TASK
+                            | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(i);
+                }
+            });
         } else {
             List<AuthUI.IdpConfig> providers = Arrays.asList(
                     new AuthUI.IdpConfig.EmailBuilder().build(),

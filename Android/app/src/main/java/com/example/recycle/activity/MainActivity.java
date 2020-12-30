@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements
                             datos.put("mail", usuario.getEmail());
                             datos.put("nombre", usuario.getDisplayName());
                             db.collection("usuarios").document(usuario.getEmail()).set(datos);
-
+                            //Añadimos la lista de logros con los progresos a 0
                             Map<String, Object> progresoInicial = new HashMap<>();
                             progresoInicial.put("progreso", 0);
                             db.collection("logros").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -139,7 +139,6 @@ public class MainActivity extends AppCompatActivity implements
                             }
                         }
                     });
-
         //Tabs
         //Pestañas
         ViewPager2 viewPager = findViewById(R.id.viewpager);
@@ -265,6 +264,16 @@ public class MainActivity extends AppCompatActivity implements
                                 .defaultMarker(BitmapDescriptorFactory.HUE_RED)))
                         .setTitle(cubo.getNombre());
             }
+            db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("¿Dónde puedo reciclar?")
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    Map<String, Object> datos = new HashMap<>();
+                    datos.put("progreso", Integer.parseInt(task.getResult().get("progreso").toString()) + 1);
+                    db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("¿Dónde puedo reciclar?")
+                            .update(datos);
+                }
+            });
 
         }
     }
@@ -297,7 +306,17 @@ public class MainActivity extends AppCompatActivity implements
                             // Se añade el ID del cubo al usuario
                             data.put("cubos", FieldValue.arrayUnion(result.getContents()));
                             db.collection("usuarios").document(mail).update(data);
-                            break;
+                            db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("Primera vez")
+                                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    Map<String, Object> datos = new HashMap<>();
+                                    datos.put("progreso", Integer.parseInt(task.getResult().get("progreso").toString()) + 1);
+                                    db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("Primera vez")
+                                            .update(datos);
+                                }
+                            });
+                            break; 
                         }
                     }
                     if (i == length) {

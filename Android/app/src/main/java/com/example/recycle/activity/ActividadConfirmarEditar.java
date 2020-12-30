@@ -93,7 +93,6 @@ public class ActividadConfirmarEditar extends Activity implements LocationListen
         uriUltimaFoto = Uri.parse("");
         direccionFoto = "";
 
-
         // Cogemos los datos del cubo y rellenamos las casillas
         db.collection("cubos").document(cuboID).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -104,12 +103,10 @@ public class ActividadConfirmarEditar extends Activity implements LocationListen
                     editTextNombre.setText(task.getResult().get("nombre").toString());
                     if (!task.getResult().get("foto").toString().equals("")) {
                         fotoCubo.setImageURI(Uri.parse(task.getResult().get("foto").toString()));
-
                         uriUltimaFoto = Uri.parse(task.getResult().get("foto").toString());
                         direccionFoto = uriUltimaFoto.getLastPathSegment();
                         Log.d("Fotos", direccionFoto);
                     }
-
                 }
             }
         });
@@ -124,7 +121,18 @@ public class ActividadConfirmarEditar extends Activity implements LocationListen
                     datos.put("longitud", posicion.getLongitude());
                     datos.put("latitud", posicion.getLatitude());
                     db.collection("cubos").document(cuboID).update(datos);
-                    Toast.makeText(getBaseContext(),"Se ha guardado la ubicacion con éxito", Toast.LENGTH_LONG).show();
+
+                    db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("Usted está aquí")
+                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            Map<String, Object> datos = new HashMap<>();
+                            datos.put("progreso", Integer.parseInt(task.getResult().get("progreso").toString()) + 1);
+                            db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("Usted está aquí")
+                                    .update(datos);
+                            Toast.makeText(getBaseContext(),"Se ha guardado la ubicacion con éxito", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 } else {
                     Toast.makeText(getBaseContext(), R.string.gps_off, Toast.LENGTH_LONG).show();
                 }
@@ -141,18 +149,38 @@ public class ActividadConfirmarEditar extends Activity implements LocationListen
                 nombre.put("nombre",nombreCubo);
                 nombre.put("foto", uriUltimaFoto.toString());
                 db.collection("cubos").document(cuboID).update(nombre);
-                Toast toast1 =
-                    Toast.makeText(getApplicationContext(),
-                    "Se han guardado los cambios", Toast.LENGTH_SHORT);
-                    toast1.show();
-                // reinicia main activity
-                Intent i = new Intent(activity, MainActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                activity.startActivity(i);
-                finish();
+                db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("Esto es algo personal")
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        Map<String, Object> datos = new HashMap<>();
+                        datos.put("progreso", Integer.parseInt(task.getResult().get("progreso").toString()) + 1);
+                        db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("Esto es algo personal")
+                                .update(datos);
+
+                        if (!uriUltimaFoto.equals("")) {
+                            db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("Aquí, ReCycleando")
+                                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    Map<String, Object> datos = new HashMap<>();
+                                    datos.put("progreso", Integer.parseInt(task.getResult().get("progreso").toString()) + 1);
+                                    db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("Aquí, ReCycleando")
+                                            .update(datos);
+                                }
+                            });
+                        }
+
+                        Toast.makeText(getApplicationContext(), "Se han guardado los cambios", Toast.LENGTH_SHORT).show();
+                        // reinicia main activity
+                        Intent i = new Intent(activity, MainActivity.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        activity.startActivity(i);
+                        finish();
+                    }
+                });
             }
         });
-
 
         // Asignamos un listener al boton añadir foto
         añadirFoto = findViewById(R.id.btn_anyadirFoto);
@@ -223,7 +251,8 @@ public class ActividadConfirmarEditar extends Activity implements LocationListen
                     public void onFailure(@NonNull Exception exception) {
                         //Error al subir el fichero
                         Log.d("Fotos", "no va");
-                    }});
+                    }
+                });
     }
 
     @Override
@@ -238,6 +267,7 @@ public class ActividadConfirmarEditar extends Activity implements LocationListen
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             //Log.d("Almacenamiento", "Fichero subido");
+
                             fotoCubo.setImageURI(uriUltimaFoto);
                         }
                     })

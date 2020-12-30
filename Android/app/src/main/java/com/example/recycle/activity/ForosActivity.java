@@ -38,8 +38,13 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -47,6 +52,8 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.recycle.activity.ActividadConfirmarEditar.RESULTADO_FOTO;
 
@@ -220,6 +227,18 @@ public class ForosActivity extends FragmentActivity implements
                                 String title = markertitle ;
                                 markertxt.setText(title);
                                 return false;
+                            }
+                        });
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                        db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("Ciudadano ejemplar")
+                                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                Map<String, Object> datos = new HashMap<>();
+                                datos.put("progreso", Integer.parseInt(task.getResult().get("progreso").toString()) + 1);
+                                db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("Ciudadano ejemplar")
+                                        .update(datos);
                             }
                         });
                     }
