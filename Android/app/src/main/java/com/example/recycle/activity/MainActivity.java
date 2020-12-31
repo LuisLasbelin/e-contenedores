@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
         lanzarCargar();
         activity = this;
-
+        Log.d("MiNombre", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
         // Firestore initialization
         db = FirebaseFirestore.getInstance();
         usuario = FirebaseAuth.getInstance().getCurrentUser();
@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements
                             datos.put("mail", usuario.getEmail());
                             datos.put("nombre", usuario.getDisplayName());
                             db.collection("usuarios").document(usuario.getEmail()).set(datos);
+
                             //Añadimos la lista de logros con los progresos a 0
                             Map<String, Object> progresoInicial = new HashMap<>();
                             progresoInicial.put("progreso", 0);
@@ -140,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements
                                     }
                                 }
                             });
+
                         } else {
                             Log.d("Firestore", "datos:" + snapshot.getData());
                             }
@@ -169,6 +171,13 @@ public class MainActivity extends AppCompatActivity implements
     public void onClickPerfil(View view) {
 
         Intent intent = new Intent(this, UsuarioActivity.class);
+        startActivity(intent);
+
+    }
+
+    public void onClickCalculadora(View view) {
+
+        Intent intent = new Intent(this, CalculadoraDeCarbonoActivity.class);
         startActivity(intent);
 
     }
@@ -472,12 +481,15 @@ public class MainActivity extends AppCompatActivity implements
         Intent i = new Intent(this, ActividadConfirmarBorrar.class);
         startActivity(i);
     }
+
     public void lanzarConfirmarEditar(View view){
         Intent i = new Intent(this, ActividadConfirmarEditar.class);
         startActivity(i);
     }
+
     public void lanzarCargar(){
         Intent i = new Intent(this, ActividadCarga.class);
         startActivity(i);
     }
+
 }

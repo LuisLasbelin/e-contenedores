@@ -29,6 +29,8 @@
 
         <activity android:name=".activity.UsuarioActivity">
         </activity>
+        <activity android:name=".activity.CalculadoraDeCarbonoActivity">
+        </activity>
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
         <activity android:name=".activity.ActividadConfirmarBorrar"
@@ -39,7 +41,11 @@
             android:label="Cargando..." />
         <activity android:name=".activity.ForosActivity" />
         <activity android:name=".activity.ActividadLogros" />
+        <service android:name=".activity.ServicioLogros" />
         <activity android:name=".activity.ActividadClasificacion" />
+        <activity android:name=".activity.AyudaCalculadora"
+            android:label=""
+            android:theme="@style/Theme.AppCompat.Light.Dialog.MinWidth"/>
         <service android:name=".activity.ServicioLogros" />
         <provider
             android:name="androidx.core.content.FileProvider"
