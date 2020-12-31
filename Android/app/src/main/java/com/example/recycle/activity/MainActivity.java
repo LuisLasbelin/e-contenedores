@@ -164,9 +164,6 @@ public class MainActivity extends AppCompatActivity implements
 
         viewPager.setUserInputEnabled(false);
 
-        startService(new Intent(MainActivity.this,
-                ServicioLogros.class));
-
     }
 
     public void onClickPerfil(View view) {
@@ -274,6 +271,44 @@ public class MainActivity extends AppCompatActivity implements
                                 .defaultMarker(BitmapDescriptorFactory.HUE_RED)))
                         .setTitle(cubo.getNombre());
             }
+
+            db.collection("contenedores").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    for(DocumentSnapshot contenedor : task.getResult().getDocuments()) {
+
+                        switch (contenedor.getString("tipo")) {
+                            case "orgánico":
+                                map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
+                                        .icon(BitmapDescriptorFactory
+                                                .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)))
+                                        .setTitle("orgánico");
+                                break;
+                            case "plástico":
+                                map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
+                                        .icon(BitmapDescriptorFactory
+                                                .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)))
+                                        .setTitle("plástico");
+                                break;
+                            case "cartón":
+                                map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
+                                        .icon(BitmapDescriptorFactory
+                                                .defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))
+                                        .setTitle("cartón");
+                                break;
+                            case "vidrio":
+                                map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
+                                        .icon(BitmapDescriptorFactory
+                                                .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)))
+                                        .setTitle("vidrio");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            });
+
             db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("¿Dónde puedo reciclar?")
                     .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
