@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements
                             db.collection("usuarios").document(usuario.getEmail()).set(datos);
 
                             //Añadimos la lista de logros con los progresos a 0
-                            Map<String, Object> progresoInicial = new HashMap<>();
+                            final Map<String, Object> progresoInicial = new HashMap<>();
                             progresoInicial.put("progreso", 0);
                             db.collection("logros").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                 @Override
