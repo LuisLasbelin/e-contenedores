@@ -46,6 +46,7 @@
         <activity android:name=".activity.AyudaCalculadora"
             android:label=""
             android:theme="@style/Theme.AppCompat.Light.Dialog.MinWidth"/>
+        <service android:name=".activity.ServicioLogros" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="team1.1.recycle.fileProvider"
