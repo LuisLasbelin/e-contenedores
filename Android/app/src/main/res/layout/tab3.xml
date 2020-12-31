@@ -196,4 +196,20 @@
         app:layout_constraintStart_toStartOf="@+id/btn_perfil6"
         app:layout_constraintTop_toBottomOf="@+id/btn_perfil6" />
 
+    <Button
+        android:id="@+id/btn_contenedores"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawablePadding="7dp"
+        android:onClick="lanzarAñadirContenedores"
+        android:padding="10dp"
+        android:text="AÑADIR CONTENEDORES, BORRAR LUEGO"
+        android:textAlignment="viewStart"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="@+id/btn_perfil6"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/btn_perfil6"
+        app:layout_constraintTop_toBottomOf="@+id/btn_calculadora" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

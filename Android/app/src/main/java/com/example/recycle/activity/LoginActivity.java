@@ -35,10 +35,10 @@ public class LoginActivity extends AppCompatActivity {
         login();
     }
     private void login() {
-        FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
         if (usuario != null && usuario.isEmailVerified()) {
-            Activity activity = this;
+            final Activity activity = this;
 
             db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("Bienvenido")
                     .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

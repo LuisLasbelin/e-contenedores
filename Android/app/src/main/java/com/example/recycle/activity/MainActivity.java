@@ -280,6 +280,7 @@ public class MainActivity extends AppCompatActivity implements
                                 .defaultMarker(BitmapDescriptorFactory.HUE_RED)))
                         .setTitle(cubo.getNombre());
             }
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 18));
 
             db.collection("contenedores").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
@@ -492,4 +493,9 @@ public class MainActivity extends AppCompatActivity implements
         startActivity(i);
     }
 
+    //TODO: Borrar luego, SOLO PARA LA VERSIÓN DE ADMIN, el botón está en tab3.xml
+    public void lanzarAñadirContenedores(View view) {
+        Intent i = new Intent(this, ActividadContenedoresCalle.class);
+        startActivity(i);
+    }
 }
