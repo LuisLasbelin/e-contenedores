@@ -17,4 +17,11 @@
     <string name="guardar">Guardar</string>
     <string name="cubo_eliminado">Cubo eliminado del usuario</string>
 
+    <string-array name="tipos">
+        <item>orgánico</item>
+        <item>plástico</item>
+        <item>vidrio</item>
+        <item>cartón</item>
+    </string-array>
+
 </resources>
