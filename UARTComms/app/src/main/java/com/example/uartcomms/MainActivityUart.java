@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivityUart extends Activity implements MqttCallback
@@ -41,7 +42,14 @@ public class MainActivityUart extends Activity implements MqttCallback
     private FirebaseFirestore db = null;
 
     private static final String BOTON_PIN = "BCM21"; //Puerto GPIO
+    private static final String LED_PIN = "BCM17"; //Puerto GPIO
     private Gpio botonGpio;
+    private Gpio ledGpio;
+
+    private int totalData = 4;
+    private String medidaID;
+    private long hora;
+    Map<String, Object> datos = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +64,14 @@ public class MainActivityUart extends Activity implements MqttCallback
             botonGpio.setEdgeTriggerType(Gpio.EDGE_RISING);
             // 3. Habilita eventos de disparo por ambos flancos
             botonGpio.registerGpioCallback(null, callback); //registra callback
+        } catch (IOException e) {
+            Log.e("GPIO", "Error en PeripheralIO API", e);
+        }
+
+        try {
+            ledGpio = manager.openGpio(LED_PIN); //crea conexión
+            ledGpio.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW);//es entrada
+            ledGpio.setActiveType(Gpio.ACTIVE_HIGH);
         } catch (IOException e) {
             Log.e("GPIO", "Error en PeripheralIO API", e);
         }
@@ -78,9 +94,11 @@ public class MainActivityUart extends Activity implements MqttCallback
                 e.printStackTrace();
             }
             try {
+                ledGpio.setValue(true);
                 // Tiempo hasta la siguiente posible interrupcion
-                TimeUnit.MINUTES.sleep(1);
-            } catch (InterruptedException e) {
+                TimeUnit.SECONDS.sleep(15);
+                ledGpio.setValue(false);
+            } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }
             return true; // 5. devolvemos true para mantener callback activo
@@ -133,35 +151,46 @@ public class MainActivityUart extends Activity implements MqttCallback
         db = FirebaseFirestore.getInstance();
         String datoCortado[];
         datoCortado = payload.split("-");
-        Map<String, Object> datos = new HashMap<>();
 
         // Coloca los datos recibidos en el objeto datos
-        if(datoCortado[2].equals("CuboVidrio")){
-            datos.put("vidrio", payload);
+        if(datoCortado[1].equals("CuboVidrio")){
+            datos.put("vidrio", datoCortado[2]);
         }
-        else if(datoCortado[2].equals("CuboOrganico")){
-            datos.put("organico", payload);
+        else if(datoCortado[1].equals("CuboOrganico")){
+            datos.put("organico", datoCortado[2]);
         }
-        else if(datoCortado[2].equals("CuboPlastico")){
-            datos.put("plastico", payload);
+        else if(datoCortado[1].equals("CuboPlastico")){
+            datos.put("plastico", datoCortado[2]);
         }
-        else if(datoCortado[2].equals("CuboCarton")){
-            datos.put("carton", payload);
+        else if(datoCortado[1].equals("CuboCarton")){
+            datos.put("carton", datoCortado[2]);
         }
 
+        // Comprobamos que se hayan enviado 4 datos antes de cambiar de bloque de medidas y tiempo
+        if(datos.size() == 4) {
+            hora = System.currentTimeMillis();
+            datos.put("hora", hora);
+            SubirDatos();
+        }
+
+    }
+
+    public void SubirDatos() {
         // Sube los datos al Firebase
-        db.collection("cubos").document()
-                .update(datos)
+        db.collection("cubos").document(id).collection("medidas").document(String.valueOf(UUID.randomUUID()))
+                .set(datos)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("Firestore", "DocumentSnapshot successfully written!");
+                        datos.clear();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w("Firestore", "Error writing document", e);
+                        datos.clear();
                     }
                 });
     }
