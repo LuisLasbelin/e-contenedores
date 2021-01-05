@@ -28,6 +28,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.recycle.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -45,8 +46,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -67,6 +71,7 @@ public class ForosActivity extends FragmentActivity implements
     public Button añadirFoto;
     Activity activity = null;
     private StorageReference storageRef;
+    public String nombreDeLaFoto;
     //Ubicacion
     private GpsTracker gpsTracker;
     public String lat;
@@ -78,6 +83,11 @@ public class ForosActivity extends FragmentActivity implements
     public double longitudeIni;
     //Tarjeta de info
     TextView markertxt;
+    //==========================================================================================
+    //Definimos firestore
+    //==========================================================================================
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    Map<String, Object> datos = new HashMap<>();
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +109,7 @@ public class ForosActivity extends FragmentActivity implements
         ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.tarjetainfo);
         layout.setVisibility(View.GONE);
         btnM.setVisibility(View.VISIBLE);
+
     }
 
     @Override public void onMapReady(GoogleMap googleMap) {
@@ -134,6 +145,7 @@ public class ForosActivity extends FragmentActivity implements
             mapa.setMyLocationEnabled(true);
             mapa.getUiSettings().setCompassEnabled(true);
         }
+        descargarTodosLosDatos();
     }
 
     //==============================================================================================
@@ -160,7 +172,7 @@ public class ForosActivity extends FragmentActivity implements
             longitude = gpsTracker.getLongitude();
             lat = String.valueOf(latitude);
             lon = String.valueOf(longitude);
-
+            Log.e("longitude",lon);
         }else{
             gpsTracker.showSettingsAlert();
         }
@@ -174,8 +186,9 @@ public class ForosActivity extends FragmentActivity implements
             try {
                 file = File.createTempFile(lat + "," + lon, ".jpg" ,
                         activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES));
-
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+
                 if (Build.VERSION.SDK_INT >= 24) {
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(
                             activity, "team1.1.recycle.fileProvider", file));
@@ -193,7 +206,10 @@ public class ForosActivity extends FragmentActivity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        nombreDeLaFoto = file.getName();
+        //==========================================================================================
+        //Definimos Storage
+        //==========================================================================================
         StorageReference ficheroRef = storageRef.child("foro/"+ file.getName());
         ficheroRef.putFile(Uri.fromFile(file))
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>(){
@@ -208,6 +224,15 @@ public class ForosActivity extends FragmentActivity implements
                                         .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
                                 .title(la + " , " + lo)
                                 .snippet("Residuo"));
+
+                        //==================================================================================
+                        //Subimos a firestore la foto
+                        //==================================================================================
+                        datos.put("lat", lat);
+                        datos.put("long", lon);
+                        datos.put("nombre",nombreDeLaFoto);
+                        db.collection("foros").document(nombreDeLaFoto).set(datos);
+
                         //==========================================================================================
                         //OnClick en el marcador
                         //==========================================================================================
@@ -227,6 +252,7 @@ public class ForosActivity extends FragmentActivity implements
                                 String markertitle = marker.getTitle();
                                 String title = markertitle ;
                                 markertxt.setText(title);
+                                bajarFichero(title);
                                 return false;
                             }
                         });
@@ -255,7 +281,7 @@ public class ForosActivity extends FragmentActivity implements
     //==========================================================================================
     //Funcion bajar foto para la tarjeta
     //==========================================================================================
-    private void bajarFichero() {
+    private void bajarFichero(String nombre) {
         File localFile = null;
         try {
             localFile = File.createTempFile("image", "jpg");
@@ -281,14 +307,122 @@ public class ForosActivity extends FragmentActivity implements
             }
         });
     }
-    //==========================================================================================
+    //==============================================================================================
     //Funcion onClick en el map
-    //==========================================================================================
+    //==============================================================================================
     @Override public void onMapClick(LatLng puntoPulsado) {
         Button btnM = (Button) findViewById(R.id.btn_tomarFoto);
         ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.tarjetainfo);
         layout.setVisibility(View.GONE);
         btnM.setVisibility(View.VISIBLE);
     }
+
+    public void bajarFicherosCreados(String nombre){
+        File localFile = null;
+        try {
+            localFile = File.createTempFile("image", "jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        final String path = localFile.getAbsolutePath();
+        Log.d("Almacenamiento", "creando fichero: " + path);
+        StorageReference ficheroRef = storageRef.child("foro/"+ nombre);
+        ficheroRef.getFile(localFile)
+                .addOnSuccessListener(new
+                                              OnSuccessListener<FileDownloadTask.TaskSnapshot>(){
+                                                  @Override
+                                                  public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot){
+                                                      Log.d("Almacenamiento", "Fichero bajado");
+                                                      ImageView imageView = findViewById(R.id.imageView);
+                                                      imageView.setImageBitmap(BitmapFactory.decodeFile(path));
+                                                  }
+                                              }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.e("Almacenamiento", "ERROR: bajando fichero");
+            }
+        });
+    }
+
+    public void descargarTodosLosDatos(){
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> datos = new HashMap<>();
+
+        //==========================================================================================
+        //Tomo datos del firebase
+        //==========================================================================================
+        //final FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
+        db.collection("foros")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            String nombreMarkerS;
+                            String nombreMarker;
+                            LatLng posMarker;
+                            String latiMarkerString;
+                            String longMarkerString;
+                            String[] parts;
+                            double latiMarker;
+                            double longMarker;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                Log.e("M", document.getId() + " => " + document.getData());
+
+                                nombreMarkerS = document.getString("nombre");
+
+                                nombreMarker = nombreMarkerS.replace(".jpg","");
+
+                                parts = nombreMarker.split(",");
+
+                                latiMarkerString = parts[0];
+
+                                longMarkerString = parts[1];
+
+                                latiMarker = Double.parseDouble(latiMarkerString);
+
+                                longMarker = Double.parseDouble(longMarkerString);
+
+                                posMarker = new LatLng(latiMarker,longMarker);
+
+                                //Log.e("M", nombreUsuario);
+
+                                mapa.addMarker(new MarkerOptions().position(posMarker)
+                                        .icon(BitmapDescriptorFactory
+                                                .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
+                                        .title(nombreMarkerS)
+                                        .snippet("Residuo"));
+
+                            }
+
+                        } else {
+                            Log.d("M", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+        mapa.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                //Al pulsar el boton mostramos la tarjeta y eliminamos el boton para hacer fotos
+                Button btnM = (Button) findViewById(R.id.btn_tomarFoto);
+                ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.tarjetainfo);
+                layout.setVisibility(View.VISIBLE);
+                btnM.setVisibility(View.GONE);
+
+                //Luego tomamos el nombre del marcador para mostrarlo en la tarjeta
+
+                markertxt = findViewById(R.id.marker);
+                String markertitle = marker.getTitle();
+                String title = markertitle ;
+                markertxt.setText(title);
+                bajarFicherosCreados(title);
+                return false;
+            }
+        });
+    }
+
 
 }
