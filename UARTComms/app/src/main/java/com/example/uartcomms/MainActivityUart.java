@@ -152,18 +152,19 @@ public class MainActivityUart extends Activity implements MqttCallback
         String datoCortado[];
         datoCortado = payload.split("-");
 
-        // Coloca los datos recibidos en el objeto datos
-        if(datoCortado[1].equals("CuboVidrio")){
-            datos.put("vidrio", datoCortado[2]);
-        }
-        else if(datoCortado[1].equals("CuboOrganico")){
-            datos.put("organico", datoCortado[2]);
-        }
-        else if(datoCortado[1].equals("CuboPlastico")){
-            datos.put("plastico", datoCortado[2]);
-        }
-        else if(datoCortado[1].equals("CuboCarton")){
-            datos.put("carton", datoCortado[2]);
+        switch(datoCortado[1]) {
+            case "CuboVidrio" :
+                datos.put("vidrio", datoCortado[2]);
+                break;
+            case "CuboPlastico" :
+                datos.put("plastico", datoCortado[2]);
+                break;
+            case "CuboOrganico" :
+                datos.put("organico", datoCortado[2]);
+                break;
+            case "CuboCarton" :
+                datos.put("carton", datoCortado[2]);
+                break;
         }
 
         // Comprobamos que se hayan enviado 4 datos antes de cambiar de bloque de medidas y tiempo
