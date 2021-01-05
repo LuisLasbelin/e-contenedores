@@ -215,8 +215,11 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                 List<Entry> organicoList = new ArrayList<>();
                 List<Entry> cartonList = new ArrayList<>();
                 // Se busca cada dato dentro de cada medida
+                // Se eligen solo las de la última semana
+                long ultimaSemana = (System.currentTimeMillis() - 604800017);
                 for (Map<String, Object> medida: medidas) {
                     for (String medidaInterna : medida.keySet()) {
+                        if((long) medida.get("hora") > ultimaSemana)
                         switch (medidaInterna) {
                             case "organico":
                                 organicoList.add(new Entry(Float.parseFloat(String.valueOf(medida.get("hora")))/1000000, Float.parseFloat((String) medida.get(medidaInterna))));
@@ -269,7 +272,7 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                 holder.getLineChart().setDrawGridBackground(false);
                 holder.getLineChart().setDoubleTapToZoomEnabled(false);
                 holder.getLineChart().setPinchZoom(false);
-                holder.getLineChart().setScaleEnabled(false);
+                holder.getLineChart().setScaleEnabled(true);
                 holder.getLineChart().getXAxis().setDrawLabels(false);
                 holder.getLineChart().invalidate(); // refresh
 
