@@ -28,15 +28,13 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static java.lang.Integer.parseInt;
@@ -112,40 +110,34 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                 long reciente = 0;
                 // Se busca cada dato dentro de cada medida
                 for (Map<String, Object> medida: medidas) {
-                    for (String item : medida.keySet()) {
-                        // item es el nombre de la medida, es decir la fecha
-                        if(Long.parseLong((String) item) > reciente) {
-                            reciente = Long.parseLong((String) item);
-                        }
-
+                    // item es el nombre de la medida, es decir la fecha
+                    if(Long.parseLong(String.valueOf(medida.get("hora"))) > reciente) {
+                        reciente = Long.parseLong(String.valueOf(medida.get("hora")));
                     }
                 }
 
                 // Se busca cada dato dentro de cada medida
                 for (Map<String, Object> medida: medidas) {
-                    for (String item: medida.keySet()) {
-                        Map<String, Object> values = (Map<String, Object>) medida.get(item);
-                        long fecha = Long.parseLong((String) item);
-                        if(fecha == reciente) {
-                            for (String medidaInterna : values.keySet()) {
-                                switch (medidaInterna) {
-                                    case "organico":
-                                        barMeasures.add(new BarEntry(0f, parseInt((String) values.get(medidaInterna))));
-                                        avisoVolumen(parseInt((String) values.get(medidaInterna)));
-                                        break;
-                                    case "carton":
-                                        barMeasures.add(new BarEntry(1f, parseInt((String) values.get(medidaInterna))));
-                                        avisoVolumen(parseInt((String) values.get(medidaInterna)));
-                                        break;
-                                    case "vidrio":
-                                        barMeasures.add(new BarEntry(2f, parseInt((String) values.get(medidaInterna))));
-                                        avisoVolumen(parseInt((String) values.get(medidaInterna)));
-                                        break;
-                                    case "plastico":
-                                        barMeasures.add(new BarEntry(3f, parseInt((String) values.get(medidaInterna))));
-                                        avisoVolumen(parseInt((String) values.get(medidaInterna)));
-                                        break;
-                                }
+                    long fecha = Long.parseLong(String.valueOf(medida.get("hora")));
+                    if(fecha == reciente) {
+                        for (String medidaInterna : medida.keySet()) {
+                            switch (medidaInterna) {
+                                case "organico":
+                                    barMeasures.add(new BarEntry(0f, Float.parseFloat((String) medida.get(medidaInterna))));
+                                    avisoVolumen(Float.parseFloat((String) medida.get(medidaInterna)));
+                                    break;
+                                case "carton":
+                                    barMeasures.add(new BarEntry(1f, Float.parseFloat((String) medida.get(medidaInterna))));
+                                    avisoVolumen(Float.parseFloat((String) medida.get(medidaInterna)));
+                                    break;
+                                case "vidrio":
+                                    barMeasures.add(new BarEntry(2f, Float.parseFloat((String) medida.get(medidaInterna))));
+                                    avisoVolumen(Float.parseFloat((String) medida.get(medidaInterna)));
+                                    break;
+                                case "plastico":
+                                    barMeasures.add(new BarEntry(3f, Float.parseFloat((String) medida.get(medidaInterna))));
+                                    avisoVolumen(Float.parseFloat((String) medida.get(medidaInterna)));
+                                    break;
                             }
                         }
                     }
@@ -224,23 +216,20 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
                 List<Entry> cartonList = new ArrayList<>();
                 // Se busca cada dato dentro de cada medida
                 for (Map<String, Object> medida: medidas) {
-                    for (String item: medida.keySet()) {
-                        Map<String, Object> values = (Map<String, Object>) medida.get(item);
-                        for (String medidaInterna : values.keySet()) {
-                            switch (medidaInterna) {
-                                case "organico":
-                                    organicoList.add(new Entry(Float.parseFloat((String) item)/1000000, Float.parseFloat((String) values.get(medidaInterna))));
-                                    break;
-                                case "carton":
-                                    cartonList.add(new Entry(Float.parseFloat((String) item)/1000000, Float.parseFloat((String) values.get(medidaInterna))));
-                                    break;
-                                case "vidrio":
-                                    vidrioList.add(new Entry(Float.parseFloat((String) item)/1000000, Float.parseFloat((String) values.get(medidaInterna))));
-                                    break;
-                                case "plastico":
-                                    plasticoList.add(new Entry(Float.parseFloat((String) item)/1000000, Float.parseFloat((String) values.get(medidaInterna))));
-                                    break;
-                            }
+                    for (String medidaInterna : medida.keySet()) {
+                        switch (medidaInterna) {
+                            case "organico":
+                                organicoList.add(new Entry(Float.parseFloat(String.valueOf(medida.get("hora")))/1000000, Float.parseFloat((String) medida.get(medidaInterna))));
+                                break;
+                            case "carton":
+                                cartonList.add(new Entry(Float.parseFloat(String.valueOf(medida.get("hora")))/1000000, Float.parseFloat((String) medida.get(medidaInterna))));
+                                break;
+                            case "vidrio":
+                                vidrioList.add(new Entry(Float.parseFloat(String.valueOf(medida.get("hora")))/1000000, Float.parseFloat((String) medida.get(medidaInterna))));
+                                break;
+                            case "plastico":
+                                plasticoList.add(new Entry(Float.parseFloat(String.valueOf(medida.get("hora")))/1000000, Float.parseFloat((String) medida.get(medidaInterna))));
+                                break;
                         }
                     }
                 }
@@ -335,7 +324,7 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
         return items;
     }
 
-    public void avisoVolumen(Integer value) {
+    public void avisoVolumen(Float value) {
         // Cuando el valor es 100 y no se ha enviado una notificacion antes de esta para evitar repetir
         if(value >= 100 && !notificacionEnviada) {
             NotificationManager notificationManager = (NotificationManager) activity.getSystemService(NOTIFICATION_SERVICE);
