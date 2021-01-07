@@ -12,7 +12,10 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -222,7 +225,7 @@ public class ForosActivity extends FragmentActivity implements
                         mapa.addMarker(new MarkerOptions().position(ACTU)
                                 .icon(BitmapDescriptorFactory
                                         .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
-                                .title(la + " , " + lo)
+                                .title(nombreDeLaFoto)
                                 .snippet("Residuo"));
 
                         //==================================================================================
@@ -243,11 +246,21 @@ public class ForosActivity extends FragmentActivity implements
                                 //Al pulsar el boton mostramos la tarjeta y eliminamos el boton para hacer fotos
                                 Button btnM = (Button) findViewById(R.id.btn_tomarFoto);
                                 ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.tarjetainfo);
+                                ConstraintLayout layoutPantallaCargaFoto = (ConstraintLayout) findViewById(R.id.pantallaCargaFoto);
                                 layout.setVisibility(View.VISIBLE);
                                 btnM.setVisibility(View.GONE);
-                                
-                                //Luego tomamos el nombre del marcador para mostrarlo en la tarjeta
+                                //Ponemos una pequeña pantalla de carga para que la foto no aparezca de repente
+                                new CountDownTimer(1000, 1000) {
 
+                                    public void onTick(long millisUntilFinished) {
+                                        layoutPantallaCargaFoto.setVisibility(View.VISIBLE);
+                                    }
+
+                                    public void onFinish() {
+                                        layoutPantallaCargaFoto.setVisibility(View.GONE);
+                                    }
+                                }.start();
+                                //Luego tomamos el nombre del marcador para mostrarlo en la tarjeta
                                 markertxt = findViewById(R.id.marker);
                                 String markertitle = marker.getTitle();
                                 String title = markertitle ;
@@ -278,6 +291,17 @@ public class ForosActivity extends FragmentActivity implements
                     }
                 });
     }
+    //==============================================================================================
+    //Funcion onClick en el map
+    //==============================================================================================
+    @Override public void onMapClick(LatLng puntoPulsado) {
+        Button btnM = (Button) findViewById(R.id.btn_tomarFoto);
+        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.tarjetainfo);
+        ConstraintLayout layoutPantallaCargaFoto = (ConstraintLayout) findViewById(R.id.pantallaCargaFoto);
+        layout.setVisibility(View.GONE);
+        layoutPantallaCargaFoto.setVisibility(View.GONE);
+        btnM.setVisibility(View.VISIBLE);
+    }
     //==========================================================================================
     //Funcion bajar foto para la tarjeta
     //==========================================================================================
@@ -290,7 +314,7 @@ public class ForosActivity extends FragmentActivity implements
         }
         final String path = localFile.getAbsolutePath();
         Log.d("Almacenamiento", "creando fichero: " + path);
-        StorageReference ficheroRef = storageRef.child("foro/"+ file.getName());
+        StorageReference ficheroRef = storageRef.child("foro/"+ nombre);
         ficheroRef.getFile(localFile)
                 .addOnSuccessListener(new
                                               OnSuccessListener<FileDownloadTask.TaskSnapshot>(){
@@ -306,15 +330,6 @@ public class ForosActivity extends FragmentActivity implements
                 Log.e("Almacenamiento", "ERROR: bajando fichero");
             }
         });
-    }
-    //==============================================================================================
-    //Funcion onClick en el map
-    //==============================================================================================
-    @Override public void onMapClick(LatLng puntoPulsado) {
-        Button btnM = (Button) findViewById(R.id.btn_tomarFoto);
-        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.tarjetainfo);
-        layout.setVisibility(View.GONE);
-        btnM.setVisibility(View.VISIBLE);
     }
 
     public void bajarFicherosCreados(String nombre){
@@ -409,11 +424,23 @@ public class ForosActivity extends FragmentActivity implements
                 //Al pulsar el boton mostramos la tarjeta y eliminamos el boton para hacer fotos
                 Button btnM = (Button) findViewById(R.id.btn_tomarFoto);
                 ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.tarjetainfo);
+                ConstraintLayout layoutPantallaCargaFoto = (ConstraintLayout) findViewById(R.id.pantallaCargaFoto);
+
                 layout.setVisibility(View.VISIBLE);
                 btnM.setVisibility(View.GONE);
 
-                //Luego tomamos el nombre del marcador para mostrarlo en la tarjeta
+                //Ponemos una pequeña pantalla de carga para que la foto no aparezca de repente
+                new CountDownTimer(1000, 1000) {
 
+                    public void onTick(long millisUntilFinished) {
+                        layoutPantallaCargaFoto.setVisibility(View.VISIBLE);
+                    }
+
+                    public void onFinish() {
+                        layoutPantallaCargaFoto.setVisibility(View.GONE);
+                    }
+                }.start();
+                //Luego tomamos el nombre del marcador para mostrarlo en la tarjeta
                 markertxt = findViewById(R.id.marker);
                 String markertitle = marker.getTitle();
                 String title = markertitle ;
