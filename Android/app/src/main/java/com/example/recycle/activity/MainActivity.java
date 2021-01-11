@@ -318,6 +318,12 @@ public class MainActivity extends AppCompatActivity implements
                                                 .defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)))
                                         .setTitle("Punto limpio");
                                 break;
+                            case "ropa":
+                                map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
+                                        .icon(BitmapDescriptorFactory
+                                                .defaultMarker(BitmapDescriptorFactory.HUE_ROSE)))
+                                        .setTitle("Ropa");
+                                break;
                             default:
                                 break;
                         }
