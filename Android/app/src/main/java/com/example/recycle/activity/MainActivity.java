@@ -292,25 +292,31 @@ public class MainActivity extends AppCompatActivity implements
                                 map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
                                         .icon(BitmapDescriptorFactory
                                                 .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)))
-                                        .setTitle("orgánico");
+                                        .setTitle("Orgánico");
                                 break;
                             case "plástico":
                                 map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
                                         .icon(BitmapDescriptorFactory
                                                 .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)))
-                                        .setTitle("plástico");
+                                        .setTitle("Plástico");
                                 break;
                             case "cartón":
                                 map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
                                         .icon(BitmapDescriptorFactory
                                                 .defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))
-                                        .setTitle("cartón");
+                                        .setTitle("Cartón");
                                 break;
                             case "vidrio":
                                 map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
                                         .icon(BitmapDescriptorFactory
                                                 .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)))
-                                        .setTitle("vidrio");
+                                        .setTitle("Vidrio");
+                                break;
+                            case "punto limpio":
+                                map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
+                                        .icon(BitmapDescriptorFactory
+                                                .defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)))
+                                        .setTitle("Punto limpio");
                                 break;
                             default:
                                 break;
