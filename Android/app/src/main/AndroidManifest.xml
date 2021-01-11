@@ -43,6 +43,7 @@
         <activity android:name=".activity.ActividadLogros" />
         <service android:name=".activity.ServicioLogros" />
         <activity android:name=".activity.ActividadClasificacion" />
+        <activity android:name=".activity.ActividadContenedoresCalle" />
         <activity android:name=".activity.AyudaCalculadora"
             android:label=""
             android:theme="@style/Theme.AppCompat.Light.Dialog.MinWidth"/>
