@@ -44,10 +44,20 @@ public class ActividadContenedoresCalle extends Activity {
                 final TextView latitud, longitud;
                 latitud = findViewById(R.id.latitudContenedor);
                 longitud = findViewById(R.id.longitudContenedor);
-                if (!Double.isNaN(Double.parseDouble(latitud.getText().toString())) && !Double.isNaN(Double.parseDouble(longitud.getText().toString()))) {
+                String lat, lng;
+                lat = latitud.getText().toString();
+                lng = longitud.getText().toString();
+
+                if (lat.contains(",")) {
+                    lat = lat.replace(",",".");
+                }
+                if (lng.contains(",")) {
+                    lng = lng.replace(",",".");
+                }
+                if (!Double.isNaN(Double.parseDouble(lat)) && !Double.isNaN(Double.parseDouble(lng))) {
                     Map<String, Object> datos = new HashMap<>();
-                    datos.put("latitud", Double.parseDouble(latitud.getText().toString()));
-                    datos.put("longitud", Double.parseDouble(longitud.getText().toString()));
+                    datos.put("latitud", Double.parseDouble(lat));
+                    datos.put("longitud", Double.parseDouble(lng));
                     datos.put("tipo", spinner.getSelectedItem().toString());
 
                     db.collection("contenedores").document().set(datos);
