@@ -11,8 +11,8 @@
 #include <WiFi.h>
 
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
-char ssid[] = "vodafoneD812";              //"DESKTOP-PCG8QG8 6144";        // your network SSID (name)
-char pass[] = "V2e9rT4y5jL";              //"12345678";    // your network password (use for WPA, or use as key for WEP)
+char ssid[] = "Bifrost";              //"DESKTOP-PCG8QG8 6144";        // your network SSID (name)
+char pass[] = "13620=uE";              //"12345678";    // your network password (use for WPA, or use as key for WEP)
 
 // To connect with SSL/TLS:
 // 1) Change WiFiClient to WiFiSSLClient.

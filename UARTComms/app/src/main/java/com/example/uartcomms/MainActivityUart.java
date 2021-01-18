@@ -90,6 +90,46 @@ public class MainActivityUart extends Activity implements MqttCallback
                 } catch (MqttException e) {
                     Log.e(Mqtt.TAG, "Error al publicar.", e);
                 }
+
+                // ==========================================================================
+                // Create default data
+                //region
+                /*
+                try {
+                    MqttMessage message = new MqttMessage("M5-CuboPlastico-42".getBytes());
+                    message.setQos(Mqtt.qos);
+                    message.setRetained(false);
+                    client.publish(Mqtt.topicRoot + "distancia", message);
+                } catch (MqttException e) {
+                    Log.e(Mqtt.TAG, "Error al publicar.", e);
+                }
+                try {
+                    MqttMessage message = new MqttMessage("M5-CuboOrganico-82".getBytes());
+                    message.setQos(Mqtt.qos);
+                    message.setRetained(false);
+                    client.publish(Mqtt.topicRoot + "distancia", message);
+                } catch (MqttException e) {
+                    Log.e(Mqtt.TAG, "Error al publicar.", e);
+                }
+                try {
+                    MqttMessage message = new MqttMessage("M5-CuboCarton-15".getBytes());
+                    message.setQos(Mqtt.qos);
+                    message.setRetained(false);
+                    client.publish(Mqtt.topicRoot + "distancia", message);
+                } catch (MqttException e) {
+                    Log.e(Mqtt.TAG, "Error al publicar.", e);
+                }
+                try {
+                    MqttMessage message = new MqttMessage("M5-CuboVidrio-64".getBytes());
+                    message.setQos(Mqtt.qos);
+                    message.setRetained(false);
+                    client.publish(Mqtt.topicRoot + "distancia", message);
+                } catch (MqttException e) {
+                    Log.e(Mqtt.TAG, "Error al publicar.", e);
+                }
+                 */
+                //endregion
+                // ==========================================================================
             } catch (IOException e) {
                 e.printStackTrace();
             }
