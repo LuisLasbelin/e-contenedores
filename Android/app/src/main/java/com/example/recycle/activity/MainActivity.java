@@ -25,6 +25,7 @@ import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.recycle.R;
@@ -100,6 +101,14 @@ public class MainActivity extends AppCompatActivity implements
     private ArrayList<String> idCubos = new ArrayList<String>();
     private int items = 0;
     private int itemList = 0;
+
+    //Filtros de marcadores
+    private boolean filtroCarton = true;
+    private boolean filtroPlastico = true;
+    private boolean filtroVidrio = true;
+    private boolean filtroOrganico = true;
+    private boolean filtroPtoLimpio = true;
+    private boolean filtroRopa = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -282,54 +291,7 @@ public class MainActivity extends AppCompatActivity implements
             }
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 18));
 
-            db.collection("contenedores").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    for(DocumentSnapshot contenedor : task.getResult().getDocuments()) {
-
-                        switch (contenedor.getString("tipo")) {
-                            case "orgánico":
-                                map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
-                                        .icon(BitmapDescriptorFactory
-                                                .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)))
-                                        .setTitle("Orgánico");
-                                break;
-                            case "plástico":
-                                map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
-                                        .icon(BitmapDescriptorFactory
-                                                .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)))
-                                        .setTitle("Plástico");
-                                break;
-                            case "cartón":
-                                map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
-                                        .icon(BitmapDescriptorFactory
-                                                .defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))
-                                        .setTitle("Cartón");
-                                break;
-                            case "vidrio":
-                                map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
-                                        .icon(BitmapDescriptorFactory
-                                                .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)))
-                                        .setTitle("Vidrio");
-                                break;
-                            case "punto limpio":
-                                map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
-                                        .icon(BitmapDescriptorFactory
-                                                .defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)))
-                                        .setTitle("Punto limpio");
-                                break;
-                            case "ropa":
-                                map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
-                                        .icon(BitmapDescriptorFactory
-                                                .defaultMarker(BitmapDescriptorFactory.HUE_ROSE)))
-                                        .setTitle("Ropa");
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-            });
+            setMarkers();
 
             db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("¿Dónde puedo reciclar?")
                     .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -344,6 +306,151 @@ public class MainActivity extends AppCompatActivity implements
             });
 
         }
+    }
+
+    public void setMarkers() {
+        db.collection("contenedores").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                map.clear();
+                for (Cubo cubo : cubos) {
+                    currentPosition = new LatLng(cubo.getLatitude(), cubo.getLongitude());
+                    map.addMarker(new MarkerOptions().position(currentPosition)
+                            .icon(BitmapDescriptorFactory
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_RED)))
+                            .setTitle(cubo.getNombre());
+                }
+
+                for(DocumentSnapshot contenedor : task.getResult().getDocuments()) {
+
+                    switch (contenedor.getString("tipo")) {
+                        case "orgánico":
+                            if (filtroOrganico) {
+                                map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
+                                        .icon(BitmapDescriptorFactory
+                                                .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)))
+                                        .setTitle("Orgánico");
+                            }
+                            break;
+                        case "plástico":
+                            if (filtroPlastico) {
+                                map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
+                                        .icon(BitmapDescriptorFactory
+                                                .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)))
+                                        .setTitle("Plástico");
+                            }
+                            break;
+                        case "cartón":
+                            if (filtroCarton) {
+                                map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
+                                        .icon(BitmapDescriptorFactory
+                                                .defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))
+                                        .setTitle("Cartón");
+                            }
+                            break;
+                        case "vidrio":
+                            if (filtroVidrio) {
+                                map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
+                                        .icon(BitmapDescriptorFactory
+                                                .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)))
+                                        .setTitle("Vidrio");
+                            }
+                            break;
+                        case "punto limpio":
+                            if (filtroPtoLimpio) {
+                                map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
+                                        .icon(BitmapDescriptorFactory
+                                                .defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)))
+                                        .setTitle("Punto limpio");
+                            }
+                            break;
+                        case "ropa":
+                            if (filtroRopa) {
+                                map.addMarker(new MarkerOptions().position(new LatLng(contenedor.getDouble("latitud"), contenedor.getDouble("longitud")))
+                                        .icon(BitmapDescriptorFactory
+                                                .defaultMarker(BitmapDescriptorFactory.HUE_ROSE)))
+                                        .setTitle("Ropa");
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        });
+    }
+
+    public void toggleOrganico(View view) {
+        ImageView filtro = findViewById(R.id.filtroOrganico);
+        if (filtroOrganico) {
+            filtroOrganico = false;
+            filtro.setAlpha(64);
+        } else {
+            filtroOrganico = true;
+            filtro.setAlpha(255);
+        }
+        setMarkers();
+    }
+
+    public void toggleCarton(View view) {
+        ImageView filtro = findViewById(R.id.filtroCarton);
+        if (filtroCarton) {
+            filtroCarton = false;
+            filtro.setAlpha(64);
+        } else {
+            filtroCarton = true;
+            filtro.setAlpha(255);
+        }
+        setMarkers();
+    }
+
+    public void togglePlastico(View view) {
+        ImageView filtro = findViewById(R.id.filtroPlastico);
+        if(filtroPlastico) {
+            filtroPlastico = false;
+            filtro.setAlpha(64);
+        } else {
+            filtroPlastico = true;
+            filtro.setAlpha(255);
+        }
+        setMarkers();
+    }
+
+    public void toggleVidrio(View view) {
+        ImageView filtro = findViewById(R.id.filtroVidrio);
+        if (filtroVidrio) {
+            filtroVidrio = false;
+            filtro.setAlpha(64);
+        } else {
+            filtroVidrio = true;
+            filtro.setAlpha(255);
+        }
+        setMarkers();
+    }
+
+    public void toggleRopa(View view) {
+        ImageView filtro = findViewById(R.id.filtroRopa);
+        if (filtroRopa) {
+            filtroRopa = false;
+            filtro.setAlpha(64);
+        } else {
+            filtroRopa = true;
+            filtro.setAlpha(255);
+        }
+        setMarkers();
+    }
+
+    public void togglePuntoLimpio(View view) {
+        ImageView filtro = findViewById(R.id.filtroLimpio);
+        if (filtroPtoLimpio) {
+            filtroPtoLimpio = false;
+            filtro.setAlpha(64);
+        } else {
+            filtroPtoLimpio = true;
+            filtro.setAlpha(255);
+        }
+        setMarkers();
     }
 
     // Abre el escáner de QR

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id = "@+id/tab1"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tab1"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -13,6 +13,86 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/filtroOrganico"
+        android:layout_width="39dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/grey_light"
+        android:onClick="toggleOrganico"
+        android:padding="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/organico" />
+
+    <ImageView
+        android:id="@+id/filtroPlastico"
+        android:layout_width="39dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/grey_light"
+        android:onClick="togglePlastico"
+        android:padding="2dp"
+        app:layout_constraintStart_toEndOf="@+id/filtroOrganico"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/plastico" />
+
+    <ImageView
+        android:id="@+id/filtroCarton"
+        android:layout_width="39dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/grey_light"
+        android:onClick="toggleCarton"
+        android:padding="2dp"
+        app:layout_constraintStart_toEndOf="@+id/filtroPlastico"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/carton" />
+
+    <ImageView
+        android:id="@+id/filtroVidrio"
+        android:layout_width="39dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/grey_light"
+        android:onClick="toggleVidrio"
+        android:padding="2dp"
+        app:layout_constraintStart_toEndOf="@+id/filtroCarton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/vidrio" />
+
+    <ImageView
+        android:id="@+id/filtroRopa"
+        android:layout_width="39dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/grey_light"
+        android:onClick="toggleRopa"
+        android:padding="2dp"
+        app:layout_constraintStart_toEndOf="@+id/filtroVidrio"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ropa" />
+
+    <ImageView
+        android:id="@+id/filtroLimpio"
+        android:layout_width="39dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/grey_light"
+        android:onClick="togglePuntoLimpio"
+        android:padding="2dp"
+        app:layout_constraintStart_toEndOf="@+id/filtroRopa"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/pto_limpio" />
 </androidx.constraintlayout.widget.ConstraintLayout>
