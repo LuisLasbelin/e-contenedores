@@ -83,6 +83,7 @@ public class MainActivityUart extends Activity implements MqttCallback
             try {
                 Log.e("GPIO","cambio botón "+Boolean.toString(gpio.getValue()));
                 try {
+                    totalData = 0;
                     MqttMessage message = new MqttMessage("ON".getBytes());
                     message.setQos(Mqtt.qos);
                     message.setRetained(false);
