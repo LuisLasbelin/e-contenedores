@@ -146,18 +146,26 @@ void contar(){
 
     // send message, the Print interface can be used to set the message contents
     if (distancia(TriggerPin, EchoPin) < 52){
-    mqttClient.beginMessage(topic);
-    mqttClient.print("M52-CuboVidrio-" + String(validarDato(map(distancia(TriggerPin, EchoPin),0,44,100,0))));
-    mqttClient.endMessage();
+      mqttClient.beginMessage(topic);
+      mqttClient.print("M52-CuboVidrio-" + String(validarDato(map(distancia(TriggerPin, EchoPin),0,44,100,0))));
+      mqttClient.endMessage();
+    } else {
+      mqttClient.beginMessage(topic);
+      mqttClient.print("M52-CuboVidrio-" + String("100"));
+      mqttClient.endMessage();
     }
-     delay(1000);
-     if(distancia(TriggerPin2, EchoPin2) < 52) {
-    mqttClient.beginMessage(topic);
-    mqttClient.print("M52-CuboOrganico-" + String(validarDato(map(distancia(TriggerPin2, EchoPin2),0,44,100,0))));
-    mqttClient.endMessage();
+     delay(200);
+    if(distancia(TriggerPin2, EchoPin2) < 52) {
+      mqttClient.beginMessage(topic);
+      mqttClient.print("M52-CuboOrganico-" + String(validarDato(map(distancia(TriggerPin2, EchoPin2),0,44,100,0))));
+      mqttClient.endMessage();
+    } else {
+      mqttClient.beginMessage(topic);
+      mqttClient.print("M52-CuboOrganico-" + String("100"));
+      mqttClient.endMessage();
     }
     Serial.println();
-    delay(1000);
+    delay(200);
   
 }
 int distancia(int TriggerPin, int EchoPin) {
