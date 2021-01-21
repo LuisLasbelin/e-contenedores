@@ -336,7 +336,10 @@ public class MainActivity extends AppCompatActivity implements
                                 .defaultMarker(BitmapDescriptorFactory.HUE_RED)))
                         .setTitle(cubo.getNombre());
             }
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 18));
+
+            if (cubos.size() != 0) {
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 18));
+            }
 
             setMarkers();
             cosasDelAdmin();
