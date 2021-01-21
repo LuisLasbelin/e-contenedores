@@ -2,7 +2,6 @@ package com.example.recycle.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,16 +10,9 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.recycle.R;
-import com.github.mikephil.charting.formatter.IFillFormatter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 public class CalculadoraDeCarbonoActivity extends AppCompatActivity {
 
@@ -39,7 +31,7 @@ public class CalculadoraDeCarbonoActivity extends AppCompatActivity {
     RadioButton diesel;
     RadioButton electrico;
     RadioButton hibrido;
-    RadioButton carne;
+    RadioButton todo;
     RadioButton pescado;
     RadioButton vegetariano;
     RadioButton vegano;
@@ -132,8 +124,8 @@ public class CalculadoraDeCarbonoActivity extends AppCompatActivity {
         diesel = findViewById(R.id.diesel);
         electrico = findViewById(R.id.electrico);
         hibrido = findViewById(R.id.hibrido);
-        carne = findViewById(R.id.carne);
-        pescado = findViewById(R.id.pescado);
+        todo = findViewById(R.id.todo);
+        pescado = findViewById(R.id.piscivegetariano);
         vegetariano = findViewById(R.id.vegetariano);
         vegano = findViewById(R.id.vegano);
     }
@@ -282,7 +274,7 @@ public class CalculadoraDeCarbonoActivity extends AppCompatActivity {
         // Cantidad de vuelos por la emision de CO2 por kilometro por la media de kilometros de un vuelo medio
         vuelosRealizadosDouble = vuelosRealizadosDouble * 0.000195 * 1500;
 
-        if (carne.isChecked()){
+        if (todo.isChecked()){
 
             // Multiplicamos los kilos por el factor de emision de CO2 de la carne.
             dietaDouble = dietaDouble * 0.002157;
@@ -307,12 +299,9 @@ public class CalculadoraDeCarbonoActivity extends AppCompatActivity {
             factorDieta = 0.000867;
         }
 
-        Log.d(TAG, Double.toString(vuelosRealizadosDouble));
-
         // Sumamos todas las emisiones
         total = kiloVatiosDouble + kmEnAutobusDouble + kmEnCocheDouble + vuelosRealizadosDouble + dietaDouble;
 
-        Log.d(TAG, Double.toString(total));
         Intent i = new Intent(this, ResultadoCalculadora.class);
         i.putExtra("Kilovatios" , kiloVatiosDouble);
         i.putExtra("KmAutobus" , kmEnAutobusDouble);

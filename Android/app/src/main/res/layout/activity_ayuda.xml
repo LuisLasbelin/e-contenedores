@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:text="¿Como funciona la calculadora de carbono?"
+        android:text="@string/calculadora_ayuda_titulo"
         android:textSize="18sp"
         android:textStyle="bold"></TextView>
 
@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:text="La calculadora de carbono ofrece una aproximación de las emisiones de CO2 que has producido. Introduce un valor en todos los campos para que se realize el calculo. Las emisiones por vuelos se calculan siguiendo la media de vuelos a media distancia, lo que significa unos 1500km de distancia, por lo tanto si realizas varios vuelos cortos cuentalos como uno, o calcula la distancia de vuelo para recibir un calculo aproximado."></TextView>
+        android:text="@string/calculadora_ayuda_primer_parrafo"></TextView>
 
     <TextView
         android:id="@+id/textView18"
@@ -27,5 +27,5 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingBottom="20dp"
-        android:text="En los resultados de la calculadora podrás ver mediante un codigo de colores en que posicion te encuentras. El color rojo representa que superas la media, el verde que estas en ella y el narajna que te encuentras por debajo." />
+        android:text="@string/calculadora_ayuda_segundo_parrafo" />
 </LinearLayout>
