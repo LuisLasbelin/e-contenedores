@@ -26,7 +26,6 @@
         android:layout_marginTop="16dp"
         android:text="@string/logros"
         android:textSize="20sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/cuantoProgreso"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView3" />

@@ -18,7 +18,7 @@
         android:gravity="center"
         android:padding="20dp"
         android:text="@string/resultados_calculadora_titulo"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
