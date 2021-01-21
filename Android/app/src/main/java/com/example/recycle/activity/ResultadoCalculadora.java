@@ -5,11 +5,9 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -49,7 +47,7 @@ public class ResultadoCalculadora extends AppCompatActivity {
         else if (kilovatios < 0.06 && kilovatios > 0.03){
             for (Drawable drawable : kilovatiosTexto.getCompoundDrawables()) {
                 if (drawable != null) {
-                    drawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(40, 165, 37), PorterDuff.Mode.SRC_IN));
+                    drawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(252,186,3), PorterDuff.Mode.SRC_IN));
                 }
             }
         }
@@ -57,7 +55,7 @@ public class ResultadoCalculadora extends AppCompatActivity {
         else if (kilovatios < 0.03){
             for (Drawable drawable : kilovatiosTexto.getCompoundDrawables()) {
                 if (drawable != null) {
-                    drawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(252,186,3), PorterDuff.Mode.SRC_IN));
+                    drawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(40, 165, 37), PorterDuff.Mode.SRC_IN));
                 }
             }
         }
@@ -75,7 +73,7 @@ public class ResultadoCalculadora extends AppCompatActivity {
         else if (kmCoche < 1100*CalculadoraDeCarbonoActivity.factorCoche && kmCoche > 800*CalculadoraDeCarbonoActivity.factorCoche){
             for (Drawable drawable : cocheTexto.getCompoundDrawables()) {
                 if (drawable != null) {
-                    drawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(40, 165, 37), PorterDuff.Mode.SRC_IN));
+                    drawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(252,186,3), PorterDuff.Mode.SRC_IN));
                 }
             }
         }
@@ -83,7 +81,7 @@ public class ResultadoCalculadora extends AppCompatActivity {
         else if (kmCoche < 800*CalculadoraDeCarbonoActivity.factorCoche){
             for (Drawable drawable : cocheTexto.getCompoundDrawables()) {
                 if (drawable != null) {
-                    drawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(252,186,3), PorterDuff.Mode.SRC_IN));
+                    drawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(40, 165, 37), PorterDuff.Mode.SRC_IN));
                 }
             }
         }
@@ -102,7 +100,7 @@ public class ResultadoCalculadora extends AppCompatActivity {
         else if (kmAutobus < 0.041 && kmAutobus > 0.025){
             for (Drawable drawable : autobusTexto.getCompoundDrawables()) {
                 if (drawable != null) {
-                    drawable.setColorFilter(new PorterDuffColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN));
+                    drawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(252,186,3), PorterDuff.Mode.SRC_IN));
                 }
             }
         }
@@ -110,13 +108,12 @@ public class ResultadoCalculadora extends AppCompatActivity {
         else if (kmAutobus < 0.025){
             for (Drawable drawable : autobusTexto.getCompoundDrawables()) {
                 if (drawable != null) {
-                    drawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(252,186,3), PorterDuff.Mode.SRC_IN));
+                    drawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(40, 165, 37), PorterDuff.Mode.SRC_IN));
                 }
             }
         }
 
         // Si es mayor a 0.39 el consumo es superior a la media española, equivale a dos vuelos
-        Log.d("datosCalcu", Double.toString(vuelos));
         if (vuelos > 0.38){
             for (Drawable drawable : vueloTexto.getCompoundDrawables()) {
                 if (drawable != null) {
@@ -128,7 +125,7 @@ public class ResultadoCalculadora extends AppCompatActivity {
         else if (vuelos <= 0.38 && vuelos >= 0.18){
             for (Drawable drawable : vueloTexto.getCompoundDrawables()) {
                 if (drawable != null) {
-                    drawable.setColorFilter(new PorterDuffColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN));
+                    drawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(252,186,3), PorterDuff.Mode.SRC_IN));
                 }
             }
         }
@@ -136,7 +133,7 @@ public class ResultadoCalculadora extends AppCompatActivity {
         else if (vuelos < 0.18){
             for (Drawable drawable : vueloTexto.getCompoundDrawables()) {
                 if (drawable != null) {
-                    drawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(252,186,3), PorterDuff.Mode.SRC_IN));
+                    drawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(40, 165, 37), PorterDuff.Mode.SRC_IN));
                 }
             }
         }
@@ -154,7 +151,7 @@ public class ResultadoCalculadora extends AppCompatActivity {
         else if (dieta < 187 * CalculadoraDeCarbonoActivity.factorDieta && vuelos > 136 * CalculadoraDeCarbonoActivity.factorDieta){
             for (Drawable drawable : dietaTexto.getCompoundDrawables()) {
                 if (drawable != null) {
-                    drawable.setColorFilter(new PorterDuffColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN));
+                    drawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(252,186,3), PorterDuff.Mode.SRC_IN));
                 }
             }
         }
@@ -162,7 +159,7 @@ public class ResultadoCalculadora extends AppCompatActivity {
         else if (dieta < 136 * CalculadoraDeCarbonoActivity.factorDieta){
             for (Drawable drawable : dietaTexto.getCompoundDrawables()) {
                 if (drawable != null) {
-                    drawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(252,186,3), PorterDuff.Mode.SRC_IN));
+                    drawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(40, 165, 37), PorterDuff.Mode.SRC_IN));
                 }
             }
         }
