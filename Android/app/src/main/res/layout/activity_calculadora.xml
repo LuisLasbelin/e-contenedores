@@ -25,7 +25,7 @@
         android:layout_marginEnd="46dp"
         android:drawableRight="@drawable/ic_baseline_help_24"
         android:padding="7dp"
-        android:text="Calculadora de huella de carbono"
+        android:text="@string/calculadora_titulo"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +68,7 @@
                     android:drawablePadding="7dp"
                     android:onClick="mandarCorreo"
                     android:padding="10dp"
-                    android:text="Uso de transporte aereo"
+                    android:text="@string/calculadora_aereo"
                     android:textAlignment="viewStart"
                     android:textAllCaps="false"
                     android:textColor="#28A525"
@@ -95,7 +95,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="¿Cuantos vuelos has tomado este mes?" />
+                            android:text="@string/calculadora_aereo_texto" />
 
                         <EditText
                             android:id="@+id/vuelosRealizados"
@@ -132,7 +132,7 @@
                     android:drawablePadding="7dp"
                     android:onClick="mandarCorreo"
                     android:padding="10dp"
-                    android:text="Uso de transporte publico"
+                    android:text="@string/calculadora_transporte"
                     android:textAlignment="viewStart"
                     android:textAllCaps="false"
                     android:textColor="#28A525"
@@ -159,7 +159,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="¿Cuantos kilometros has recorrido este mes?" />
+                            android:text="@string/calculadora_transporte_texto" />
 
                         <EditText
                             android:id="@+id/kmEnAutobus"
@@ -197,7 +197,7 @@
                     android:drawablePadding="7dp"
                     android:onClick="mandarCorreo"
                     android:padding="10dp"
-                    android:text="Uso de vehiculo personal"
+                    android:text="@string/calculadora_coche"
                     android:textAlignment="viewStart"
                     android:textAllCaps="false"
                     android:textColor="#28A525"
@@ -229,7 +229,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:checked="true"
-                                android:text="Gasolina"
+                                android:text="@string/gasolina"
                                 android:textSize="10sp" />
 
                             <RadioButton
@@ -237,7 +237,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:text="Diesel"
+                                android:text="@string/diesel"
                                 android:textSize="10sp" />
 
                             <RadioButton
@@ -245,7 +245,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:text="Electrico"
+                                android:text="@string/electrico"
                                 android:textSize="10sp" />
 
                             <RadioButton
@@ -253,7 +253,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:text="Hibrido"
+                                android:text="@string/hibrido"
                                 android:textSize="10sp" />
                         </RadioGroup>
 
@@ -268,7 +268,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
-                                android:text="¿Cuantos kilometros has recorrido este mes?" />
+                                android:text="@string/calculadora_coche_texto" />
 
                             <EditText
                                 android:id="@+id/kmEnCoche"
@@ -304,7 +304,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:text="Introduce cuantos residentes viven en la casa" />
+                    android:text="@string/calculadora_personas" />
 
                 <EditText
                     android:id="@+id/numeroPersonas"
@@ -340,7 +340,7 @@
                     android:drawablePadding="7dp"
                     android:onClick="mandarCorreo"
                     android:padding="10dp"
-                    android:text="Consumo eléctrico"
+                    android:text="@string/calculadora_electrico"
                     android:textAlignment="viewStart"
                     android:textAllCaps="false"
                     android:textColor="#28A525"
@@ -366,7 +366,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="¿Cuanta energia has consumido? Introduce el valor en kilovatios hora" />
+                            android:text="@string/calculadora_electrico_texto" />
 
                         <EditText
                             android:id="@+id/kilovatiosHora"
@@ -402,7 +402,7 @@
                     android:drawablePadding="7dp"
                     android:onClick="mandarCorreo"
                     android:padding="10dp"
-                    android:text="Dieta"
+                    android:text="@string/calculadora_dieta"
                     android:textAlignment="viewStart"
                     android:textAllCaps="false"
                     android:textColor="#28A525"
@@ -429,20 +429,20 @@
                             android:orientation="horizontal">
 
                             <RadioButton
-                                android:id="@+id/carne"
+                                android:id="@+id/todo"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:checked="true"
-                                android:text="Carne"
+                                android:text="@string/todo"
                                 android:textSize="10sp" />
 
                             <RadioButton
-                                android:id="@+id/pescado"
+                                android:id="@+id/piscivegetariano"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:text="Pescado"
+                                android:text="@string/piscivegano"
                                 android:textSize="10sp" />
 
                             <RadioButton
@@ -450,7 +450,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:text="Vegetariano"
+                                android:text="@string/vegetariano"
                                 android:textSize="10sp" />
 
                             <RadioButton
@@ -458,7 +458,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:text="Vegano"
+                                android:text="@string/vegano"
                                 android:textSize="10sp" />
                         </RadioGroup>
 
@@ -473,7 +473,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
-                                android:text="¿Cuantos kilogramos de comida has consumido este mes?" />
+                                android:text="@string/calculadora_dieta_texto" />
 
                             <EditText
                                 android:id="@+id/dieta"
@@ -513,7 +513,7 @@
             android:layout_marginRight="16dp"
             android:layout_weight="1"
             android:background="#fff"
-            android:text="Cancelar"
+            android:text="@string/cancelar"
             android:textAllCaps="false"
             android:textColor="#28A525"
             android:textColorHint="#FFFFFF" />
@@ -525,7 +525,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="#fff"
-            android:text="Aceptar"
+            android:text="@string/calcular"
             android:textAllCaps="false"
             android:textColor="#28A525"
             android:textColorHint="#FFFFFF" />

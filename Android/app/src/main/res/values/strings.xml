@@ -16,7 +16,34 @@
     <string name="asignar_ubicaci_n">Asignar ubicación</string>
     <string name="guardar">Guardar</string>
     <string name="cubo_eliminado">Cubo eliminado del usuario</string>
-
+    <string name="calculadora_ayuda_titulo">¿Como funciona la calculadora de carbono?</string>
+    <string name="calculadora_ayuda_primer_parrafo">La calculadora de carbono ofrece una aproximación de las emisiones de CO2 que has producido. Introduce un valor en todos los campos para que se realize el calculo. Las emisiones por vuelos se calculan siguiendo la media de vuelos a media distancia, lo que significa unos 1500km de distancia, por lo tanto si realizas varios vuelos cortos cuentalos como uno, o calcula la distancia de vuelo para recibir un calculo aproximado.</string>
+    <string name="calculadora_ayuda_segundo_parrafo">En los resultados de la calculadora podrás ver mediante un codigo de colores en que posicion te encuentras. El color rojo representa que superas la media, el naranja que estas en ella y el verde que te encuentras por debajo.</string>
+    <string name="calculadora_titulo">Calculadora de huella de carbono</string>
+    <string name="calculadora_personas">Introduce cuantos residentes viven en la casa</string>
+    <string name="calculadora_electrico">Consumo eléctrico</string>
+    <string name="calculadora_electrico_texto">¿Cuanta energia has consumido? Introduce el valor en kilovatios hora</string>
+    <string name="calculadora_coche">Uso de vehiculo personal</string>
+    <string name="calculadora_coche_texto">¿Cuantos kilometros has recorrido este mes?</string>
+    <string name="gasolina">Gasolina</string>
+    <string name="diesel">Diesel</string>
+    <string name="electrico">Electrico</string>
+    <string name="hibrido">Hibrido</string>
+    <string name="calculadora_transporte">Uso de transporte publico</string>
+    <string name="calculadora_transporte_texto">¿Cuantos kilometros has recorrido este mes?</string>
+    <string name="calculadora_aereo">Uso de transporte aereo</string>
+    <string name="calculadora_aereo_texto">¿Cuantos vuelos has tomado este mes?</string>
+    <string name="calculadora_dieta">Dieta</string>
+    <string name="calculadora_dieta_texto">¿Cuantos kilogramos de comida has consumido este mes?</string>
+    <string name="todo">Todo</string>
+    <string name="piscivegano">Piscivegano</string>
+    <string name="vegetariano">Vegetariano</string>
+    <string name="vegano">Vegano</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="calcular">Calcular</string>
+    <string name="resultados_calculadora_titulo">Resultados de la calculadora</string>
+    <string name="resultados_calculadora">Resultado</string>
+    <string name="continuar">Continuar</string>
     <string-array name="tipos">
         <item>orgánico</item>
         <item>plástico</item>
