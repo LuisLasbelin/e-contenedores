@@ -6,13 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recycle.R;
-import com.example.recycle.activity.AdaptadorCubos;
 import com.example.recycle.activity.MainActivity;
-import com.google.android.gms.maps.SupportMapFragment;
 
 public class Tab2 extends Fragment {
 

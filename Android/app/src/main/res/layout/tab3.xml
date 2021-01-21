@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Menú"
+        android:text="@string/men"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -53,7 +53,7 @@
                 android:drawablePadding="7dp"
                 android:onClick="onClickForos"
                 android:padding="10dp"
-                android:text="Foros"
+                android:text="@string/foros"
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"
                 android:textColor="#28A525"
@@ -75,7 +75,7 @@
                 android:drawablePadding="7dp"
                 android:onClick="onClickPerfil"
                 android:padding="10dp"
-                android:text="Cuenta"
+                android:text="@string/cuenta"
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"
                 android:textColor="#28A525"
@@ -96,7 +96,7 @@
                 android:drawablePadding="7dp"
                 android:onClick="lanzarLogros"
                 android:padding="10dp"
-                android:text="Logros"
+                android:text="@string/logros"
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"
                 android:textColor="#28A525"
@@ -107,6 +107,32 @@
                 app:layout_constraintTop_toBottomOf="@+id/btn_foros" />
 
             <Button
+<<<<<<< HEAD
+=======
+                android:id="@+id/btn_contenedores"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="16dp"
+                android:background="#fff"
+                android:drawableLeft="@drawable/ic_baseline_save_24"
+                android:drawablePadding="7dp"
+                android:onClick="lanzarAñadirContenedores"
+                android:padding="10dp"
+                android:text="@string/a_adir_contenedores"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="#28A525"
+                android:textColorHint="#FFFFFF"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/btn_admin"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/btn_admin"
+                app:layout_constraintTop_toBottomOf="@+id/btn_admin" />
+
+            <Button
+>>>>>>> develop
                 android:id="@+id/btn_calculadora"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -116,7 +142,7 @@
                 android:drawablePadding="7dp"
                 android:onClick="onClickCalculadora"
                 android:padding="10dp"
-                android:text="Calcula tu huella de carbono"
+                android:text="@string/calcula_tu_huella_de_carbono"
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"
                 android:textColor="#28A525"
@@ -136,7 +162,7 @@
                 android:drawablePadding="7dp"
                 android:onClick="mandarCorreo"
                 android:padding="10dp"
-                android:text="Contacta con el soporte técnico"
+                android:text="@string/contacta_con_el_soporte_t_cnico"
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"
                 android:textColor="#28A525"
@@ -147,6 +173,30 @@
                 app:layout_constraintTop_toBottomOf="@+id/btn_perfil3" />
 
             <Button
+<<<<<<< HEAD
+=======
+                android:id="@+id/btn_admin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="#fff"
+                android:drawableLeft="@drawable/ic_baseline_settings_24"
+                android:drawablePadding="7dp"
+                android:onClick="onClickAdmin"
+                android:padding="10dp"
+                android:text="@string/lista_de_usuarios"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="#28A525"
+                android:textColorHint="#FFFFFF"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@+id/btn_calculadora"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/btn_calculadora"
+                app:layout_constraintTop_toBottomOf="@+id/btn_calculadora" />
+
+            <Button
+>>>>>>> develop
                 android:id="@+id/btn_perfil6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -158,7 +208,7 @@
                 android:drawablePadding="7dp"
                 android:onClick="lanzarClasificacion"
                 android:padding="10dp"
-                android:text="Clasificación"
+                android:text="@string/clasificaci_n"
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"
                 android:textColor="#28A525"
@@ -178,7 +228,7 @@
                 android:drawablePadding="7dp"
                 android:onClick="googleMaps"
                 android:padding="10dp"
-                android:text="Dónde encontrarnos"
+                android:text="@string/d_nde_encontrarnos"
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"
                 android:textColor="#28A525"
@@ -198,7 +248,7 @@
                 android:drawablePadding="7dp"
                 android:onClick="lanzarWeb"
                 android:padding="10dp"
-                android:text="Visita nuestra web"
+                android:text="@string/visita_nuestra_web"
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"
                 android:textColor="#28A525"

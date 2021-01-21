@@ -14,7 +14,7 @@
         android:layout_marginBottom="16dp"
         android:background="@color/grey_light"
         android:onClick="agregarCubo"
-        android:text="+"
+        android:text="@string/plus"
         android:textColor="@color/grey"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"

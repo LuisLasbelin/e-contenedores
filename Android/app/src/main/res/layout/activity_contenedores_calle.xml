@@ -23,7 +23,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Añadir contenedores de la calle"
+        android:text="@string/a_adir_contenedores_de_la_calle"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="Latitud"
+        android:text="@string/latitud"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
@@ -47,7 +47,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="Introduce la latitud del contenedor"
+        android:hint="@string/introduce_la_latitud_del_contenedor"
         android:inputType="text|numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="Introduce la longitud del contenedor"
+        android:hint="@string/introduce_la_longitud_del_contenedor"
         android:inputType="text|numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Longitud"
+        android:text="@string/longitud"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/latitudContenedor" />
 
@@ -83,7 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Tipo"
+        android:text="@string/tipo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/longitudContenedor" />
 
@@ -107,7 +107,7 @@
         android:drawablePadding="7dp"
         android:onClick="añadirContenedor"
         android:padding="10dp"
-        android:text="Guardar en la base de datos"
+        android:text="@string/guardar_en_la_base_de_datos"
         android:textAlignment="viewStart"
         android:textAllCaps="false"
         android:textColor="#28A525"
