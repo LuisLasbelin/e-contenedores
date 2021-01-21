@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Cuenta"
+                android:text="@string/cuenta"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -58,7 +58,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_weight="1"
-            android:text="Correo:" />
+            android:text="@string/correo" />
 
         <TextView
             android:id="@+id/correo"
@@ -76,7 +76,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_weight="1"
-            android:text="Numero de telefono:" />
+            android:text="@string/numero_de_telefono" />
 
         <TextView
             android:id="@+id/PhoneNumber"
@@ -94,7 +94,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:text="Uid:" />
+            android:text="@string/uid" />
 
         <TextView
             android:id="@+id/Uid"
@@ -117,7 +117,7 @@
             android:drawableLeft="@drawable/ic_baseline_close_24"
             android:drawablePadding="7dp"
             android:padding="10dp"
-            android:text="Cerrar sesión"
+            android:text="@string/cerrar_sesi_n"
             android:textAlignment="viewStart"
             android:textAllCaps="false"
             android:textColor="#28A525"

@@ -33,7 +33,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_weight="5"
                 android:gravity="center_vertical"
-                android:text="Cubo vacío"
+                android:text="@string/cubo_vac_o"
                 android:textSize="24sp" />
 
             <ImageView
@@ -69,7 +69,7 @@
                     android:drawablePadding="7dp"
                     android:onClick="lanzarConfirmarEditar"
                     android:padding="10dp"
-                    android:text="Editar"
+                    android:text="@string/editar"
                     android:textAlignment="viewStart"
                     android:textAllCaps="false"
                     android:textColor="#28A525"
@@ -84,7 +84,7 @@
                     android:drawablePadding="7dp"
                     android:onClick="lanzarConfirmarBorrar"
                     android:padding="10dp"
-                    android:text="Eliminar"
+                    android:text="@string/eliminar"
                     android:textAlignment="viewStart"
                     android:textAllCaps="false"
                     android:textColor="#28A525"
