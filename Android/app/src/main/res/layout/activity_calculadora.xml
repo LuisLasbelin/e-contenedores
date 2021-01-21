@@ -62,9 +62,7 @@
                     android:id="@+id/btn_moreVuelos"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginRight="5dp"
                     android:background="#fff"
                     android:drawableLeft="@drawable/ic_baseline_airplanemode_active_24"
                     android:drawablePadding="7dp"
@@ -80,8 +78,6 @@
                     android:id="@+id/tarjetaMoreVuelos"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
                     android:background="@color/white_semi"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -130,9 +126,7 @@
                     android:id="@+id/btn_moreVehiculoPublico"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginRight="5dp"
                     android:background="#fff"
                     android:drawableLeft="@drawable/ic_baseline_directions_bus_24"
                     android:drawablePadding="7dp"
@@ -148,8 +142,6 @@
                     android:id="@+id/tarjetaMoreVehiculoPublico"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
                     android:background="@color/white_semi"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -199,9 +191,7 @@
                     android:id="@+id/btn_moreVehiculo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginRight="5dp"
                     android:background="#fff"
                     android:drawableLeft="@drawable/ic_baseline_drive_eta_24"
                     android:drawablePadding="7dp"
@@ -217,8 +207,6 @@
                     android:id="@+id/tarjetaMoreVehiculo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
                     android:background="@color/white_semi"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -237,32 +225,36 @@
 
                             <RadioButton
                                 android:id="@+id/gasolina"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:checked="true"
-                                android:text="Gasolina" />
+                                android:text="Gasolina"
+                                android:textSize="10sp" />
 
                             <RadioButton
                                 android:id="@+id/diesel"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:text="Diesel" />
+                                android:text="Diesel"
+                                android:textSize="10sp" />
 
                             <RadioButton
                                 android:id="@+id/electrico"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:text="Electrico" />
+                                android:text="Electrico"
+                                android:textSize="10sp" />
 
                             <RadioButton
                                 android:id="@+id/hibrido"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:text="Hibrido" />
+                                android:text="Hibrido"
+                                android:textSize="10sp" />
                         </RadioGroup>
 
                         <LinearLayout
@@ -342,9 +334,7 @@
                     android:id="@+id/btn_moreElectrico"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginRight="5dp"
                     android:background="#fff"
                     android:drawableLeft="@drawable/ic_baseline_battery_charging_full_24"
                     android:drawablePadding="7dp"
@@ -360,8 +350,6 @@
                     android:id="@+id/tarjetaMoreElectrico"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
                     android:background="@color/white_semi"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -375,18 +363,16 @@
 
                         <TextView
                             android:id="@+id/textView9"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="center_vertical"
                             android:text="¿Cuanta energia has consumido? Introduce el valor en kilovatios hora" />
 
                         <EditText
                             android:id="@+id/kilovatiosHora"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:ems="10"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
                             android:inputType="numberDecimal" />
                     </LinearLayout>
 
@@ -410,9 +396,7 @@
                     android:id="@+id/btn_moreComida"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginRight="5dp"
                     android:background="#fff"
                     android:drawableLeft="@drawable/ic_baseline_local_dining_24"
                     android:drawablePadding="7dp"
@@ -428,8 +412,6 @@
                     android:id="@+id/tarjetaMoreComida"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
                     android:background="@color/white_semi"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -448,32 +430,36 @@
 
                             <RadioButton
                                 android:id="@+id/carne"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:checked="true"
-                                android:text="Carne" />
+                                android:text="Carne"
+                                android:textSize="10sp" />
 
                             <RadioButton
                                 android:id="@+id/pescado"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:text="Pescado" />
+                                android:text="Pescado"
+                                android:textSize="10sp" />
 
                             <RadioButton
                                 android:id="@+id/vegetariano"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:text="Vegetariano" />
+                                android:text="Vegetariano"
+                                android:textSize="10sp" />
 
                             <RadioButton
                                 android:id="@+id/vegano"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:text="Vegano" />
+                                android:text="Vegano"
+                                android:textSize="10sp" />
                         </RadioGroup>
 
                         <LinearLayout
