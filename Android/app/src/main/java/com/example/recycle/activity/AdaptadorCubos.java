@@ -338,7 +338,7 @@ public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
             }
             NotificationCompat.Builder notificacion =
                     new NotificationCompat.Builder(context, CANAL_ID)
-                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setSmallIcon(R.mipmap.circulo_de_flechas)
                             .setContentTitle("Cubo lleno")
                             .setContentText("Un cubo está a " + value + "%");
 
