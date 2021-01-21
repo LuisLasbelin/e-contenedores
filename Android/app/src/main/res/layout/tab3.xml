@@ -107,6 +107,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/btn_foros" />
 
             <Button
+<<<<<<< HEAD
+=======
                 android:id="@+id/btn_contenedores"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -130,6 +132,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/btn_admin" />
 
             <Button
+>>>>>>> develop
                 android:id="@+id/btn_calculadora"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -170,6 +173,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/btn_perfil3" />
 
             <Button
+<<<<<<< HEAD
+=======
                 android:id="@+id/btn_admin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -191,6 +196,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/btn_calculadora" />
 
             <Button
+>>>>>>> develop
                 android:id="@+id/btn_perfil6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

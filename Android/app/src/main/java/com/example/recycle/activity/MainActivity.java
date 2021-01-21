@@ -5,6 +5,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -198,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
     }
-    public void mostrarBotones(View boton){
+    public void mostrarBotones(Button boton){
 
         db.collection("usuarios").document(usuario.getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 
@@ -210,7 +212,8 @@ public class MainActivity extends AppCompatActivity implements
                     if(document.getData().containsValue("Admin")){
 
                         boton.setVisibility(View.VISIBLE);
-                        Log.d("PruebaDavid", "pasa por aqui");
+                        String patata = boton.getText().toString();
+                        Log.d("PruebaDavid", patata);
 
                     }
 
@@ -238,12 +241,6 @@ public class MainActivity extends AppCompatActivity implements
     public void onClickForos(View view) {
 
         Intent intent = new Intent(this, ForosActivity.class);
-        startActivity(intent);
-
-    }
-    public void onClickAdmin(View view) {
-
-        Intent intent = new Intent(this, ActividadUsuarios.class);
         startActivity(intent);
 
     }
@@ -696,12 +693,6 @@ public class MainActivity extends AppCompatActivity implements
 
     public void lanzarCargar(){
         Intent i = new Intent(this, ActividadCarga.class);
-        startActivity(i);
-    }
-
-    //TODO: Borrar luego, SOLO PARA LA VERSIÓN DE ADMIN, el botón está en tab3.xml
-    public void lanzarAñadirContenedores(View view) {
-        Intent i = new Intent(this, ActividadContenedoresCalle.class);
         startActivity(i);
     }
 }
