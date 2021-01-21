@@ -107,29 +107,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/btn_foros" />
 
             <Button
-                android:id="@+id/btn_contenedores"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:layout_marginBottom="16dp"
-                android:background="#fff"
-                android:drawableLeft="@drawable/ic_baseline_save_24"
-                android:drawablePadding="7dp"
-                android:onClick="lanzarAñadirContenedores"
-                android:padding="10dp"
-                android:text="Añadir contenedores"
-                android:textAlignment="viewStart"
-                android:textAllCaps="false"
-                android:textColor="#28A525"
-                android:textColorHint="#FFFFFF"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/btn_admin"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/btn_admin"
-                app:layout_constraintTop_toBottomOf="@+id/btn_admin" />
-
-            <Button
                 android:id="@+id/btn_calculadora"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -168,27 +145,6 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/btn_perfil3"
                 app:layout_constraintTop_toBottomOf="@+id/btn_perfil3" />
-
-            <Button
-                android:id="@+id/btn_admin"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:background="#fff"
-                android:drawableLeft="@drawable/ic_baseline_settings_24"
-                android:drawablePadding="7dp"
-                android:onClick="onClickAdmin"
-                android:padding="10dp"
-                android:text="Lista de Usuarios"
-                android:textAlignment="viewStart"
-                android:textAllCaps="false"
-                android:textColor="#28A525"
-                android:textColorHint="#FFFFFF"
-                android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="@+id/btn_calculadora"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="@+id/btn_calculadora"
-                app:layout_constraintTop_toBottomOf="@+id/btn_calculadora" />
 
             <Button
                 android:id="@+id/btn_perfil6"

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +20,17 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 import com.example.recycle.R;
+import com.example.recycle.activity.ActividadContenedoresCalle;
+import com.example.recycle.activity.ActividadUsuarios;
 import com.example.recycle.activity.LoginActivity;
+import com.example.recycle.activity.MainActivity;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class UsuarioFragment extends Fragment {
     @Override public View onCreateView(LayoutInflater inflador,
@@ -34,7 +40,7 @@ public class UsuarioFragment extends Fragment {
                 contenedor, false);
 
        FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
-
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         //==================================================================================================
         //Boton cerrar secion
 
@@ -102,6 +108,43 @@ public class UsuarioFragment extends Fragment {
         TextView nombre3 = (TextView) vista.findViewById(R.id.Uid);
         nombre3.setText(usuario.getUid());
 
+
+       db.collection("usuarios").document(usuario.getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+
+                    if(document.getData().containsValue("Admin")){
+
+                        vista.findViewById(R.id.btn_admin2).setVisibility(View.VISIBLE);
+                        vista.findViewById(R.id.btn_contenedores2).setVisibility(View.VISIBLE);
+
+                        Button Usuarios = (Button) vista.findViewById(R.id.btn_admin2);
+                        Usuarios.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View view) {
+
+                                                Intent i = new Intent(getActivity(), ActividadUsuarios.class);
+                                                startActivity(i);
+                            }
+                        });
+
+                        Button Contenedores = (Button) vista.findViewById(R.id.btn_contenedores2);
+                        Contenedores.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View view) {
+                                                Intent i = new Intent(getActivity(), ActividadContenedoresCalle.class);
+                                                startActivity(i);
+                            }
+                        });
+
+                    }
+
+                } else {
+                    Log.w("aaa", "Error getting documents.", task.getException());
+                }
+            }
+        });
         return vista;
 
 //==================================================================================================

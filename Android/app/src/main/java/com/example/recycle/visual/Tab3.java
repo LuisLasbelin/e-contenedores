@@ -25,16 +25,11 @@ public class Tab3 extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.tab3, container, false);
-        view.findViewById(R.id.btn_admin).setVisibility(View.INVISIBLE);
-        view.findViewById(R.id.btn_contenedores).setVisibility(View.INVISIBLE);
 
-        ((MainActivity)getActivity()).mostrarBotones( view.findViewById(R.id.btn_admin));
         return inflater.inflate(R.layout.tab3, container, false);
 
 
