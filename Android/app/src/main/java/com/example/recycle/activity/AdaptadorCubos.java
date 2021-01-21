@@ -34,10 +34,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
-import static java.lang.Integer.parseInt;
 
 public class AdaptadorCubos extends RecyclerView.Adapter<RecyclerViewHolder> {
 
