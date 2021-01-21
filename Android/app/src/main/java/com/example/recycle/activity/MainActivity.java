@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -109,6 +110,9 @@ public class MainActivity extends AppCompatActivity implements
     private boolean filtroOrganico = true;
     private boolean filtroPtoLimpio = true;
     private boolean filtroRopa = true;
+    // Admin
+    public Button botonAddmin;
+    public boolean esAdmin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +124,31 @@ public class MainActivity extends AppCompatActivity implements
         // Firestore initialization
         db = FirebaseFirestore.getInstance();
         usuario = FirebaseAuth.getInstance().getCurrentUser();
+
+
+        // Comprobacion de administrador
+        db.collection("usuarios").document(usuario.getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+
+                    if(document.getData().containsValue("Admin")){
+
+                        esAdmin = true;
+
+                    }
+
+                } else {
+                    Log.w("aaa", "Error getting documents.", task.getException());
+                }
+            }
+        });
+
+
+
+
 
         // Nuevo usuario se le crea la lista de cubos vacía
         db.collection("usuarios").document(usuario.getEmail()).addSnapshotListener(
@@ -137,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements
                             datos.put("cubos", cubos);
                             datos.put("mail", usuario.getEmail());
                             datos.put("nombre", usuario.getDisplayName());
+                            datos.put("tipo", "Usuario");
                             db.collection("usuarios").document(usuario.getEmail()).set(datos);
 
                             //Añadimos la lista de logros con los progresos a 0
@@ -157,6 +187,8 @@ public class MainActivity extends AppCompatActivity implements
                         }
                     });
         //Tabs
+
+
         //Pestañas
         ViewPager2 viewPager = findViewById(R.id.viewpager);
         viewPager.setAdapter(new MiPagerAdapter(this));
@@ -175,6 +207,30 @@ public class MainActivity extends AppCompatActivity implements
 
         viewPager.setUserInputEnabled(false);
 
+
+
+    }
+    public void mostrarBotones(View boton){
+
+        db.collection("usuarios").document(usuario.getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+
+                    if(document.getData().containsValue("Admin")){
+
+                        boton.setVisibility(View.VISIBLE);
+                        Log.d("PruebaDavid", "pasa por aqui");
+
+                    }
+
+                } else {
+                    Log.w("aaa", "Error getting documents.", task.getException());
+                }
+            }
+        });
     }
 
     public void onClickPerfil(View view) {
@@ -194,6 +250,12 @@ public class MainActivity extends AppCompatActivity implements
     public void onClickForos(View view) {
 
         Intent intent = new Intent(this, ForosActivity.class);
+        startActivity(intent);
+
+    }
+    public void onClickAdmin(View view) {
+
+        Intent intent = new Intent(this, ActividadUsuarios.class);
         startActivity(intent);
 
     }
@@ -292,6 +354,7 @@ public class MainActivity extends AppCompatActivity implements
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 18));
 
             setMarkers();
+            cosasDelAdmin();
 
             db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("¿Dónde puedo reciclar?")
                     .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -379,7 +442,9 @@ public class MainActivity extends AppCompatActivity implements
                 }
             }
         });
+
     }
+
 
     public void toggleOrganico(View view) {
         ImageView filtro = findViewById(R.id.filtroOrganico);
@@ -393,6 +458,7 @@ public class MainActivity extends AppCompatActivity implements
         setMarkers();
     }
 
+
     public void toggleCarton(View view) {
         ImageView filtro = findViewById(R.id.filtroCarton);
         if (filtroCarton) {
@@ -403,6 +469,36 @@ public class MainActivity extends AppCompatActivity implements
             filtro.setAlpha(255);
         }
         setMarkers();
+    }
+
+    public void cosasDelAdmin() {
+        if (esAdmin) {
+
+            db.collection("cubos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+
+                            map.addMarker(new MarkerOptions().position(new LatLng(document.getDouble("latitud"), document.getDouble("longitud")))
+                                    .icon(BitmapDescriptorFactory
+                                            .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)))
+                                    .setTitle(document.getId());
+
+
+                            Log.d("ProvandoDavid2", document.getDouble("latitud").toString());
+                            Log.d("ProvandoDavid2", document.getDouble("longitud").toString());
+
+                        }
+
+                    } else {
+                        Log.w("aaa", "Error getting documents.", task.getException());
+                    }
+                }
+            });
+        }
     }
 
     public void togglePlastico(View view) {

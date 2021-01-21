@@ -29,6 +29,8 @@
 
         <activity android:name=".activity.UsuarioActivity">
         </activity>
+        <activity android:name=".activity.ActividadUsuarios">
+        </activity>
         <activity android:name=".activity.CalculadoraDeCarbonoActivity">
         </activity>
         <meta-data android:name="com.google.android.geo.API_KEY"
