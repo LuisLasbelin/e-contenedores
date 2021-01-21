@@ -32,7 +32,6 @@
     <string name="nombre">Nombre</string>
     <string name="cero">0</string>
     <string name="esta_seguro_de_que_quiere_borrar_el_cubo_permanentemente">Esta seguro de que quiere borrar el cubo permanentemente</string>
-    <string name="cancelar">Cancelar</string>
     <string name="cubo_vac_o">Cubo vacío</string>
     <string name="editar">Editar</string>
     <string name="eliminar">Eliminar</string>
