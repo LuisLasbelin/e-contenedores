@@ -31,6 +31,8 @@ public class CalculadoraDeCarbonoActivity extends AppCompatActivity {
     double kmEnAutobusDouble;
     double vuelosRealizadosDouble;
     double dietaDouble;
+    static double factorCoche;
+    static double factorDieta;
     double total = 0;
     TextView ayuda;
     RadioButton gasolina;
@@ -240,8 +242,6 @@ public class CalculadoraDeCarbonoActivity extends AppCompatActivity {
             return;
         }
 
-        Log.d(TAG, Double.toString(kiloVatiosDouble));
-
         // Multiplicamos los kilovatios por el factor de emision de CO2 para la electricidad en España.
         kiloVatiosDouble = kiloVatiosDouble * 0.0002203;
         // Dividimos entre el numero de personas de la casa
@@ -251,81 +251,76 @@ public class CalculadoraDeCarbonoActivity extends AppCompatActivity {
 
             // Multiplicamos los kilometros por el factor de emision de CO2 de gasolina.
             kmEnCocheDouble = kmEnCocheDouble * 0.0001743;
+            factorCoche = 0.0001743;
 
         }
         else if (diesel.isChecked()){
 
             // Multiplicamos los kilometros por el factor de emision de CO2 de diesel.
             kmEnCocheDouble = kmEnCocheDouble * 0.00016844;
+            factorCoche = 0.00016844;
 
         }
         else if (electrico.isChecked()){
 
             // Multiplicamos los kilometros por el factor de emision de CO2 para la electricidad en España.
             kmEnCocheDouble = kmEnCocheDouble * 0.0002203;
+            factorCoche = 0.0002203;
 
         }
         else if(hibrido.isChecked()){
 
             // Multiplicamos los kilovatios por el factor de emision de CO2.
             kmEnCocheDouble = kmEnCocheDouble * 0.00011558;
+            factorCoche = 0.00011558;
 
         }
 
         kmEnAutobusDouble = kmEnAutobusDouble * 0.0001743;
 
+        // Los vuelos de media distancia se consideran vuelos dentro de europa
         // Cantidad de vuelos por la emision de CO2 por kilometro por la media de kilometros de un vuelo medio
-        vuelosRealizadosDouble = vuelosRealizadosDouble * 0.000195 * 2000;
+        vuelosRealizadosDouble = vuelosRealizadosDouble * 0.000195 * 1500;
 
         if (carne.isChecked()){
 
             // Multiplicamos los kilos por el factor de emision de CO2 de la carne.
             dietaDouble = dietaDouble * 0.002157;
-
+            factorDieta = 0.002157;
         }
         else if (pescado.isChecked()){
 
             // Multiplicamos los kilos por el factor de emision de CO2 de la pescado.
             dietaDouble = dietaDouble * 0.001164;
-
+            factorDieta = 0.001164;
         }
         else if (vegetariano.isChecked()){
 
             // Multiplicamos los kilos por el factor de emision de CO2 de los productos vegetarianos.
             dietaDouble = dietaDouble * 0.001143;
-
+            factorDieta = 0.001143;
         }
         else if(vegano.isChecked()){
 
             // Multiplicamos los kilos por el factor de emision de CO2 de los productos veganos.
             dietaDouble = dietaDouble * 0.000867;
-
+            factorDieta = 0.000867;
         }
+
+        Log.d(TAG, Double.toString(vuelosRealizadosDouble));
 
         // Sumamos todas las emisiones
         total = kiloVatiosDouble + kmEnAutobusDouble + kmEnCocheDouble + vuelosRealizadosDouble + dietaDouble;
 
-        // Si es mayor a 0.5 el consumo es superior a la media española
-        if (total > 0.5){
-            toast = Toast.makeText(this, "Huella de carbono superior a la media ", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-
-        // El consumo esta en la media
-        else if (total < 0.5 && total > 0.4){
-
-            toast = Toast.makeText(this, "Huella de carbono ", Toast.LENGTH_SHORT);
-            toast.show();
-
-        }
-
-        // Si es menor a 0.4 el consumo es inferior a la media española
-        else if (total < 0.4){
-            toast = Toast.makeText(this, "Huella de carbono inferior a la media", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-
         Log.d(TAG, Double.toString(total));
+        Intent i = new Intent(this, ResultadoCalculadora.class);
+        i.putExtra("Kilovatios" , kiloVatiosDouble);
+        i.putExtra("KmAutobus" , kmEnAutobusDouble);
+        i.putExtra("KmCoche" , kmEnCocheDouble);
+        i.putExtra("Vuelos" , vuelosRealizadosDouble);
+        i.putExtra("Dieta" , dietaDouble);
+        i.putExtra("Total" , total);
+        startActivity(i);
     }
 
     public void lanzarAyuda(){

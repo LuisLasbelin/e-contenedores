@@ -46,7 +46,8 @@
         <activity android:name=".activity.ActividadContenedoresCalle" />
         <activity android:name=".activity.AyudaCalculadora"
             android:label=""
-            android:theme="@style/Theme.AppCompat.Light.Dialog.MinWidth"/>
+            android:theme="@style/AyudaTema"/>
+        <activity android:name=".activity.ResultadoCalculadora"></activity>
         <service android:name=".activity.ServicioLogros" />
         <provider
             android:name="androidx.core.content.FileProvider"
