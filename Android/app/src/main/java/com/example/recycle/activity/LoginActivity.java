@@ -44,11 +44,7 @@ public class LoginActivity extends AppCompatActivity {
                     .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    Map<String, Object> datos = new HashMap<>();
-                    datos.put("progreso", Integer.parseInt(task.getResult().get("progreso").toString()) + 1);
-                    mandarNotificacion(activity, getApplicationContext(),Integer.parseInt(task.getResult().get("progreso").toString()) + 1, 1, "Bienvenido");
-                    db.collection("usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).collection("logros").document("Bienvenido")
-                            .update(datos);
+
 
                     Toast.makeText(getApplicationContext(), "Has iniciado sesión: "+usuario.getDisplayName()+
                             " - "+ usuario.getEmail(),Toast.LENGTH_LONG).show();

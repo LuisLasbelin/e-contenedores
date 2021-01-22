@@ -117,28 +117,6 @@ public class MainActivity extends AppCompatActivity implements
 
 
         // Comprobacion de administrador
-        db.collection("usuarios").document(usuario.getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-
-                    if(document.getData().containsValue("Admin")){
-
-                        esAdmin = true;
-
-                    }
-
-                } else {
-                    Log.w("aaa", "Error getting documents.", task.getException());
-                }
-            }
-        });
-
-
-
-
 
         // Nuevo usuario se le crea la lista de cubos vacía
         db.collection("usuarios").document(usuario.getEmail()).addSnapshotListener(
@@ -214,6 +192,25 @@ public class MainActivity extends AppCompatActivity implements
                         boton.setVisibility(View.VISIBLE);
                         String patata = boton.getText().toString();
                         Log.d("PruebaDavid", patata);
+
+                    }
+
+                } else {
+                    Log.w("aaa", "Error getting documents.", task.getException());
+                }
+            }
+        });
+
+        db.collection("usuarios").document(usuario.getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+
+                    if(document.getData().containsValue("Admin")){
+
+                        esAdmin = true;
 
                     }
 
