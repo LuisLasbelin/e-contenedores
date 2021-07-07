@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#487E85</color>
+    <color name="colorPrimaryDark">#487E85</color>
+    <color name="colorAccent">#28A525</color>
+    <color name="colorBox1">#e9e424</color>
+
+    <color name="colorBox2">#487e85</color>
+
+    <color name="colorBox3">#28a525</color>
+
+    <color name="colorBox4">#d46600</color>
+
+    <color name="colorBox1Transparent">#80e9e424</color>
+
+    <color name="colorBox2Transparent">#80487e85</color>
+
+    <color name="colorBox3Transparent">#8028a525</color>
+
+    <color name="colorBox4Transparent">#80d46600</color>
+
+    <color name="white_semi">#E6FFFFFF</color>
+
+    <color name="grey_light">#CBdedede</color>
+
+    <color name="grey">#a2a2a2</color>
+</resources>

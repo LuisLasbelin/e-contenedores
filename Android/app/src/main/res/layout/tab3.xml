@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/men"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleX="-1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/fondo1" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_foros"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="16dp"
+                android:background="#fff"
+                android:drawableLeft="@drawable/ic_baseline_people_24"
+                android:drawablePadding="7dp"
+                android:onClick="onClickForos"
+                android:padding="10dp"
+                android:text="@string/foros"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="#28A525"
+                android:textColorHint="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_perfil4" />
+
+            <Button
+                android:id="@+id/btn_perfil"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="#fff"
+                android:drawableLeft="@drawable/ic_baseline_account_circle_24"
+                android:drawablePadding="7dp"
+                android:onClick="onClickPerfil"
+                android:padding="10dp"
+                android:text="@string/cuenta"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="#28A525"
+                android:textColorHint="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btn_perfil5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="16dp"
+                android:background="#fff"
+                android:drawableLeft="@drawable/ic_baseline_achievement_24"
+                android:drawablePadding="7dp"
+                android:onClick="lanzarLogros"
+                android:padding="10dp"
+                android:text="@string/logros"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="#28A525"
+                android:textColorHint="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_foros" />
+
+            <Button
+                android:id="@+id/btn_calculadora"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="#fff"
+                android:drawableLeft="@drawable/ic_baseline_assessment_24"
+                android:drawablePadding="7dp"
+                android:onClick="onClickCalculadora"
+                android:padding="10dp"
+                android:text="@string/calcula_tu_huella_de_carbono"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="#28A525"
+                android:textColorHint="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="@+id/btn_perfil6"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/btn_perfil6"
+                app:layout_constraintTop_toBottomOf="@+id/btn_perfil6" />
+
+            <Button
+                android:id="@+id/btn_perfil4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="#fff"
+                android:drawableLeft="@drawable/ic_baseline_email_24"
+                android:drawablePadding="7dp"
+                android:onClick="mandarCorreo"
+                android:padding="10dp"
+                android:text="@string/contacta_con_el_soporte_t_cnico"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="#28A525"
+                android:textColorHint="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="@+id/btn_perfil3"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/btn_perfil3"
+                app:layout_constraintTop_toBottomOf="@+id/btn_perfil3" />
+
+            <Button
+                android:id="@+id/btn_perfil6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="16dp"
+                android:background="#fff"
+                android:drawableLeft="@drawable/ic_baseline_ranking_24"
+                android:drawablePadding="7dp"
+                android:onClick="lanzarClasificacion"
+                android:padding="10dp"
+                android:text="@string/clasificaci_n"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="#28A525"
+                android:textColorHint="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_perfil5" />
+
+            <Button
+                android:id="@+id/btn_perfil3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="#fff"
+                android:drawableLeft="@drawable/ic_baseline_map_24"
+                android:drawablePadding="7dp"
+                android:onClick="googleMaps"
+                android:padding="10dp"
+                android:text="@string/d_nde_encontrarnos"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="#28A525"
+                android:textColorHint="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="@+id/btn_perfil2"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/btn_perfil2"
+                app:layout_constraintTop_toBottomOf="@+id/btn_perfil2" />
+
+            <Button
+                android:id="@+id/btn_perfil2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="#fff"
+                android:drawableLeft="@drawable/ic_baseline_web_24"
+                android:drawablePadding="7dp"
+                android:onClick="lanzarWeb"
+                android:padding="10dp"
+                android:text="@string/visita_nuestra_web"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="#28A525"
+                android:textColorHint="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="@+id/btn_perfil"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/btn_perfil"
+                app:layout_constraintTop_toBottomOf="@+id/btn_perfil" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,95 @@
+<resources>
+    <string name="app_name">ReCycle</string>
+    <string name="fui_default_toolbar_title">Tipo de Autentificación</string>
+    <string name="fui_sign_in_with_email">Entra con tu correo</string>
+    <string name="fui_progress_dialog_signing_up">Creando cuenta…</string>
+    <string name="no_permission">Necesitas aceptar los permisos para poder usar esta función</string>
+    <string name="permission_request">Solicitud de permisos</string>
+    <string name="gps_off">El GPS está apagado, actívalo para poder usar sus servicios.</string>
+    <string name="no_cube"> El cubo que intenta vincular no existe, por favor vuelva a intentarlo o contacte con el soporte técnico</string>
+    <string name="no_user">El usuario no se encuentra en nuestra base de datos. Inténtelo más tarde o contacte con el soporte técnico</string>
+    <string name="fondo">Fondo</string>
+    <string name="introduce_un_nuevo_nombre">Introduce un nuevo nombre</string>
+    <string name="borrar_registros">Borrar registros</string>
+    <string name="editar_el_cubo">Editar el cubo</string>
+    <string name="asignar_la_ubicaci_n_actual_al_cubo">Asignar la ubicación actual al cubo</string>
+    <string name="asignar_ubicaci_n">Asignar ubicación</string>
+    <string name="guardar">Guardar</string>
+    <string name="cubo_eliminado">Cubo eliminado del usuario</string>
+    <string name="a_adir_contenedores_de_la_calle">Añadir contenedores de la calle</string>
+    <string name="latitud">Latitud</string>
+    <string name="introduce_la_latitud_del_contenedor">Introduce la latitud del contenedor</string>
+    <string name="introduce_la_longitud_del_contenedor">Introduce la longitud del contenedor</string>
+    <string name="longitud">Longitud</string>
+    <string name="tipo">Tipo</string>
+    <string name="guardar_en_la_base_de_datos">Guardar en la base de datos</string>
+    <string name="localizaci_n">Localización</string>
+    <string name="residuo_encontrado_en">Residuo encontrado en:</string>
+    <string name="plus">+</string>
+    <string name="don_hierro">Don hierro</string>
+    <string name="power_by">Power by</string>
+    <string name="uno">1</string>
+    <string name="nombre">Nombre</string>
+    <string name="cero">0</string>
+    <string name="esta_seguro_de_que_quiere_borrar_el_cubo_permanentemente">Esta seguro de que quiere borrar el cubo permanentemente</string>
+    <string name="cubo_vac_o">Cubo vacío</string>
+    <string name="editar">Editar</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="correo">Correo:</string>
+    <string name="numero_de_telefono">Numero de telefono:</string>
+    <string name="uid">Uid:</string>
+    <string name="cerrar_sesi_n">Cerrar sesión</string>
+    <string name="logros">Logros</string>
+    <string name="_0">0%</string>
+    <string name="men">Menú</string>
+    <string name="foros">Foros</string>
+    <string name="cuenta">Cuenta</string>
+    <string name="a_adir_contenedores">Añadir contenedores</string>
+    <string name="calcula_tu_huella_de_carbono">Calcula tu huella de carbono</string>
+    <string name="contacta_con_el_soporte_t_cnico">Contacta con el soporte técnico</string>
+    <string name="lista_de_usuarios">Lista de Usuarios</string>
+    <string name="clasificaci_n">Clasificación</string>
+    <string name="d_nde_encontrarnos">Dónde encontrarnos</string>
+    <string name="visita_nuestra_web">Visita nuestra web</string>
+    <string name="otro_texto">Otro Texto</string>
+    <string name="textview">TextView</string>
+    <string name="cubos_del_usuario">Cubos del Usuario:</string>
+
+    <string name="calculadora_ayuda_titulo">¿Como funciona la calculadora de carbono?</string>
+    <string name="calculadora_ayuda_primer_parrafo">La calculadora de carbono ofrece una aproximación de las emisiones de CO2 que has producido. Introduce un valor en todos los campos para que se realize el calculo. Las emisiones por vuelos se calculan siguiendo la media de vuelos a media distancia, lo que significa unos 1500km de distancia, por lo tanto si realizas varios vuelos cortos cuentalos como uno, o calcula la distancia de vuelo para recibir un calculo aproximado.</string>
+    <string name="calculadora_ayuda_segundo_parrafo">En los resultados de la calculadora podrás ver mediante un codigo de colores en que posicion te encuentras. El color rojo representa que superas la media, el naranja que estas en ella y el verde que te encuentras por debajo.</string>
+    <string name="calculadora_titulo">Calculadora de huella de carbono</string>
+    <string name="calculadora_personas">Introduce cuantos residentes viven en la casa</string>
+    <string name="calculadora_electrico">Consumo eléctrico</string>
+    <string name="calculadora_electrico_texto">¿Cuanta energia has consumido? Introduce el valor en kilovatios hora</string>
+    <string name="calculadora_coche">Uso de vehiculo personal</string>
+    <string name="calculadora_coche_texto">¿Cuantos kilometros has recorrido este mes?</string>
+    <string name="gasolina">Gasolina</string>
+    <string name="diesel">Diesel</string>
+    <string name="electrico">Electrico</string>
+    <string name="hibrido">Hibrido</string>
+    <string name="calculadora_transporte">Uso de transporte publico</string>
+    <string name="calculadora_transporte_texto">¿Cuantos kilometros has recorrido este mes?</string>
+    <string name="calculadora_aereo">Uso de transporte aereo</string>
+    <string name="calculadora_aereo_texto">¿Cuantos vuelos has tomado este mes?</string>
+    <string name="calculadora_dieta">Dieta</string>
+    <string name="calculadora_dieta_texto">¿Cuantos kilogramos de comida has consumido este mes?</string>
+    <string name="todo">Todo</string>
+    <string name="piscivegano">Piscivegano</string>
+    <string name="vegetariano">Vegetariano</string>
+    <string name="vegano">Vegano</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="calcular">Calcular</string>
+    <string name="resultados_calculadora_titulo">Resultados de la calculadora</string>
+    <string name="resultados_calculadora">Resultado</string>
+    <string name="continuar">Continuar</string>
+    <string-array name="tipos">
+        <item>orgánico</item>
+        <item>plástico</item>
+        <item>vidrio</item>
+        <item>cartón</item>
+        <item>punto limpio</item>
+        <item>ropa</item>
+    </string-array>
+
+</resources>

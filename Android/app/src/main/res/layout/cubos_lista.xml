@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/white_semi"
+        android:minWidth="300dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/nombreCubo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="5"
+                android:gravity="center_vertical"
+                android:text="@string/cubo_vac_o"
+                android:textSize="24sp" />
+
+            <ImageView
+                android:id="@+id/btn_more"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:scaleType="fitEnd"
+                app:srcCompat="@drawable/ic_baseline_more_vert_24"
+                tools:ignore="VectorDrawableCompat" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/tarjetaMore"
+            android:layout_width="match_parent"
+            android:layout_height="95dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btn_editarCubo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#fff"
+                    android:drawableLeft="@drawable/ic_baseline_edit_24"
+                    android:drawablePadding="7dp"
+                    android:onClick="lanzarConfirmarEditar"
+                    android:padding="10dp"
+                    android:text="@string/editar"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="false"
+                    android:textColor="#28A525"
+                    android:textColorHint="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/btn_eliminarCubo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#fff"
+                    android:drawableLeft="@drawable/ic_baseline_delete_24"
+                    android:drawablePadding="7dp"
+                    android:onClick="lanzarConfirmarBorrar"
+                    android:padding="10dp"
+                    android:text="@string/eliminar"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="false"
+                    android:textColor="#28A525"
+                    android:textColorHint="#FFFFFF" />
+            </LinearLayout>
+
+        </FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:minHeight="200dp"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/bar_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/bar_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:layout_weight="10"
+            android:minHeight="200dp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

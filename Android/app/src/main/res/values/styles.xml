@@ -1,0 +1,24 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#487E85</item>
+        <item name="colorPrimaryDark">#487E85</item>
+        <item name="colorAccent">#28A525</item>
+    </style>
+
+    <style name="FirebaseUITema" parent="FirebaseUI">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="colorPrimary">#487E85</item>
+        <item name="colorPrimaryDark">#487E85</item>
+        <item name="colorAccent">#28A525</item>
+    </style>
+
+    <style name="AyudaTema" parent="Theme.AppCompat.Light.Dialog.MinWidth">
+        <item name="windowNoTitle">true</item>
+    </style>
+
+</resources>

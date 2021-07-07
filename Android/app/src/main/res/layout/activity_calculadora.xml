@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleX="-1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/fondo1" />
+
+    <TextView
+        android:id="@+id/ayuda"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:drawableRight="@drawable/ic_baseline_help_24"
+        android:padding="7dp"
+        android:text="@string/calculadora_titulo"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+    android:id="@+id/scrollView2"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="16dp"
+    app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/ayuda">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/consumoVuelos"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:minWidth="300dp"
+                android:orientation="vertical"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@+id/consumoVehiculoPublico"
+                app:layout_constraintStart_toStartOf="@+id/consumoVehiculoPublico"
+                app:layout_constraintTop_toBottomOf="@+id/consumoVehiculoPublico">
+
+                <Button
+                    android:id="@+id/btn_moreVuelos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="#fff"
+                    android:drawableLeft="@drawable/ic_baseline_airplanemode_active_24"
+                    android:drawablePadding="7dp"
+                    android:onClick="mandarCorreo"
+                    android:padding="10dp"
+                    android:text="@string/calculadora_aereo"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="false"
+                    android:textColor="#28A525"
+                    android:textColorHint="#FFFFFF" />
+
+                <FrameLayout
+                    android:id="@+id/tarjetaMoreVuelos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white_semi"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView13"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="@string/calculadora_aereo_texto" />
+
+                        <EditText
+                            android:id="@+id/vuelosRealizados"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:inputType="numberDecimal" />
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/consumoVehiculoPublico"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:minWidth="300dp"
+                android:orientation="vertical"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@+id/consumoVehiculo"
+                app:layout_constraintStart_toStartOf="@+id/consumoVehiculo"
+                app:layout_constraintTop_toBottomOf="@+id/consumoVehiculo">
+
+                <Button
+                    android:id="@+id/btn_moreVehiculoPublico"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="#fff"
+                    android:drawableLeft="@drawable/ic_baseline_directions_bus_24"
+                    android:drawablePadding="7dp"
+                    android:onClick="mandarCorreo"
+                    android:padding="10dp"
+                    android:text="@string/calculadora_transporte"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="false"
+                    android:textColor="#28A525"
+                    android:textColorHint="#FFFFFF" />
+
+                <FrameLayout
+                    android:id="@+id/tarjetaMoreVehiculoPublico"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white_semi"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView12"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="@string/calculadora_transporte_texto" />
+
+                        <EditText
+                            android:id="@+id/kmEnAutobus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:inputType="numberDecimal" />
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/consumoVehiculo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:minWidth="300dp"
+                android:orientation="vertical"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@+id/consumoElectrico"
+                app:layout_constraintStart_toStartOf="@+id/consumoElectrico"
+                app:layout_constraintTop_toBottomOf="@+id/consumoElectrico">
+
+
+                <Button
+                    android:id="@+id/btn_moreVehiculo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="#fff"
+                    android:drawableLeft="@drawable/ic_baseline_drive_eta_24"
+                    android:drawablePadding="7dp"
+                    android:onClick="mandarCorreo"
+                    android:padding="10dp"
+                    android:text="@string/calculadora_coche"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="false"
+                    android:textColor="#28A525"
+                    android:textColorHint="#FFFFFF" />
+
+                <FrameLayout
+                    android:id="@+id/tarjetaMoreVehiculo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white_semi"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:orientation="vertical">
+
+                        <RadioGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/gasolina"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:checked="true"
+                                android:text="@string/gasolina"
+                                android:textSize="10sp" />
+
+                            <RadioButton
+                                android:id="@+id/diesel"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:text="@string/diesel"
+                                android:textSize="10sp" />
+
+                            <RadioButton
+                                android:id="@+id/electrico"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:text="@string/electrico"
+                                android:textSize="10sp" />
+
+                            <RadioButton
+                                android:id="@+id/hibrido"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:text="@string/hibrido"
+                                android:textSize="10sp" />
+                        </RadioGroup>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textView11"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:text="@string/calculadora_coche_texto" />
+
+                            <EditText
+                                android:id="@+id/kmEnCoche"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:ems="10"
+                                android:inputType="numberDecimal" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/personas"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@color/white_semi"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/textoPersonas"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:text="@string/calculadora_personas" />
+
+                <EditText
+                    android:id="@+id/numeroPersonas"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="4"
+                    android:ems="10"
+                    android:inputType="number" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/consumoElectrico"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:minWidth="300dp"
+                android:orientation="vertical"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@+id/personas"
+                app:layout_constraintStart_toStartOf="@+id/personas"
+                app:layout_constraintTop_toBottomOf="@+id/personas">
+
+                <Button
+                    android:id="@+id/btn_moreElectrico"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="#fff"
+                    android:drawableLeft="@drawable/ic_baseline_battery_charging_full_24"
+                    android:drawablePadding="7dp"
+                    android:onClick="mandarCorreo"
+                    android:padding="10dp"
+                    android:text="@string/calculadora_electrico"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="false"
+                    android:textColor="#28A525"
+                    android:textColorHint="#FFFFFF" />
+
+                <FrameLayout
+                    android:id="@+id/tarjetaMoreElectrico"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white_semi"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView9"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="@string/calculadora_electrico_texto" />
+
+                        <EditText
+                            android:id="@+id/kilovatiosHora"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:inputType="numberDecimal" />
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/consumoComida"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:minWidth="300dp"
+                android:orientation="vertical"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@+id/consumoVuelos"
+                app:layout_constraintStart_toStartOf="@+id/consumoVuelos"
+                app:layout_constraintTop_toBottomOf="@+id/consumoVuelos">
+
+                <Button
+                    android:id="@+id/btn_moreComida"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="#fff"
+                    android:drawableLeft="@drawable/ic_baseline_local_dining_24"
+                    android:drawablePadding="7dp"
+                    android:onClick="mandarCorreo"
+                    android:padding="10dp"
+                    android:text="@string/calculadora_dieta"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="false"
+                    android:textColor="#28A525"
+                    android:textColorHint="#FFFFFF" />
+
+                <FrameLayout
+                    android:id="@+id/tarjetaMoreComida"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white_semi"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:orientation="vertical">
+
+                        <RadioGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/todo"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:checked="true"
+                                android:text="@string/todo"
+                                android:textSize="10sp" />
+
+                            <RadioButton
+                                android:id="@+id/piscivegetariano"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:text="@string/piscivegano"
+                                android:textSize="10sp" />
+
+                            <RadioButton
+                                android:id="@+id/vegetariano"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:text="@string/vegetariano"
+                                android:textSize="10sp" />
+
+                            <RadioButton
+                                android:id="@+id/vegano"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:text="@string/vegano"
+                                android:textSize="10sp" />
+                        </RadioGroup>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textView14"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:text="@string/calculadora_dieta_texto" />
+
+                            <EditText
+                                android:id="@+id/dieta"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:ems="10"
+                                android:inputType="numberDecimal" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/cancelar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:background="#fff"
+            android:text="@string/cancelar"
+            android:textAllCaps="false"
+            android:textColor="#28A525"
+            android:textColorHint="#FFFFFF" />
+
+        <Button
+            android:id="@+id/aceptar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="#fff"
+            android:text="@string/calcular"
+            android:textAllCaps="false"
+            android:textColor="#28A525"
+            android:textColorHint="#FFFFFF" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

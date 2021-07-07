@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "684097579067",
+    "firebase_url": "https://recycle-8271b.firebaseio.com",
+    "project_id": "recycle-8271b",
+    "storage_bucket": "recycle-8271b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684097579067:android:a7ca80fb99919a9133941e",
+        "android_client_info": {
+          "package_name": "com.example.recycle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "684097579067-36u5j2bkti9cq2hfqrcrjha62eeaf7sj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.recycle",
+            "certificate_hash": "6db7d57d28a8460a9a4fad46edce7d74284f6fb8"
+          }
+        },
+        {
+          "client_id": "684097579067-r4thtmqf8tko31dbqhfe47vlokc4cdmt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBB5a5Gp0U7ZLza6g8QhiXI8MNQp7wmgkk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "684097579067-r4thtmqf8tko31dbqhfe47vlokc4cdmt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
